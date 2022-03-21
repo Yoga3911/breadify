@@ -1,5 +1,4 @@
 <h1>Project PBM A1 (Breadify)</h1>
-<br>
 <h3>Breadify adalah aplikasi marketplace yang dikhususkan untuk penjualan roti.</h3>
 <h4>Rincian Pembuatan Aplikasi: </h4>
 <ul>
@@ -11,7 +10,7 @@
   <li>Github sebagai tempat untuk kolaborasi antar pengembang</li>
   <li>Trello sebagai tempat untuk mengatur tugas yang perlu, sedang, dan sudah dikerjakan</li>
 </ul>
-<h5>Tim pengembang: </h5>
+<h4>Tim pengembang: </h4>
 <ul>
   <li>Liandri Eko Prayugo (202410102008)</li>
   <li>Beatric Stevany Zebua (202410102011)</li>
