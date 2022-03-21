@@ -5,8 +5,8 @@
   <li>Flutter sebagai Front end Framework</li>
   <li>Firebase sebagai Authentication, Database, dan Storage</li>
   <li>Codemagic sebagai CI/CD</li>
-  <li>Go language sebagai service github api untuk mendapatkan last commit</li>
   <li>Bash script sebagai automate deployment ke telegram</li>
+  <li>Go language sebagai service github api untuk mendapatkan last commit yang digunakan untuk deskripsi hasil deployment ke telegram</li>
   <li>Github sebagai tempat untuk kolaborasi antar pengembang</li>
   <li>Trello sebagai tempat untuk mengatur tugas yang perlu, sedang, dan sudah dikerjakan</li>
 </ul>
