@@ -16,3 +16,5 @@
   <li>Beatric Stevany Zebua (202410102011)</li>
   <li>Sean Anthony (202410102030)</li>
 </ul>
+<h4>Struktur Folder</h4>
+<img src="https://firebasestorage.googleapis.com/v0/b/market-api-cda7e.appspot.com/o/breadify%2FStruktur%20folder%20PBM.png?alt=media&token=85c869f7-bd7f-4165-8ab2-59fdb04af665" width="200px" height="100px">

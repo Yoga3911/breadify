@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'routes/route.dart';
 
@@ -17,8 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      builder: EasyLoading.init(),
-      initialRoute: "/introduction",
+      initialRoute: Routes.introduction,
       routes: Routes.data,
     );
   }

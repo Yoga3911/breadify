@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "639482356754",
-    "project_id": "pbm-a2",
-    "storage_bucket": "pbm-a2.appspot.com"
+    "project_number": "644484703709",
+    "project_id": "breadify-a4a04",
+    "storage_bucket": "breadify-a4a04.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:639482356754:android:0f4e8c88afc345ed97a4cb",
+        "mobilesdk_app_id": "1:644484703709:android:6bc9a324be904ebf5e8234",
         "android_client_info": {
-          "package_name": "com.pbm.project"
+          "package_name": "com.breadify.project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "639482356754-1b5bbognvkmn8jqnbi7o7e4g964s2dqr.apps.googleusercontent.com",
+          "client_id": "644484703709-5dppjpd1u8qnu7pgenmm5evqsckj8nl0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.breadify.project",
+            "certificate_hash": "fa92eeffeb229a28939ac215d74bdac4c8c31706"
+          }
+        },
+        {
+          "client_id": "644484703709-ftqh61mk80sa1d0be9mqbii2g7jpea44.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAfp10i81VUAo6zgtgU_iAr0nfH5WhSigY"
+          "current_key": "AIzaSyAwqUVkKHC3ECBVnb3Nf5LqAvpka7iEisQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "639482356754-1b5bbognvkmn8jqnbi7o7e4g964s2dqr.apps.googleusercontent.com",
+              "client_id": "644484703709-ftqh61mk80sa1d0be9mqbii2g7jpea44.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

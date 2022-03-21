@@ -17,7 +17,6 @@ dependencies:
   firebase_storage: ^10.2.9
   flutter:
     sdk: flutter
-  flutter_easyloading: ^3.0.3
   flutter_launcher_icons: ^0.9.2
   flutter_native_splash: ^2.1.0
   flutter_svg: ^1.0.3
