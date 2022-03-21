@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:project/views/introduction/introduction.dart';
 
 import '../views/home/home.dart';
+import '../views/introduction/introduction.dart';
 
 class Routes {
   Routes._();
