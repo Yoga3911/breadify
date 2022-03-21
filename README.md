@@ -17,4 +17,6 @@
   <li>Sean Anthony (202410102030)</li>
 </ul>
 <h4>Struktur Folder</h4>
-<img src="https://firebasestorage.googleapis.com/v0/b/market-api-cda7e.appspot.com/o/breadify%2FStruktur%20folder%20PBM.png?alt=media&token=85c869f7-bd7f-4165-8ab2-59fdb04af665" width="200px" height="100px">
+<img src="https://firebasestorage.googleapis.com/v0/b/market-api-cda7e.appspot.com/o/breadify%2FStruktur%20folder%20PBM.png?alt=media&token=85c869f7-bd7f-4165-8ab2-59fdb04af665" width="500px" height="300px">
+<h4>Pattern yang digunakan MVVM</h4>
+<img src="https://firebasestorage.googleapis.com/v0/b/market-api-cda7e.appspot.com/o/breadify%2FMVVM.png?alt=media&token=aacfe24a-2b8e-4716-beb6-92711c259700" width="500px" height="300px">
