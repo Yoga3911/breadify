@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../routes/route.dart';
+
 class IntroductionPage extends StatelessWidget {
   const IntroductionPage({Key? key}) : super(key: key);
 
@@ -9,7 +11,7 @@ class IntroductionPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, "/home");
+            Navigator.pushNamed(context, Routes.home);
           },
           child: const Text("Click!"),
         ),
