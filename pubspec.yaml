@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   auto_size_text: ^3.0.0
+  badges: ^2.0.2
   cached_network_image: ^3.2.0
   cloud_firestore: ^3.1.10
   firebase_auth: ^3.3.9
@@ -28,6 +29,7 @@ dependencies:
   provider: ^6.0.2
   pull_to_refresh: ^2.0.0
   shared_preferences: ^2.0.13
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -38,11 +40,12 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/
+    - assets/images/
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

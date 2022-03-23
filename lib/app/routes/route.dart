@@ -6,6 +6,7 @@ import '../views/auth/login.dart';
 import '../views/auth/register.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
+import '../views/main/main_page.dart';
 import '../views/main/order/history.dart';
 import '../views/main/order/ongoing.dart';
 import '../views/profile/profile.dart';
@@ -20,6 +21,7 @@ class Routes {
   static const String introduction = "/introduction";
   static const String login = "/login";
   static const String register = "/register";
+  static const String main = "/main";
   static const String home = "/home";
   static const String feed = "/feed";
   static const String history = "/history";
@@ -35,6 +37,7 @@ class Routes {
     introduction: (context) => const IntroductionPage(),
     login: (context) => const LoginPage(),
     register: (context) => const RegisterPage(), 
+    main: (context) => const MainPage(), 
     home: (context) => const HomePage(),
     feed: (context) => const FeedPage(),
     history: (context) => const HistoryPage(),

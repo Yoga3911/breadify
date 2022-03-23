@@ -11,9 +11,9 @@ class IntroductionPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, Routes.home);
+            Navigator.pushNamed(context, Routes.login);
           },
-          child: const Text("Click!"),
+          child: const Text("Introduction"),
         ),
       ),
     );
