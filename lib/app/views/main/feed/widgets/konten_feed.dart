@@ -9,48 +9,46 @@ class Feed extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      color: Colors.blue.shade100,
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      // color: Colors.blue.shade100,
       child: Column(
         children: <Widget>[
           //1) profile & username
           Container(
             margin: const EdgeInsets.only(left: 5, right: 5, top: 5),
             height: MediaQuery.of(context).size.height * 0.08,
-            color: Colors.amber,
+            // color: Colors.amber,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   //a1) porfile & username
-                  SizedBox(
-                    child: Row(children: <Widget>[
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    feedscontent[index].photoProfile),
-                                fit: BoxFit.cover)),
-                      ),
-                      //a2) username
-                      Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: (() {}),
-                              child: Text(
-                                feedscontent[index].username,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )),
-                      )
-                    ]),
-                  ),
+                  Row(children: <Widget>[
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  feedscontent[index].photoProfile),
+                              fit: BoxFit.cover)),
+                    ),
+                    //a2) username
+                    Container(
+                      margin: const EdgeInsets.only(left: 5),
+                      child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: (() {}),
+                            child: Text(
+                              feedscontent[index].username,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                    )
+                  ]),
                   //b) icon more
                   const Icon(
                     Icons.more_horiz,
@@ -71,7 +69,7 @@ class Feed extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(5),
             height: MediaQuery.of(context).size.height * 0.16,
-            color: Colors.green,
+            // color: Colors.green,
             child: Column(
               children: [
                 Text(feedscontent[index].comment),
