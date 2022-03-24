@@ -10,9 +10,7 @@ class IntroductionPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.login);
-          },
+          onPressed: () => Navigator.pushNamed(context, Routes.login),
           child: const Text("Introduction"),
         ),
       ),
