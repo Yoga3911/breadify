@@ -39,9 +39,12 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: feedscontent.length,
-      itemBuilder: ((context, index) => Feed(index: index)),
+    return Scaffold(
+      appBar: AppBar(title: Text("Text"),),
+      body: ListView.builder(
+        itemCount: feedscontent.length,
+        itemBuilder: (context, index) => Feed(index: index),
+      ),
     );
   }
 }
