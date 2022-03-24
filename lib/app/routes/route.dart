@@ -34,19 +34,19 @@ class Routes {
   static const String checkout = "/checkout";
 
   static final data = <String, WidgetBuilder>{
-    introduction: (context) => const IntroductionPage(),
-    login: (context) => const LoginPage(),
-    register: (context) => const RegisterPage(), 
-    main: (context) => const MainPage(), 
-    home: (context) => const HomePage(),
-    feed: (context) => const FeedPage(),
-    history: (context) => const HistoryPage(),
-    ongoing: (context) => const OngoingPage(),
-    favorite: (context) => const FavoritePage(),
-    profile: (context) => const ProfilePage(),
-    store: (context) => const StorePage(),
-    product: (context) => const ProductPage(),
-    cart: (context) => const CartPage(),
-    checkout: (context) => const CheckoutPage(),
+    introduction: (_) => const IntroductionPage(),
+    login: (_) => const LoginPage(),
+    register: (_) => const RegisterPage(), 
+    main: (_) => const MainPage(), 
+    home: (_) => const HomePage(),
+    feed: (_) => const FeedPage(),
+    history: (_) => const HistoryPage(),
+    ongoing: (_) => const OngoingPage(),
+    favorite: (_) => const FavoritePage(),
+    profile: (_) => const ProfilePage(),
+    store: (_) => const StorePage(),
+    product: (_) => const ProductPage(),
+    cart: (_) => const CartPage(),
+    checkout: (_) => const CheckoutPage(),
   };
 }

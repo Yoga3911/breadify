@@ -16,8 +16,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  void _onTap(int index) => setState(() => _selectedIndex = index);
-
   final List<Map<String, String>> _iconData = [
     {
       "path": "assets/icons/home.png",
@@ -55,7 +53,7 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: const TextStyle(fontSize: 12),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
-        onTap: _onTap,
+        onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: MyColor.yellow,
         unselectedItemColor: MyColor.black,
         showUnselectedLabels: true,
