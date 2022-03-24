@@ -30,6 +30,7 @@ class MyColor {
   static const black = Color(0xFF3D3D3D);
   static const grey = Color(0xFF6E6E6E);
   static const grey2 = Color(0xFF9E9E9E);
+  static const grey3 = Color(0xFFE6E6E6);
   static const yellow = Color(0xFFFFD635);
   static const cream = Color(0xFFFEF6D4);
 }
