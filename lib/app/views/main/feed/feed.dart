@@ -40,7 +40,31 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Text"),),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: () {},
+        tooltip: 'add feed',
+        child: const Icon(
+          Icons.add,
+          size: 50,
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xffFFD635),
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.search),
+          tooltip: 'search',
+        ),
+        title: const Text("Feed"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.shopping_cart),
+            tooltip: 'cart',
+          )
+        ],
+      ),
       body: ListView.builder(
         itemCount: feedscontent.length,
         itemBuilder: (context, index) => Feed(index: index),
