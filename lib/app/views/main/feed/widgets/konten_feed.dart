@@ -9,13 +9,14 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(
+          0), //pengganti container universal (pemisah antar konten)
       // color: Colors.blue.shade100,
       child: Column(
         children: <Widget>[
           //1) profile & username
           Container(
-            margin: const EdgeInsets.only(left: 5, right: 5, top: 5),
+            margin: const EdgeInsets.only(left: 5, right: 5, top: 2),
             height: MediaQuery.of(context).size.height * 0.08,
             // color: Colors.amber,
             child: Row(
@@ -42,8 +43,8 @@ class Feed extends StatelessWidget {
                             onTap: (() {}),
                             child: Text(
                               feedscontent[index].username,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           )),
                     )
@@ -57,7 +58,7 @@ class Feed extends StatelessWidget {
           ),
           //2) foto/konten feed
           Container(
-            margin: const EdgeInsets.only(top: 10),
+            // margin: const EdgeInsets.only(top: 0),
             height: MediaQuery.of(context).size.height * 0.4,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -66,17 +67,26 @@ class Feed extends StatelessWidget {
           ),
           //3) comment
           Container(
-            margin: const EdgeInsets.all(5),
-            height: MediaQuery.of(context).size.height * 0.16,
+            margin: const EdgeInsets.fromLTRB(10, 2, 5, 0),
+            height: MediaQuery.of(context).size.height * 0.234,
             // color: Colors.green,
             child: Column(
               children: [
-                Text(feedscontent[index].comment),
+                Text(
+                  feedscontent[index].comment,
+                  style: const TextStyle(color: Colors.black),
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Align(
                       alignment: Alignment.bottomLeft,
-                      child: Text(feedscontent[index].date)),
+                      child: Text(
+                        feedscontent[index].date,
+                        style: const TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            color: Color(0xff7E7474),
+                            fontSize: 12),
+                      )),
                 )
               ],
             ),
