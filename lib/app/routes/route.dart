@@ -30,6 +30,9 @@ class Routes {
   static const String profile = "/profile";
   static const String store = "/store";
   static const String product = "/product";
+  static const String popularProduct = "/product/popular";
+  static const String hotProduct = "/product/hot";
+  static const String discountProduct = "/product/discount";
   static const String cart = "/cart";
   static const String checkout = "/checkout";
 

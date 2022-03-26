@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/views/main/home/widgets/category.dart';
-import 'package:project/app/views/main/home/widgets/header.dart';
-import 'package:project/app/views/main/home/widgets/product.dart';
-import 'package:project/app/views/main/home/widgets/search.dart';
+import 'package:provider/provider.dart';
 
+import '../../../view_model/category_provider.dart';
+import '../../../views/main/home/widgets/category.dart';
+import '../../../views/main/home/widgets/header.dart';
+import '../../../views/main/home/widgets/product.dart';
+import '../../../views/main/home/widgets/search.dart';
 import '../../../constant/glow.dart';
 import '../../../constant/color.dart';
 
@@ -12,6 +14,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryProvider>(context);
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -19,9 +22,10 @@ class HomePage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            leading: const Padding(
-              padding: EdgeInsets.all(10),
-              child: CircleAvatar(
+            leading: IconButton(
+              splashRadius: 1,
+              onPressed: () {},
+              icon: const CircleAvatar(
                 backgroundImage: AssetImage("assets/images/superman.png"),
               ),
             ),
@@ -89,21 +93,76 @@ class HomePage extends StatelessWidget {
             ],
             elevation: 0,
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            heroTag: "home",
+            backgroundColor: MyColor.red2,
+            child: Image.asset(
+              "assets/icons/message.png",
+              color: Colors.white,
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.only(
               left: 10,
               right: 10,
             ),
             child: ListView(
-              children: const [
-                Header(),
-                SizedBox(height: 10),
-                SearchBar(),
-                SizedBox(height: 10),
-                ProductCategory(),
-                SizedBox(height: 10),
-                Product(),
-                SizedBox(height: 10),
+              children: [
+                const Header(),
+                const SizedBox(height: 10),
+                const SearchBar(),
+                const SizedBox(height: 10),
+                const ProductCategory(),
+                const SizedBox(height: 10),
+                (categoryProvider.getCategory != "Today")
+                    ? const Product(todayCategory: "Category")
+                    : Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Popular",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Popular"),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Hot",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Hot"),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Discount",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Discount"),
+                        ],
+                      ),
+                const SizedBox(height: 10),
               ],
             ),
           ),

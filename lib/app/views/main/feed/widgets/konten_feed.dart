@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/feeds_models.dart';
 import '../feed.dart';
 
 class Feed extends StatelessWidget {
