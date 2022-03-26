@@ -88,7 +88,9 @@ class Product extends StatelessWidget {
         return MasonryGridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: (categoryProvider.getCategory == "Today")? snapshot.data!.docs.length * 0 + 4 : snapshot.data!.docs.length,
+          itemCount: (categoryProvider.getCategory == "Today")
+              ? snapshot.data!.docs.length * 0 + 4
+              : snapshot.data!.docs.length,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           crossAxisCount: 2,
@@ -97,41 +99,26 @@ class Product extends StatelessWidget {
                 snapshot.data!.docs[index].data() as Map<String, dynamic>);
             return GestureDetector(
               onTap: () {
-                if (todayCategory == "Popular") {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.popularProduct,
-                    arguments: {
-                      "product_id": snapshot.data!.docs[index].id,
-                      "product_data": product
-                    },
-                  );
-                } else if (todayCategory == "Hot") {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.hotProduct,
-                    arguments: {
-                      "product_id": snapshot.data!.docs[index].id,
-                      "product_data": product
-                    },
-                  );
-                } else if (todayCategory == "Discount") {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.discountProduct,
-                    arguments: {
-                      "product_id": snapshot.data!.docs[index].id,
-                      "product_data": product
-                    },
-                  );
-                }
+                Navigator.pushNamed(
+                  context,
+                  Routes.product,
+                  arguments: {
+                    "product_id": snapshot.data!.docs[index].id,
+                    "product_data": product,
+                    "category": todayCategory,
+                  },
+                );
               },
               child: Hero(
-                tag: (todayCategory == "Popular")
-                    ? snapshot.data!.docs[index].id + "hero" + "popular"
-                    : (todayCategory == "Hot")
-                        ? snapshot.data!.docs[index].id + "hero" + "hot"
-                        : snapshot.data!.docs[index].id + "hero" + "discount",
+                tag: (todayCategory == "Category")
+                    ? snapshot.data!.docs[index].id + "hero"
+                    : (todayCategory == "Popular")
+                        ? snapshot.data!.docs[index].id + "hero" + "popular"
+                        : (todayCategory == "Hot")
+                            ? snapshot.data!.docs[index].id + "hero" + "hot"
+                            : snapshot.data!.docs[index].id +
+                                "hero" +
+                                "discount",
                 child: ProductCard(
                   size: _size,
                   index: index,
