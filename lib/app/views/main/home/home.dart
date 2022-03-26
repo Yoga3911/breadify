@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/category_provider.dart';
@@ -14,7 +16,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    const String _blank =
+        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+    final _categoryProvider = Provider.of<CategoryProvider>(context);
+    final User _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -25,8 +30,8 @@ class HomePage extends StatelessWidget {
             leading: IconButton(
               splashRadius: 1,
               onPressed: () {},
-              icon: const CircleAvatar(
-                backgroundImage: AssetImage("assets/images/superman.png"),
+              icon: CircleAvatar(
+                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
               ),
             ),
             title: Container(
@@ -77,7 +82,7 @@ class HomePage extends StatelessWidget {
                         width: 12,
                         height: 12,
                         decoration: BoxDecoration(
-                          color: MyColor.red,
+                          color: MyColor.red2,
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -102,69 +107,129 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            child: ListView(
-              children: [
-                const Header(),
-                const SizedBox(height: 10),
-                const SearchBar(),
-                const SizedBox(height: 10),
-                const ProductCategory(),
-                const SizedBox(height: 10),
-                (categoryProvider.getCategory != "Today")
-                    ? const Product(todayCategory: "Category")
+          body: ListView(
+            children: [
+              const Header(),
+              const SearchBar(),
+              const ProductCategory(),
+              Container(
+                color: MyColor.grey3,
+                child: (_categoryProvider.getCategory != "Today")
+                    ? Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: const Product(todayCategory: "Category"),
+                      )
                     : Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                "Popular",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
-                              ),
-                              Text("See more"),
-                            ],
+                          Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Popular",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: MyColor.yellow,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: const [
+                                        Text("See more"),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                const Product(todayCategory: "Popular"),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 10),
-                          const Product(todayCategory: "Popular"),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                "Hot",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
-                              ),
-                              Text("See more"),
-                            ],
+                          Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Hot",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: MyColor.yellow,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: const [
+                                        Text("See more"),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                const Product(todayCategory: "Hot"),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 10),
-                          const Product(todayCategory: "Hot"),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                "Discount",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
-                              ),
-                              Text("See more"),
-                            ],
+                          Container(
+                            color: Colors.white,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Discount",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: MyColor.yellow,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: const [
+                                        Text("See more"),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 15,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                const Product(todayCategory: "Discount"),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 10),
-                          const Product(todayCategory: "Discount"),
                         ],
                       ),
-                const SizedBox(height: 10),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/glow.dart';
 import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
 import '../../../models/feeds_models.dart';
@@ -39,38 +40,41 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
-        onPressed: () {},
-        tooltip: 'add feed',
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 40,
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffFFD635),
-        leading: IconButton(
+    return ScrollConfiguration(
+      behavior: NoGlow(),
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red,
           onPressed: () {},
-          icon: const Icon(Icons.search),
-          tooltip: 'search',
-        ),
-        title: const Text("Feed"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.shopping_cart),
+          tooltip: 'add feed',
+          child: const Icon(
+            Icons.add,
             color: Colors.white,
-            tooltip: 'cart',
-          )
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: feedscontent.length,
-        itemBuilder: (context, index) =>
-            Feed(index: index), //manggil konten feed() (widgets)
+            size: 40,
+          ),
+        ),
+        appBar: AppBar(
+          backgroundColor: const Color(0xffFFD635),
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+            tooltip: 'search',
+          ),
+          title: const Text("Feed"),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.shopping_cart),
+              color: Colors.white,
+              tooltip: 'cart',
+            )
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: feedscontent.length,
+          itemBuilder: (context, index) =>
+              Feed(index: index), //manggil konten feed() (widgets)
+        ),
       ),
     );
   }

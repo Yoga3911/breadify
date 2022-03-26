@@ -39,8 +39,10 @@ class ProductCategory extends StatelessWidget {
     final Size _size = MediaQuery.of(context).size;
     final categoryProvider = Provider.of<CategoryProvider>(context);
     
-    return SizedBox(
-      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.10 : _size.height * 0.21,
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.11 : _size.height * 0.22,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: categoryData.map(
