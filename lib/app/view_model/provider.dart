@@ -1,8 +1,7 @@
+import 'package:project/app/view_model/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-class MyProvider {
-  MyProvider._();
-
-  static final List<SingleChildWidget> data = [];
-}
+final List<SingleChildWidget> providerData = [
+  ChangeNotifierProvider(create: (context) => CategoryProvider()),
+];
