@@ -53,13 +53,19 @@ class ProductPage extends StatelessWidget {
                             : _productId + "hero" + "discount",
                 child: Stack(
                   children: [
-                    CachedNetworkImage(imageUrl: _product.image),
+                    SizedBox(
+                        height: _size.height * 0.4,
+                        width: _size.width,
+                        child: CachedNetworkImage(
+                          imageUrl: _product.image,
+                          fit: BoxFit.cover,
+                        )),
                     Positioned(
                       top: 15,
                       left: 15,
                       child: Container(
-                        height: _size.height * 0.06,
-                        width: _size.height * 0.06,
+                        height: _size.height * 0.05,
+                        width: _size.height * 0.05,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
@@ -71,10 +77,18 @@ class ProductPage extends StatelessWidget {
                             onTap: () => Navigator.pop(context),
                             child: Icon(
                               Icons.arrow_back_ios_new_rounded,
-                              size: _size.height * 0.03,
+                              size: _size.height * 0.025,
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                    Positioned(
+                      top: _size.height * 0.33,
+                      left: _size.width * 0.83,
+                      child: Image.asset(
+                        "assets/images/heart.png",
+                        scale: 1.2,
                       ),
                     )
                   ],

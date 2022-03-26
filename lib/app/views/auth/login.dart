@@ -134,7 +134,7 @@ class LoginPage extends StatelessWidget {
                 ),    
               ),
               onPressed: (){
-                Navigator.pushReplacementNamed(context, Routes.home);
+                Navigator.pushReplacementNamed(context, Routes.main);
               }, 
               child: const Text("Log In",
                 textAlign: TextAlign.center,
