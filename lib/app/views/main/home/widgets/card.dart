@@ -24,10 +24,6 @@ class ProductCard extends StatelessWidget {
         height: index.isOdd ? size.height * 0.24 : size.height * 0.3,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          // image: DecorationImage(
-          //   image: NetworkImage(product.image),
-          //   fit: BoxFit.cover,
-          // ),
         ),
         child: Stack(
           children: [
@@ -62,6 +58,7 @@ class ProductCard extends StatelessWidget {
                           : const Alignment(-1, 0.72),
                       child: Text(
                         product.name,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w900,

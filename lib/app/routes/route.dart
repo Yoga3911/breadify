@@ -9,6 +9,9 @@ import '../views/main/feed/feed.dart';
 import '../views/main/main_page.dart';
 import '../views/main/order/history.dart';
 import '../views/main/order/ongoing.dart';
+import '../views/product/discount_product.dart';
+import '../views/product/hot_product.dart';
+import '../views/product/popular_product.dart';
 import '../views/profile/profile.dart';
 import '../views/main/home/home.dart';
 import '../views/introduction/introduction.dart';
@@ -30,6 +33,9 @@ class Routes {
   static const String profile = "/profile";
   static const String store = "/store";
   static const String product = "/product";
+  static const String popularProduct = "/product/popular";
+  static const String hotProduct = "/product/hot";
+  static const String discountProduct = "/product/discount";
   static const String cart = "/cart";
   static const String checkout = "/checkout";
 
@@ -46,6 +52,9 @@ class Routes {
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),
     product: (_) => const ProductPage(),
+    popularProduct: (_) => const PopularProductPage(),
+    hotProduct: (_) => const HotProductPage(),
+    discountProduct: (_) => const DiscountProductPage(),
     cart: (_) => const CartPage(),
     checkout: (_) => const CheckoutPage(),
   };

@@ -12,7 +12,7 @@ class ProductCategory extends StatelessWidget {
     List<Map<String, String>> categoryData = [
       {
         "asset": "assets/icons/fire.png",
-        "name": "Popular",
+        "name": "Today",
       },
       {
         "asset": "assets/icons/bread.png",

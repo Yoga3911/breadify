@@ -1,13 +1,16 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/product_model.dart';
 
-class ProductPage extends StatelessWidget {
-  const ProductPage({Key? key}) : super(key: key);
+class DiscountProductPage extends StatelessWidget {
+  const DiscountProductPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    log("Discount");
     final _args =
         (ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>);
     final String _productId = _args["product_id"];
@@ -20,7 +23,7 @@ class ProductPage extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: FloatingActionButton.extended(
-            heroTag: _productId,
+            heroTag: "home",
             onPressed: () {},
             label: Padding(
               padding: EdgeInsets.only(
@@ -39,7 +42,7 @@ class ProductPage extends StatelessWidget {
           body: Column(
             children: [
               Hero(
-                tag: _productId + "hero",
+                tag: _productId + "hero" + "discount",
                 child: Stack(
                   children: [
                     CachedNetworkImage(imageUrl: _product.image),

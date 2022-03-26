@@ -27,6 +27,7 @@ class MyColor {
       );
 
   static const red = Color(0xFFF9595E);
+  static const red2 = Color(0xFFFF0000);
   static const black = Color(0xFF3D3D3D);
   static const grey = Color(0xFF6E6E6E);
   static const grey2 = Color(0xFF9E9E9E);

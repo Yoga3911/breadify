@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/view_model/category_provider.dart';
-import 'package:project/app/views/main/home/widgets/category.dart';
-import 'package:project/app/views/main/home/widgets/header.dart';
-import 'package:project/app/views/main/home/widgets/product.dart';
-import 'package:project/app/views/main/home/widgets/search.dart';
 import 'package:provider/provider.dart';
 
+import '../../../view_model/category_provider.dart';
+import '../../../views/main/home/widgets/category.dart';
+import '../../../views/main/home/widgets/header.dart';
+import '../../../views/main/home/widgets/product.dart';
+import '../../../views/main/home/widgets/search.dart';
 import '../../../constant/glow.dart';
 import '../../../constant/color.dart';
 
@@ -115,20 +115,58 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 10),
                 const ProductCategory(),
                 const SizedBox(height: 10),
-                if (categoryProvider.getCategory == "Popular")  
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      "Popular",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                    ),
-                    Text("See more"),
-                  ],
-                ),
+                if (categoryProvider.getCategory == "Today")
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        "Popular",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
+                      ),
+                      Text("See more"),
+                    ],
+                  ),
                 const SizedBox(height: 10),
-                const Product(),
+                const Product(todayCategory: "Popular"),
+                if (categoryProvider.getCategory == "Today")
+                  Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Hot",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w700),
+                          ),
+                          Text("See more"),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Product(todayCategory: "Hot"),
+                    ],
+                  ),
+                if (categoryProvider.getCategory == "Today")
+                  Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Discount",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w700),
+                          ),
+                          Text("See more"),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Product(todayCategory: "Discount"),
+                    ],
+                  ),
                 const SizedBox(height: 10),
               ],
             ),
