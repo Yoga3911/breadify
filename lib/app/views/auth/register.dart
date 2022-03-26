@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/views/auth/login.dart';
 
+import '../../constant/color.dart';
+
 class RegisterPage extends StatelessWidget {
   const RegisterPage({ Key? key }) : super(key: key);
   @override
@@ -55,7 +57,7 @@ class RegisterPage extends StatelessWidget {
                     "Create Your Breadify's Account",
                     style: TextStyle(
                         fontSize: 30,
-                        color: Color.fromARGB(255, 255, 214, 53),
+                        color: MyColor.yellow,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -138,7 +140,7 @@ class RegisterPage extends StatelessWidget {
               30),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 214, 53),
+                primary: MyColor.yellow,
                 padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -148,8 +150,7 @@ class RegisterPage extends StatelessWidget {
               child: const Text("Sign Up",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                fontSize: 30,
-                color: Colors.black,
+                fontSize: 22,
                 fontWeight: FontWeight.w900)
               ),
             ),
@@ -172,7 +173,7 @@ class RegisterPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                     fontSize: 18,
-                    color: Color.fromARGB(255, 255, 214, 53),
+                    color: MyColor.yellow,
                     fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -186,19 +187,19 @@ class RegisterPage extends StatelessWidget {
                     Container(
                       height: 2,
                       width: 50,
-                      decoration: const BoxDecoration(color: Colors.grey),
+                      decoration: const BoxDecoration(color: MyColor.grey2),
                     ),
                     const Text("OR    ",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: MyColor.grey2,
                         fontWeight: FontWeight.w500),
                     ),
                     Container(
                       height: 2,
                       width: 50,
-                      decoration: const BoxDecoration(color: Colors.grey),
+                      decoration: const BoxDecoration(color: MyColor.grey2),
                     ),
                   ],
                 ),

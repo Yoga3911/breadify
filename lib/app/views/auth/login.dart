@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../constant/color.dart';
 import '../../routes/route.dart';
 
 class LoginPage extends StatelessWidget {
@@ -56,7 +57,7 @@ class LoginPage extends StatelessWidget {
                     "Log In To Continue",
                     style: TextStyle(
                         fontSize: 30,
-                        color: Color.fromARGB(255, 255, 214, 53),
+                        color: MyColor.yellow,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget {
             child: TextField(
               decoration: InputDecoration(
                 // icon: Icon(Icons.account_box),
-                prefixIcon: const Icon(Icons.email_outlined, color: Color.fromARGB(255, 255, 214, 53),),
+                prefixIcon: const Icon(Icons.email_outlined, color: MyColor.yellow,),
                 prefixStyle: const TextStyle(color: Colors.blue),
                 hintText: "Email",
                 border: OutlineInputBorder(
@@ -80,7 +81,7 @@ class LoginPage extends StatelessWidget {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 214, 53),
+                      color: MyColor.yellow,
                     )
                   )
               ),
@@ -96,8 +97,8 @@ class LoginPage extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                 // icon: Icon(Icons.account_box),
-                prefixIcon: const Icon(Icons.lock_outline, color: Color.fromARGB(255, 255, 214, 53),),
-                suffixIcon: const Icon(Icons.remove_red_eye_outlined, color: Color.fromARGB(255, 255, 214, 53),),
+                prefixIcon: const Icon(Icons.lock_outline, color: MyColor.yellow,),
+                suffixIcon: const Icon(Icons.remove_red_eye_outlined, color: MyColor.yellow,),
                 prefixStyle: const TextStyle(color: Colors.blue),
                 hintText: "Password",
                 border: OutlineInputBorder(
@@ -105,7 +106,7 @@ class LoginPage extends StatelessWidget {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 214, 53),
+                      color: MyColor.yellow,
                     )
                   )
               ),
@@ -115,7 +116,7 @@ class LoginPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20,
-                color: Color.fromARGB(255, 255, 214, 53),
+                color: MyColor.yellow,
                 fontWeight: FontWeight.w500),
           ),
           Container(
@@ -126,7 +127,7 @@ class LoginPage extends StatelessWidget {
               30),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 214, 53),
+                primary: MyColor.yellow,
                 padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -139,7 +140,6 @@ class LoginPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                 fontSize: 22,
-                color: Colors.black,
                 fontWeight: FontWeight.w900)
               ),
             ),
@@ -163,7 +163,7 @@ class LoginPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                 fontSize: 18,
-                color: Color.fromARGB(255, 255, 214, 53),
+                color: MyColor.yellow,
                 fontWeight: FontWeight.w500),
                 ),
               ),
@@ -177,19 +177,19 @@ class LoginPage extends StatelessWidget {
                     Container(
                       height: 2,
                       width: 50,
-                      decoration: const BoxDecoration(color: Colors.grey),
+                      decoration: const BoxDecoration(color: MyColor.grey2),
                     ),
                     const Text("OR    ",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: MyColor.grey2,
                         fontWeight: FontWeight.w500),
                     ),
                     Container(
                       height: 2,
                       width: 50,
-                      decoration: const BoxDecoration(color: Colors.grey),
+                      decoration: const BoxDecoration(color: MyColor.grey2),
                     ),
                   ],
                 ),
