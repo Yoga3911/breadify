@@ -68,7 +68,7 @@ class Feed extends StatelessWidget {
           //3) comment
           Container(
             margin: const EdgeInsets.fromLTRB(10, 2, 5, 0),
-            height: MediaQuery.of(context).size.height * 0.22,
+            height: MediaQuery.of(context).size.height * 0.234,
             // color: Colors.green,
             child: Column(
               children: [
