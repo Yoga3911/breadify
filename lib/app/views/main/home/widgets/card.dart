@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
       color: Colors.white,
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        height: index.isOdd ? size.height * 0.24 : size.height * 0.3,
+        height: (MediaQuery.of(context).orientation == Orientation.portrait)? index.isOdd ? size.height * 0.24 : size.height * 0.3 : size.height * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -32,11 +32,12 @@ class ProductCard extends StatelessWidget {
                 imageUrl: product.image,
                 fit: BoxFit.cover,
                 height: double.infinity,
+                width: double.infinity,
               ),
               borderRadius: BorderRadius.circular(15),
             ),
             Container(
-              height: index.isOdd ? size.height * 0.24 : size.height * 0.3,
+              height: (MediaQuery.of(context).orientation == Orientation.portrait)? index.isOdd ? size.height * 0.24 : size.height * 0.3 : size.height * 0.4,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 gradient: const LinearGradient(

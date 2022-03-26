@@ -44,10 +44,10 @@ class Product extends StatelessWidget {
           return MasonryGridView.count(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 4,
+            itemCount: 8,
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
-            crossAxisCount: 2,
+            crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait)? 2 : 3,
             itemBuilder: (_, index) {
               return Shimmer.fromColors(
                 baseColor: MyColor.grey,
@@ -88,12 +88,10 @@ class Product extends StatelessWidget {
         return MasonryGridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: (categoryProvider.getCategory == "Today")
-              ? snapshot.data!.docs.length * 0 + 4
-              : snapshot.data!.docs.length,
+          itemCount: snapshot.data!.docs.length,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          crossAxisCount: 2,
+          crossAxisCount: (MediaQuery.of(context).orientation == Orientation.portrait)? 2 : 3,
           itemBuilder: (_, index) {
             final product = ProductModel.fromJson(
                 snapshot.data!.docs[index].data() as Map<String, dynamic>);

@@ -40,7 +40,7 @@ class ProductCategory extends StatelessWidget {
     final categoryProvider = Provider.of<CategoryProvider>(context);
     
     return SizedBox(
-      height: _size.height * 0.11,
+      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.11 : _size.height * 0.22,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: categoryData.map(
@@ -56,8 +56,8 @@ class ProductCategory extends StatelessWidget {
                   GestureDetector(
                     onTap: () => categoryProvider.setCategory = category.name,
                     child: Container(
-                      height: _size.height * 0.08,
-                      width: _size.height * 0.08,
+                      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.08 : _size.width * 0.08,
+                      width: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.08 : _size.width * 0.08,
                       decoration: BoxDecoration(
                         color: (categoryProvider.getCategory == category.name)
                             ? MyColor.yellow

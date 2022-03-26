@@ -115,54 +115,53 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 10),
                 const ProductCategory(),
                 const SizedBox(height: 10),
-                if (categoryProvider.getCategory != "Today")
-                  const Product(todayCategory: "Category"),
-                if (categoryProvider.getCategory == "Today")
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Popular",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
+                (categoryProvider.getCategory != "Today")
+                    ? const Product(todayCategory: "Category")
+                    : Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Popular",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
                           ),
-                          Text("See more"),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Popular"),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Hot",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Hot"),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Discount",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              ),
+                              Text("See more"),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Product(todayCategory: "Discount"),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Popular"),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Hot",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          ),
-                          Text("See more"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Hot"),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Discount",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          ),
-                          Text("See more"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Discount"),
-                    ],
-                  ),
                 const SizedBox(height: 10),
               ],
             ),
