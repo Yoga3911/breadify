@@ -6,23 +6,42 @@ class OrderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TabBar orderTabBar = const TabBar(
+      indicatorColor: Colors.amber, //warna indikator tab bar
+      labelColor: Colors.black, //warna tulisan di tab bar
+      tabs: <Widget>[
+        Tab(
+          text: "History",
+        ),
+        Tab(
+          text: "On Going",
+        ),
+      ],
+    );
     return MaterialApp(
       home: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text("Orders"),
-              actions: <Widget>[
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
+                backgroundColor: const Color(0xffFFD635), //warna appbar
+                title: const Text("Orders"),
+                actions: <Widget>[
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    tooltip: "Cart",
                   ),
-                  tooltip: "Cart",
-                )
-              ],
-            ),
+                ],
+                bottom: PreferredSize(
+                    preferredSize:
+                        Size.fromHeight(orderTabBar.preferredSize.height),
+                    child: Container(
+                      color: Colors.white, //warna tab bar
+                      child: orderTabBar,
+                    ))),
           )),
     );
   }
