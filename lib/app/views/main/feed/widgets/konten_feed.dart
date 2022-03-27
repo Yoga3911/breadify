@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//memanggil kerangka feed
 import '../feed.dart';
 
 class Feed extends StatelessWidget {

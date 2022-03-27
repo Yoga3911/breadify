@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
+//pemanggilan class
 import '../../../models/feeds_models.dart';
+
+//utk konten feed 
+import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
 final List<FeedsContent> feedscontent = [
   FeedsContent(

@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 
-//utk tab bar History & On Going :
+//pemanggilan class
+import '../../../models/orders_models.dart';
+
+//utk konten tab bar History & On Going :
 import 'package:project/app/views/main/order/widgets/history.dart';
 import 'package:project/app/views/main/order/widgets/ongoing.dart';
+
+final List<OrderContentHistory> orderscontenthistory = [
+  OrderContentHistory(address: "address", status: "status", date: "date"),
+  OrderContentHistory(address: "address", status: "status", date: "date"),
+  OrderContentHistory(address: "address", status: "status", date: "date"),
+];
+final List<OrderContentOngoing> ordercontentongoing = [
+  OrderContentOngoing(address: "address", status: "status", date: "date"),
+  OrderContentOngoing(address: "address", status: "status", date: "date"),
+  OrderContentOngoing(address: "address", status: "status", date: "date"),
+];
 
 class OrderPage extends StatelessWidget {
   const OrderPage({Key? key}) : super(key: key);
@@ -48,9 +62,19 @@ class OrderPage extends StatelessWidget {
                 ),
               ),
             ),
-            body: const TabBarView(children: <Widget>[
-              OngoingPage(), //class utk Tab Bar On Going
-              HistoryPage(), //class utk Tab Bar History
+            body: TabBarView(children: <Widget>[
+              //TABBAR ON GOING
+              ListView.builder(
+                  itemCount: orderscontenthistory.length,
+                  itemBuilder: (context, index) =>
+                      HistoryPage(index: index) //class utk Tab Bar On Going
+                  ),
+              //TABBAR HISTORY
+              ListView.builder(
+                  itemCount: ordercontentongoing.length,
+                  itemBuilder: (context, index) =>
+                      OngoingPage(index: index) //class utk Tab Bar On Going
+                  ),
             ]),
           )),
     );

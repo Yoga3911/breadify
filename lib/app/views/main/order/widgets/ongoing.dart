@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-//utk memanggil kerangka Order Page : 
+//memanggil kerangka orders :
 import '../order.dart';
 
 class OngoingPage extends StatelessWidget {
-  const OngoingPage({Key? key}) : super(key: key);
+  const OngoingPage({required this.index, Key? key}) : super(key: key);
 
+  final int index;
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 50,
-        height: 50,
+        margin: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width * 1,
+        height: MediaQuery.of(context).size.height * 0.2,
         color: Colors.purple,
       ),
     );
