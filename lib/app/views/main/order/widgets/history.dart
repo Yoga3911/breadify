@@ -9,23 +9,66 @@ class HistoryPage extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * 0.1,
-        color: Colors.blue,
-        child: Row(children: <Widget>[
-          //icon motor
-          Container(
-            width: MediaQuery.of(context).size.width * 0.2,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/icons/motor.jpeg"),
-                    fit: BoxFit.cover)),
-            // height: 30,
-          )
-        ]),
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      width: MediaQuery.of(context).size.width * 1,
+      height: MediaQuery.of(context).size.height * 0.08,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1, color: Colors.grey),
+        ),
+      ),
+      // color: Colors.amber,
+
+      child: Material(
+        color: Colors.transparent, //biar bisa di klik
+        child: InkWell(
+          onTap: () {},
+          child: Row(
+            children: <Widget>[
+              //1) icon motor
+              Transform.scale(
+                  scale: 0.7, child: Image.asset("assets/icons/motor.jpeg")),
+
+              //2) text
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //2a)address
+                  Text(
+                    orderscontenthistory[index].address,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 15),
+                  ),
+
+                  //2b)status
+                  Text(
+                    orderscontenthistory[index].status,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 10),
+                  ),
+
+                  //2c)date
+                  Text(
+                    orderscontenthistory[index].date,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        // fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                        fontSize: 10),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

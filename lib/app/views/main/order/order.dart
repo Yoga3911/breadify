@@ -9,14 +9,28 @@ import 'package:project/app/views/main/order/widgets/history.dart';
 import 'package:project/app/views/main/order/widgets/ongoing.dart';
 
 final List<OrderContentHistory> orderscontenthistory = [
-  OrderContentHistory(address: "address", status: "status", date: "date"),
-  OrderContentHistory(address: "address", status: "status", date: "date"),
-  OrderContentHistory(address: "address", status: "status", date: "date"),
+  OrderContentHistory(
+      address: "Jl. Mawar 2, No. 129",
+      status: "Order successfuly delivered",
+      date: "15 March 2022 01:20 PM"),
+  OrderContentHistory(
+      address: "Jl. Melati 1, No. 10",
+      status: "Order successfuly delivered",
+      date: "14 March 2022 12:20 PM"),
+  OrderContentHistory(
+      address: "Jl. Kenanga 12, No. 28",
+      status: "Order successfuly delivered",
+      date: "13 March 2022 05:00 PM"),
 ];
 final List<OrderContentOngoing> ordercontentongoing = [
-  OrderContentOngoing(address: "address", status: "status", date: "date"),
-  OrderContentOngoing(address: "address", status: "status", date: "date"),
-  OrderContentOngoing(address: "address", status: "status", date: "date"),
+  OrderContentOngoing(
+      address: "Jl. Mawar 1, No. 10",
+      status: "Order delivered",
+      date: "14 March 2022 12:20 PM"),
+  OrderContentOngoing(
+      address: "Jl. Permata Suci No. 90",
+      status: "Order delivered",
+      date: "14 March 2022 12:20 PM"),
 ];
 
 class OrderPage extends StatelessWidget {
@@ -62,14 +76,16 @@ class OrderPage extends StatelessWidget {
                 ),
               ),
             ),
-            body: TabBarView(children: <Widget>[
-              //TABBAR ON GOING
+            body: TabBarView(
+              children: <Widget>[
+              //TABBAR HISTORY
               ListView.builder(
                   itemCount: orderscontenthistory.length,
                   itemBuilder: (context, index) =>
                       HistoryPage(index: index) //class utk Tab Bar On Going
                   ),
-              //TABBAR HISTORY
+
+              //TABBAR ON GOING
               ListView.builder(
                   itemCount: ordercontentongoing.length,
                   itemBuilder: (context, index) =>
