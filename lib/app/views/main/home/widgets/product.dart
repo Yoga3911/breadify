@@ -128,6 +128,7 @@ class _ProductState extends State<Product> {
                         "product_id": snapshot.data!.docs[index].id,
                         "product_data": product,
                         "category": widget.todayCategory,
+                        "seller_id": seller.userId,
                       },
                     );
                   },
