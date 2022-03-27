@@ -1,17 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/view_model/google.dart';
+import 'package:project/app/constant/collection.dart';
+import 'package:project/app/services/facebook.dart';
+import 'package:project/app/services/google.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
 
+enum Social { google, facebook }
+
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  final String _blank = "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+
+  Future<void> _signIn(
+      BuildContext context, UserProvider _user, Social social) async {
+    switch (social) {
+      case Social.google:
+        GoogleService.signIn().then(
+          (user) async {
+            final pref = await SharedPreferences.getInstance();
+            pref.setString("social", "google");
+            _user.setUser = user.user!;
+            final account = await MyCollection.user
+                .where("email", isEqualTo: user.user!.email)
+                .get();
+            if (account.docs.isEmpty) {
+              MyCollection.user.add(
+                {
+                  "name": user.user!.displayName,
+                  "email": user.user!.email,
+                  "social": "Google",
+                  "image_url": user.user!.photoURL ?? _blank,
+                },
+              );
+            }
+            Navigator.pushReplacementNamed(context, Routes.main);
+          },
+        );
+        break;
+      case Social.facebook:
+        FacebookService.signIn().then(
+          (user) async {
+            final pref = await SharedPreferences.getInstance();
+            pref.setString("social", "google");
+            _user.setUser = user.user!;
+            final account = await MyCollection.user
+                .where("email", isEqualTo: user.user!.email)
+                .get();
+            if (account.docs.isEmpty) {
+              MyCollection.user.add(
+                {
+                  "name": user.user!.displayName,
+                  "email": user.user!.email,
+                  "social": "Facebook",
+                  "image_url": user.user!.photoURL,
+                },
+              );
+            }
+            Navigator.pushReplacementNamed(context, Routes.main);
+          },
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _userProvider = Provider.of<UserProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -210,15 +269,7 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () => GoogleService().signIn().then(
-                        (user) {
-                          _userProvider.setUser = user.user!;
-                          Navigator.pushReplacementNamed(
-                            context,
-                            Routes.main,
-                          );
-                        },
-                      ),
+                      onPressed: () => _signIn(context, _user, Social.google),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/google.png"),
@@ -228,7 +279,7 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () => _signIn(context, _user, Social.facebook),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
