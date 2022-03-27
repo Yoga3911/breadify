@@ -20,8 +20,9 @@ class HistoryPage extends StatelessWidget {
       ),
       // color: Colors.amber,
 
+      //biar bisa di klik :
       child: Material(
-        color: Colors.transparent, //biar bisa di klik
+        color: Colors.transparent,
         child: InkWell(
           onTap: () {},
           child: Row(
@@ -30,7 +31,7 @@ class HistoryPage extends StatelessWidget {
               Transform.scale(
                   scale: 0.7, child: Image.asset("assets/icons/motor.jpeg")),
 
-              //2) text
+              //2) text : address, status, date
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,6 +54,10 @@ class HistoryPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontSize: 10),
+                  ),
+
+                  const SizedBox(//jarak                
+                    height: 6,
                   ),
 
                   //2c)date
