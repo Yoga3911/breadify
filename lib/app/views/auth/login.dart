@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/collection.dart';
 import 'package:project/app/services/facebook.dart';
@@ -33,11 +35,13 @@ class LoginPage extends StatelessWidget {
                 {
                   "name": user.user!.displayName,
                   "email": user.user!.email,
-                  "social": "Google",
+                  "provider": "Google",
                   "image_url": user.user!.photoURL ?? _blank,
                 },
               );
             }
+            final data = await MyCollection.user.where("email", isEqualTo: user.user!.email).get();
+            log(data.docs.first.id);
             Navigator.pushReplacementNamed(context, Routes.main);
           },
         );
@@ -56,7 +60,7 @@ class LoginPage extends StatelessWidget {
                 {
                   "name": user.user!.displayName,
                   "email": user.user!.email,
-                  "social": "Facebook",
+                  "provider": "Facebook",
                   "image_url": user.user!.photoURL,
                 },
               );
