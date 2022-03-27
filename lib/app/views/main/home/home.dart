@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/services/facebook.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/views/main/home/widgets/content.dart';
+import 'package:project/app/views/main/home/widgets/title.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,13 +56,15 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
+    
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     final _categoryProvider = Provider.of<CategoryProvider>(context);
     final User _user = Provider.of<UserProvider>(context).getUser;
+
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -77,37 +79,7 @@ class HomePage extends StatelessWidget {
                 backgroundImage: NetworkImage(_user.photoURL ?? _blank),
               ),
             ),
-            title: Container(
-              width: 170,
-              height: 45,
-              padding: const EdgeInsets.only(
-                left: 10,
-              ),
-              decoration: BoxDecoration(
-                color: MyColor.yellow,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Rp 100.000",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  Text(
-                    "Click to see transaction history",
-                    style: TextStyle(
-                      color: MyColor.grey,
-                      fontSize: 10,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            title: const AppBarTitle(),
             actions: [
               IconButton(
                 onPressed: () {},
@@ -155,6 +127,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           body: ListView(
+            cacheExtent: 10000,
             children: [
               const Header(),
               const SearchBar(),
