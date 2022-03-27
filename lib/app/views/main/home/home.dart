@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/services/facebook.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/views/main/home/widgets/content.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,12 +19,49 @@ import '../../../constant/color.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  void _logoutDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Apakah kamu yakin ingin logout?",
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Batal"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final pref = await SharedPreferences.getInstance();
+              switch (pref.getString("social")) {
+                case "google":
+                  await GoogleService.signOut();
+                  break;
+                case "facebook":
+                  await FacebookService.signOut();
+                  break;
+              }
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.login,
+                (route) => false,
+              );
+            },
+            child: const Text("Yakin"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     final _categoryProvider = Provider.of<CategoryProvider>(context);
-    final User _user = Provider.of<UserProvider>(context).getUser;
+    // final User _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -37,7 +73,7 @@ class HomePage extends StatelessWidget {
               splashRadius: 1,
               onPressed: () {},
               icon: CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
+                backgroundImage: NetworkImage(_blank),
               ),
             ),
             title: Container(
@@ -102,42 +138,7 @@ class HomePage extends StatelessWidget {
                 icon: Image.asset("assets/icons/cart.png"),
               ),
               IconButton(
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => AlertDialog(
-                      title: const Text(
-                        "Apakah kamu yakin ingin logout?",
-                      ),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text("Batal"),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final pref = await SharedPreferences.getInstance();
-                            switch (pref.getString("social")) {
-                              case "google":
-                                await GoogleService.signOut();
-                                break;
-                              case "facebook":
-                                await FacebookService.signOut();
-                                break;
-                            }
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              Routes.login,
-                              (route) => false,
-                            );
-                          },
-                          child: const Text("Yakin"),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                onPressed: () => _logoutDialog(context),
                 icon: const Icon(Icons.logout_rounded),
               )
             ],
@@ -165,114 +166,7 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: const Product(todayCategory: "Category"),
                       )
-                    : Column(
-                        children: [
-                          Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Popular",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: MyColor.yellow,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Text("See more"),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                const Product(todayCategory: "Popular"),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Hot",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: MyColor.yellow,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Text("See more"),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                const Product(todayCategory: "Hot"),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Discount",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: MyColor.yellow,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Text("See more"),
-                                        Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 15,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                const Product(todayCategory: "Discount"),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    : const HomeContent(),
               ),
             ],
           ),
