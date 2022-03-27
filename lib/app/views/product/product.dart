@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/glow.dart';
-import 'package:project/app/views/product/widgets/content.dart';
-import 'package:project/app/views/product/widgets/header.dart';
 
+import '../../constant/glow.dart';
+import '../../views/product/widgets/content.dart';
+import '../../views/product/widgets/header.dart';
 import '../../models/product_model.dart';
 
 class ProductPage extends StatelessWidget {

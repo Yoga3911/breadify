@@ -2,10 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:project/app/routes/route.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../routes/route.dart';
 import '../../../../view_model/category_provider.dart';
 import '../../../../models/product_model.dart';
 import '../../../../constant/collection.dart';

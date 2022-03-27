@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../routes/route.dart';
 import '../../../constant/collection.dart';
 import '../../../constant/color.dart';
 import '../../../models/product_model.dart';
@@ -60,47 +61,50 @@ class ContentProduct extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: size.height * 0.06,
-                        width: size.height * 0.06,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              _seller.imageUrl,
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, Routes.store),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: size.height * 0.06,
+                          width: size.height * 0.06,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                _seller.imageUrl,
+                              ),
+                              fit: BoxFit.cover,
                             ),
-                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _seller.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              const Icon(Icons.store_mall_directory_rounded),
-                              const SizedBox(width: 5),
-                              Text(
-                                _seller.storeName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: MyColor.yellow
-                                ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _seller.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.store_mall_directory_rounded),
+                                const SizedBox(width: 5),
+                                Text(
+                                  _seller.storeName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColor.yellow
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(

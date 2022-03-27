@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/services/facebook.dart';
-import 'package:project/app/view_model/user_prodvider.dart';
-import 'package:project/app/views/main/home/widgets/content.dart';
-import 'package:project/app/views/main/home/widgets/title.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../main/home/widgets/content.dart';
+import '../../main/home/widgets/title.dart';
+import '../../../services/facebook.dart';
+import '../../../view_model/user_prodvider.dart';
 import '../../../routes/route.dart';
 import '../../../services/google.dart';
 import '../../../view_model/category_provider.dart';
