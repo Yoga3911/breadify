@@ -73,7 +73,7 @@ class FeedPage extends StatelessWidget {
         body: ListView.builder(
           itemCount: feedscontent.length,
           itemBuilder: (context, index) =>
-              Feed(index: index), //manggil konten feed() (widgets)
+              Feed(index: index), //manggil konten class Feed() utk isi kontem dr folder widgets
         ),
       ),
     );
