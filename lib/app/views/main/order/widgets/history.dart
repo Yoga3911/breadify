@@ -10,7 +10,7 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10),
+      // margin: const EdgeInsets.only(left: 10, right: 10),
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * 0.08,
       decoration: const BoxDecoration(
@@ -29,7 +29,9 @@ class HistoryPage extends StatelessWidget {
             children: <Widget>[
               //1) icon motor
               Transform.scale(
-                  scale: 0.7, child: Image.asset("assets/icons/motor.jpeg")),
+                scale: 0.7,
+                child: Image.asset("assets/icons/motor.png"),
+              ),
 
               //2) text : address, status, date
               Column(
@@ -56,7 +58,8 @@ class HistoryPage extends StatelessWidget {
                         fontSize: 10),
                   ),
 
-                  const SizedBox(//jarak                
+                  const SizedBox(
+                    //jarak
                     height: 6,
                   ),
 
