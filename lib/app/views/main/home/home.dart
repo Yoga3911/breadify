@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     final _categoryProvider = Provider.of<CategoryProvider>(context);
-    final User _user = Provider.of<UserProvider>(context).getUser;
+    // final User _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
               splashRadius: 1,
               onPressed: () {},
               icon: CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
+                backgroundImage: NetworkImage(_blank),
               ),
             ),
             title: Container(
@@ -162,16 +162,16 @@ class HomePage extends StatelessWidget {
               Container(
                 child: (_categoryProvider.getCategory != "Today")
                     ? Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Column(
-                        children: const [
-                          SizedBox(height: 10),
-                          Product(todayCategory: "Category"),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                    )
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Column(
+                          children: const [
+                            SizedBox(height: 10),
+                            Product(todayCategory: "Category"),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                      )
                     : const HomeContent(),
               ),
             ],

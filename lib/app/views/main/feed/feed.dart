@@ -66,7 +66,7 @@ class FeedPage extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(Icons.shopping_cart),
               color: Colors.white,
-              tooltip: 'cart',
+              tooltip: 'Cart',
             )
           ],
         ),
