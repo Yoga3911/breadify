@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/models/store_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../routes/route.dart';
@@ -11,14 +12,14 @@ import '../../../models/user_model.dart';
 class ContentProduct extends StatelessWidget {
   const ContentProduct({
     Key? key,
-    required this.todayCategory,
+    // required this.todayCategory,
     required this.productId,
     required this.size,
     required this.product,
     required this.currency,
     required this.sellerId,
   }) : super(key: key);
-  final String todayCategory;
+  // final String todayCategory;
   final String productId;
   final Size size;
   final ProductModel product;
@@ -35,8 +36,8 @@ class ContentProduct extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  height: 100,
-                  width: 100,
+                  height: size.height * 0.06,
+                  width: size.height * 0.06,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                 ),
                 Container(
@@ -46,8 +47,8 @@ class ContentProduct extends StatelessWidget {
                 ),
               ],
             ),
-            baseColor: MyColor.grey,
-            highlightColor: MyColor.grey2,
+            baseColor: MyColor.grey2,
+            highlightColor: MyColor.grey3,
             direction: ShimmerDirection.ltr,
           );
         }
@@ -61,50 +62,109 @@ class ContentProduct extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, Routes.store),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: size.height * 0.06,
-                          width: size.height * 0.06,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                _seller.imageUrl,
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  FutureBuilder<QuerySnapshot>(
+                    future: MyCollection.store
+                        .where("user_id", isEqualTo: _seller.id)
+                        .get(),
+                    builder: (_, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Row(
                           children: [
-                            Text(
-                              _seller.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              height: size.height * 0.06,
+                              width: size.height * 0.06,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
                               ),
                             ),
-                            Row(
+                            const SizedBox(width: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.store_mall_directory_rounded),
-                                const SizedBox(width: 5),
                                 Text(
-                                  _seller.storeName,
+                                  _seller.name,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: MyColor.yellow
                                   ),
                                 ),
+                                Row(
+                                  children: const [
+                                    Icon(Icons.store_mall_directory_rounded),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      "Loading ...",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColor.yellow,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
-                            ),
+                            )
                           ],
-                        )
-                      ],
-                    ),
+                        );
+                      }
+                      final StoreModel _store = StoreModel.fromJson(
+                          snapshot.data!.docs.first.data()
+                              as Map<String, dynamic>);
+                      return GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          Routes.store,
+                          arguments: {
+                            "seller": _seller,
+                            "store": _store,
+                          },
+                        ),
+                        child: Row(
+                          children: [
+                            Hero(
+                              tag: "profile",
+                              child: Container(
+                                height: size.height * 0.06,
+                                width: size.height * 0.06,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      _seller.imageUrl,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _seller.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                        Icons.store_mall_directory_rounded),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      _store.storeName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColor.yellow,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
                   ),
                   Container(
                     padding: const EdgeInsets.only(

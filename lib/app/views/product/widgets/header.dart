@@ -6,13 +6,13 @@ import '../../../models/product_model.dart';
 class HeaderProduct extends StatelessWidget {
   const HeaderProduct({
     Key? key,
-    required this.todayCategory,
+    // required this.todayCategory,
     required this.productId,
     required this.size,
     required this.product,
   }) : super(key: key);
 
-  final String todayCategory;
+  // final String todayCategory;
   final String productId;
   final Size size;
   final ProductModel product;
@@ -20,13 +20,7 @@ class HeaderProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: (todayCategory == "Category")
-          ? productId + "hero"
-          : (todayCategory == "Popular")
-              ? productId + "hero" + "popular"
-              : (todayCategory == "Hot")
-                  ? productId + "hero" + "hot"
-                  : productId + "hero" + "discount",
+      tag: productId + "hero",
       child: Stack(
         children: [
           SizedBox(
@@ -61,8 +55,31 @@ class HeaderProduct extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: size.height * 0.33,
-            left: size.width * 0.83,
+            top: 15,
+            right: 15,
+            child: Container(
+              height: size.height * 0.05,
+              width: size.height * 0.05,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: () {},
+                  child: SizedBox(
+                    height: size.height * 0.025,
+                    child: Image.asset("assets/icons/more.png"),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 15,
             child: Image.asset(
               "assets/images/heart.png",
               scale: 1.2,
