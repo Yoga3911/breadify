@@ -41,13 +41,9 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Welcome Back!",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
-                    ),
+                  child: const Text(
+                    "Welcome Back!",
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Container(
@@ -148,7 +144,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, Routes.home);
+                Navigator.pushReplacementNamed(context, Routes.main);
               },
               child: const Text("Log In",
                   textAlign: TextAlign.center,
@@ -213,7 +209,7 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () => _login.signIn(context, _user, Social.google),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/google.png"),
@@ -223,7 +219,7 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () => _login.signIn(context, _user, Social.facebook),,
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
