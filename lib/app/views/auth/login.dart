@@ -75,9 +75,9 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 0,
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 0),
             child: TextField(
               decoration: InputDecoration(
@@ -100,9 +100,9 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 30,
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 30),
             child: TextField(
               obscureText: true,

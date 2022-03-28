@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
     MyCollection.product.snapshots().listen((event) {
       inspect(event.docs.first["name"]);
     });
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           body: SmartRefresher(
-            // enablePullUp: true,
+            enablePullDown: true,
             header: const WaterDropHeader(),
             controller: _refreshController,
             onRefresh: _onRefresh,

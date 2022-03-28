@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/views/product/add_product.dart';
 
 import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';
@@ -30,9 +31,7 @@ class Routes {
   static const String profile = "/profile";
   static const String store = "/store";
   static const String product = "/product";
-  static const String popularProduct = "/product/popular";
-  static const String hotProduct = "/product/hot";
-  static const String discountProduct = "/product/discount";
+  static const String addProduct = "/product/add";
   static const String cart = "/cart";
   static const String checkout = "/checkout";
 
@@ -45,9 +44,9 @@ class Routes {
     feed: (_) => const FeedPage(),
     history: (_) => const HistoryPage(),
     ongoing: (_) => const OngoingPage(),
-    favorite: (_) => const FavoritePage(),
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),
+    addProduct: (_) => const AddProductPage(),
     product: (_) => const ProductPage(),
     cart: (_) => const CartPage(),
     checkout: (_) => const CheckoutPage(),
