@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text("Pakshe"),
+                  Text("Pakdhe"),
                   Text("Customer"),
                   Text("Saldo Rp 100.000"),
                 ],
