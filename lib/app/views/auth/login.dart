@@ -4,7 +4,7 @@ import '../../constant/color.dart';
 import '../../routes/route.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({ Key? key }) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,8 @@ class LoginPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.6,
                   width: MediaQuery.of(context).size.width * 1,
                   child: const Image(
-                    image: AssetImage("assets/images/login_register_reverse.jfif"),
+                    image:
+                        AssetImage("assets/images/login_register_reverse.jfif"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,11 +41,13 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
-                    "Welcome Back!",
-                    style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w700),
+                  child: const FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      "Welcome Back!",
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
                 Container(
@@ -53,12 +56,15 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.55,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
-                    "Log In To Continue",
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: MyColor.yellow,
-                        fontWeight: FontWeight.w500),
+                  child: const FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      "Log In To Continue",
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: MyColor.yellow,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ],
@@ -66,53 +72,61 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.height * 0.1, 
-              0, 
-              MediaQuery.of(context).size.height * 0.1, 
-              0),
+                MediaQuery.of(context).size.height * 0.1,
+                0,
+                MediaQuery.of(context).size.height * 0.1,
+                0),
             child: TextField(
               decoration: InputDecoration(
-                // icon: Icon(Icons.account_box),
-                prefixIcon: const Icon(Icons.email_outlined, color: MyColor.yellow,),
-                prefixStyle: const TextStyle(color: Colors.blue),
-                hintText: "Email",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),),
-                  focusedBorder: OutlineInputBorder(
+                  // icon: Icon(Icons.account_box),
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: MyColor.yellow,
+                  ),
+                  prefixStyle: const TextStyle(color: Colors.blue),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: MyColor.yellow,
-                    )
-                  )
-              ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: MyColor.yellow,
+                      ))),
             ),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.height * 0.1, 
-              30, 
-              MediaQuery.of(context).size.height * 0.1, 
-              30),
+                MediaQuery.of(context).size.height * 0.1,
+                30,
+                MediaQuery.of(context).size.height * 0.1,
+                30),
             child: TextField(
               obscureText: true,
               decoration: InputDecoration(
-                // icon: Icon(Icons.account_box),
-                prefixIcon: const Icon(Icons.lock_outline, color: MyColor.yellow,),
-                suffixIcon: const Icon(Icons.remove_red_eye_outlined, color: MyColor.yellow,),
-                prefixStyle: const TextStyle(color: Colors.blue),
-                hintText: "Password",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),),
-                  focusedBorder: OutlineInputBorder(
+                  // icon: Icon(Icons.account_box),
+                  prefixIcon: const Icon(
+                    Icons.lock_outline,
+                    color: MyColor.yellow,
+                  ),
+                  suffixIcon: const Icon(
+                    Icons.remove_red_eye_outlined,
+                    color: MyColor.yellow,
+                  ),
+                  prefixStyle: const TextStyle(color: Colors.blue),
+                  hintText: "Password",
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: MyColor.yellow,
-                    )
-                  )
-              ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: MyColor.yellow,
+                      ))),
             ),
           ),
-          const Text("Forgot Password?",
+          const Text(
+            "Forgot Password?",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20,
@@ -121,27 +135,24 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.height * 0.1, 
-              30,
-              MediaQuery.of(context).size.height * 0.1, 
-              30),
+                MediaQuery.of(context).size.height * 0.1,
+                30,
+                MediaQuery.of(context).size.height * 0.1,
+                30),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: MyColor.yellow,
                 padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                ),    
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushReplacementNamed(context, Routes.home);
-              }, 
+              },
               child: const Text("Log In",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900)
-              ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
             ),
           ),
           Column(
@@ -150,26 +161,25 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text("DON'T HAVE PASSWORD? ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500)
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.register);
+                    },
+                    child: const Text(
+                      "SIGN UP HERE!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: MyColor.yellow,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.pushNamed(context, Routes.register);
-                },
-                child: const Text("SIGN UP HERE!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                fontSize: 18,
-                color: MyColor.yellow,
-                fontWeight: FontWeight.w500),
-                ),
+                ],
               ),
-            ],
-          ),
-          Container(
+              Container(
                 margin: const EdgeInsets.all(40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -179,12 +189,13 @@ class LoginPage extends StatelessWidget {
                       width: 50,
                       decoration: const BoxDecoration(color: MyColor.grey2),
                     ),
-                    const Text("OR    ",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                        fontSize: 20,
-                        color: MyColor.grey2,
-                        fontWeight: FontWeight.w500),
+                    const Text(
+                      "OR    ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: MyColor.grey2,
+                          fontWeight: FontWeight.w500),
                     ),
                     Container(
                       height: 2,
@@ -198,17 +209,29 @@ class LoginPage extends StatelessWidget {
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
                 child: Row(
                   children: <Widget>[
-                    const Spacer(flex: 8,),
+                    const Spacer(
+                      flex: 8,
+                    ),
                     IconButton(
-                      onPressed: (){},
+                      onPressed: () {},
                       iconSize: 40,
-                      icon: const Image(image: AssetImage("assets/images/google.png"),),),
-                      const Spacer(flex: 3,),
+                      icon: const Image(
+                        image: AssetImage("assets/images/google.png"),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 3,
+                    ),
                     IconButton(
-                  onPressed: (){},
-                  iconSize: 40,
-                  icon: const Image(image: AssetImage("assets/images/facebook.png"),),),
-                  const Spacer(flex: 8,),
+                      onPressed: () {},
+                      iconSize: 40,
+                      icon: const Image(
+                        image: AssetImage("assets/images/facebook.png"),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 8,
+                    ),
                   ],
                 ),
               )
