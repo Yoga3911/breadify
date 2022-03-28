@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -21,56 +20,58 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
-  String? store;
+  // String? store;
 
-  Future<void> getStoreName(String userId) async {
-    final storeName =
-        await MyCollection.user.where("id", isEqualTo: userId).get();
-    store = await storeName.docs.first["store_name"];
-    // log(store)
-    // setState(() {});
-  }
+  // Future<void> getStoreName(String storeId) async {
+  //   final storeName =
+  //       await MyCollection.product.where("store_id", isEqualTo: storeId).get();
+  //   store = await storeName.docs.first["store_name"];
+  //   // log(store)
+  //   // setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     final categoryProvider = Provider.of<CategoryProvider>(context);
     return FutureBuilder<QuerySnapshot>(
-      future: (categoryProvider.getCategory == "Today")
-          ? MyCollection.products.orderBy("category_id").get()
+      future: (categoryProvider.getCategory == "Popular")
+          ? MyCollection.product.orderBy("category_id").get()
           : (categoryProvider.getCategory == "Bread")
-              ? MyCollection.products.where("category_id", isEqualTo: "1").get()
+              ? MyCollection.product.where("category_id", isEqualTo: "1").get()
               : (categoryProvider.getCategory == "Cookies")
-                  ? MyCollection.products
+                  ? MyCollection.product
                       .where("category_id", isEqualTo: "3")
                       .get()
                   : (categoryProvider.getCategory == "Cakes")
-                      ? MyCollection.products
+                      ? MyCollection.product
                           .where("category_id", isEqualTo: "4")
                           .get()
                       : (categoryProvider.getCategory == "Pastry")
-                          ? MyCollection.products
+                          ? MyCollection.product
                               .where("category_id", isEqualTo: "5")
                               .get()
-                          : MyCollection.products
+                          : MyCollection.product
                               .where("category_id", isEqualTo: "6")
                               .get(),
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MasonryGridView.count(
+          return MasonryGridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: 4,
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
-            crossAxisCount:
-                (MediaQuery.of(context).orientation == Orientation.portrait)
-                    ? 2
-                    : 3,
+            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  (MediaQuery.of(context).orientation == Orientation.portrait)
+                      ? 2
+                      : 3,
+            ),
             itemBuilder: (_, index) {
               return Shimmer.fromColors(
-                baseColor: MyColor.grey,
-                highlightColor: MyColor.grey2,
+                baseColor: MyColor.grey2,
+                highlightColor: MyColor.grey3,
                 direction: ShimmerDirection.ltr,
                 child: Container(
                   height:
@@ -104,51 +105,46 @@ class _ProductState extends State<Product> {
             ),
           );
         }
-        return MasonryGridView.count(
+        return MasonryGridView.builder(
+          cacheExtent: 10000,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: snapshot.data!.docs.length,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          crossAxisCount:
-              (MediaQuery.of(context).orientation == Orientation.portrait)
-                  ? 2
-                  : 3,
+          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount:
+                (MediaQuery.of(context).orientation == Orientation.portrait)
+                    ? 2
+                    : 3,
+          ),
           itemBuilder: (_, index) {
             final product = ProductModel.fromJson(
                 snapshot.data!.docs[index].data() as Map<String, dynamic>);
-            final seller = SellerData.fromJson(snapshot.data!.docs[index]["seller_data"] as Map<String, dynamic>);
+            // final seller = SellerData.fromJson(snapshot.data!.docs[index]
+            //     ["seller_data"] as Map<String, dynamic>);
             return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.product,
-                      arguments: {
-                        "product_id": snapshot.data!.docs[index].id,
-                        "product_data": product,
-                        "category": widget.todayCategory,
-                        "seller_id": seller.userId,
-                      },
-                    );
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.product,
+                  arguments: {
+                    "product_id": snapshot.data!.docs[index].id,
+                    "product_data": product,
+                    "category": widget.todayCategory,
+                    // "seller_id": seller.userId,
                   },
-                  child: Hero(
-                    tag: (widget.todayCategory == "Category")
-                        ? snapshot.data!.docs[index].id + "hero"
-                        : (widget.todayCategory == "Popular")
-                            ? snapshot.data!.docs[index].id + "hero" + "popular"
-                            : (widget.todayCategory == "Hot")
-                                ? snapshot.data!.docs[index].id + "hero" + "hot"
-                                : snapshot.data!.docs[index].id +
-                                    "hero" +
-                                    "discount",
-                    child: ProductCard(
-                      size: _size,
-                      index: index,
-                      product: product, 
-                      storeName: seller.storeName,
-                    ),
-                  ),
                 );
+              },
+              child: Hero(
+                tag: snapshot.data!.docs[index].id + "hero",
+                child: ProductCard(
+                  size: _size,
+                  index: index,
+                  product: product,
+                ),
+              ),
+            );
           },
         );
       },

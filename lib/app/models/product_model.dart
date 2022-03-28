@@ -13,6 +13,9 @@ class ProductModel {
         required this.quantity,
         required this.image,
         required this.categoryId,
+        required this.storeId,
+        required this.storeName,
+        required this.userId,
         required this.createAt,
         required this.updateAt,
         required this.sellerData,
@@ -21,8 +24,11 @@ class ProductModel {
     final String name;
     final int price;
     final int quantity;
-    final String categoryId;
     final String image;
+    final String categoryId;
+    final String storeId;
+    final String storeName;
+    final String userId;
     final Timestamp createAt;
     final Timestamp updateAt;
     final SellerData sellerData;
@@ -31,8 +37,11 @@ class ProductModel {
         name: json["name"],
         price: json["price"],
         quantity: json["quantity"],
-        categoryId: json["category_id"],
         image: json["image"],
+        categoryId: json["category_id"],
+        storeId: json["store_id"],
+        storeName: json["store_name"],
+        userId: json["user_id"],
         createAt: json["create_at"],
         updateAt: json["update_at"],
         sellerData: SellerData.fromJson(json["seller_data"]),
@@ -43,6 +52,9 @@ class ProductModel {
         "price": price,
         "quantity": quantity,
         "category_id": categoryId,
+        "store_id": storeId,
+        "store_name": storeName,
+        "user_id": userId,
         "create_at": createAt,
         "update_at": updateAt,
         "seller_data": sellerData.toJson(),

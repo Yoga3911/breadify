@@ -9,13 +9,13 @@ class ProductCard extends StatelessWidget {
     required this.size,
     required this.index,
     required this.product,
-    required this.storeName,
+    // required this.storeName,
   }) : super(key: key);
 
   final Size size;
   final int index;
   final ProductModel product;
-  final String storeName;
+  // final String storeName;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,7 @@ class ProductCard extends StatelessWidget {
           children: [
             ClipRRect(
               child: CachedNetworkImage(
+                key: ValueKey(product.image),
                 imageUrl: product.image,
                 fit: BoxFit.cover,
                 height: double.infinity,
@@ -77,7 +78,7 @@ class ProductCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              storeName,
+                              product.storeName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 255, 204, 0),
