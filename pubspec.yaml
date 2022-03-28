@@ -30,6 +30,14 @@ dependencies:
   shared_preferences: ^2.0.13
   shimmer: ^2.0.0
 
+flutter_icons:
+  image_path: "assets/icons/icon.png"
+  android: true
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/splash.png
+
 dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:
