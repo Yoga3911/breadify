@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/views/auth/login.dart';
@@ -41,13 +42,11 @@ class RegisterPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Sign Up",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
-                    ),
+                  child: const AutoSizeText(
+                    "Sign Up",
+                    maxLines: 1,
+                    style:
+                        TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Container(
@@ -56,15 +55,13 @@ class RegisterPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.55,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Create Your Breadify's Account",
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: MyColor.yellow,
-                          fontWeight: FontWeight.w500),
-                    ),
+                  child: const AutoSizeText(
+                    "Create Your Breadify's Account",
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: MyColor.yellow,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ],

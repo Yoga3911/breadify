@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../constant/color.dart';
@@ -41,9 +42,12 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
+                  child: const AutoSizeText(
                     "Welcome Back!",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 50, 
+                      fontWeight: FontWeight.w700),
                   ),
                 ),
                 Container(
@@ -52,15 +56,13 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.55,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Log In To Continue",
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: MyColor.yellow,
-                          fontWeight: FontWeight.w500),
-                    ),
+                  child: const AutoSizeText(
+                    "Log In To Continue",
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: MyColor.yellow,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
@@ -209,7 +211,8 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () => _login.signIn(context, _user, Social.google),
+                      onPressed: (){},
+                      // onPressed: () => _login.signIn(context, _user, Social.google),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/google.png"),
@@ -219,7 +222,8 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () => _login.signIn(context, _user, Social.facebook),
+                      onPressed: (){},
+                      // onPressed: () => _login.signIn(context, _user, Social.facebook),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
