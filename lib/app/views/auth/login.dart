@@ -219,7 +219,7 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () => _login.signIn(context, _user, Social.facebook),,
+                      onPressed: () => _login.signIn(context, _user, Social.facebook),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
