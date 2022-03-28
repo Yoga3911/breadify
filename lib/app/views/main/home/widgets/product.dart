@@ -1,57 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:project/app/routes/route.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../routes/route.dart';
 import '../../../../view_model/category_provider.dart';
 import '../../../../models/product_model.dart';
 import '../../../../constant/collection.dart';
 import '../../../../constant/color.dart';
 import 'card.dart';
 
-class Product extends StatelessWidget {
+class Product extends StatefulWidget {
   const Product({Key? key, required this.todayCategory}) : super(key: key);
   final String todayCategory;
+
+  @override
+  State<Product> createState() => _ProductState();
+}
+
+class _ProductState extends State<Product> {
+  // String? store;
+
+  // Future<void> getStoreName(String storeId) async {
+  //   final storeName =
+  //       await MyCollection.product.where("store_id", isEqualTo: storeId).get();
+  //   store = await storeName.docs.first["store_name"];
+  //   // log(store)
+  //   // setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     final categoryProvider = Provider.of<CategoryProvider>(context);
     return FutureBuilder<QuerySnapshot>(
-      future: (categoryProvider.getCategory == "Today")
-          ? MyCollection.products.orderBy("category_id").get()
+      future: (categoryProvider.getCategory == "Popular")
+          ? MyCollection.product.orderBy("category_id").get()
           : (categoryProvider.getCategory == "Bread")
-              ? MyCollection.products.where("category_id", isEqualTo: "1").get()
+              ? MyCollection.product.where("category_id", isEqualTo: "1").get()
               : (categoryProvider.getCategory == "Cookies")
-                  ? MyCollection.products
+                  ? MyCollection.product
                       .where("category_id", isEqualTo: "3")
                       .get()
                   : (categoryProvider.getCategory == "Cakes")
-                      ? MyCollection.products
+                      ? MyCollection.product
                           .where("category_id", isEqualTo: "4")
                           .get()
                       : (categoryProvider.getCategory == "Pastry")
-                          ? MyCollection.products
+                          ? MyCollection.product
                               .where("category_id", isEqualTo: "5")
                               .get()
-                          : MyCollection.products
+                          : MyCollection.product
                               .where("category_id", isEqualTo: "6")
                               .get(),
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MasonryGridView.count(
+          return MasonryGridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: 4,
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
-            crossAxisCount: 2,
+            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  (MediaQuery.of(context).orientation == Orientation.portrait)
+                      ? 2
+                      : 3,
+            ),
             itemBuilder: (_, index) {
               return Shimmer.fromColors(
-                baseColor: MyColor.grey,
-                highlightColor: MyColor.grey2,
+                baseColor: MyColor.grey2,
+                highlightColor: MyColor.grey3,
                 direction: ShimmerDirection.ltr,
                 child: Container(
                   height:
@@ -85,18 +105,24 @@ class Product extends StatelessWidget {
             ),
           );
         }
-        return MasonryGridView.count(
+        return MasonryGridView.builder(
+          cacheExtent: 10000,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: (categoryProvider.getCategory == "Today")
-              ? snapshot.data!.docs.length * 0 + 4
-              : snapshot.data!.docs.length,
+          itemCount: snapshot.data!.docs.length,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          crossAxisCount: 2,
+          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount:
+                (MediaQuery.of(context).orientation == Orientation.portrait)
+                    ? 2
+                    : 3,
+          ),
           itemBuilder: (_, index) {
             final product = ProductModel.fromJson(
                 snapshot.data!.docs[index].data() as Map<String, dynamic>);
+            // final seller = SellerData.fromJson(snapshot.data!.docs[index]
+            //     ["seller_data"] as Map<String, dynamic>);
             return GestureDetector(
               onTap: () {
                 Navigator.pushNamed(
@@ -105,20 +131,13 @@ class Product extends StatelessWidget {
                   arguments: {
                     "product_id": snapshot.data!.docs[index].id,
                     "product_data": product,
-                    "category": todayCategory,
+                    "category": widget.todayCategory,
+                    // "seller_id": seller.userId,
                   },
                 );
               },
               child: Hero(
-                tag: (todayCategory == "Category")
-                    ? snapshot.data!.docs[index].id + "hero"
-                    : (todayCategory == "Popular")
-                        ? snapshot.data!.docs[index].id + "hero" + "popular"
-                        : (todayCategory == "Hot")
-                            ? snapshot.data!.docs[index].id + "hero" + "hot"
-                            : snapshot.data!.docs[index].id +
-                                "hero" +
-                                "discount",
+                tag: snapshot.data!.docs[index].id + "hero",
                 child: ProductCard(
                   size: _size,
                   index: index,

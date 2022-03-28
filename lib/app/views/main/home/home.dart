@@ -1,6 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:project/app/views/main/home/widgets/alert.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../../constant/collection.dart';
+import '../../main/home/widgets/content.dart';
+import '../../main/home/widgets/title.dart';
 import '../../../view_model/category_provider.dart';
 import '../../../views/main/home/widgets/category.dart';
 import '../../../views/main/home/widgets/header.dart';
@@ -9,12 +16,44 @@ import '../../../views/main/home/widgets/search.dart';
 import '../../../constant/glow.dart';
 import '../../../constant/color.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void _logoutDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const LogOutDialog());
+  }
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    MyCollection.product.snapshots().listen((event) {
+      inspect(event.docs.first["name"]);
+    });
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    const String _blank =
+        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+    final _categoryProvider = Provider.of<CategoryProvider>(context);
+    // final User _user = Provider.of<UserProvider>(context).getUser;
+
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -26,40 +65,10 @@ class HomePage extends StatelessWidget {
               splashRadius: 1,
               onPressed: () {},
               icon: const CircleAvatar(
-                backgroundImage: AssetImage("assets/images/superman.png"),
+                backgroundImage: NetworkImage(_blank),
               ),
             ),
-            title: Container(
-              width: 170,
-              height: 45,
-              padding: const EdgeInsets.only(
-                left: 10,
-              ),
-              decoration: BoxDecoration(
-                color: MyColor.yellow,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Rp 100.000",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  Text(
-                    "Click to see transaction history",
-                    style: TextStyle(
-                      color: MyColor.grey,
-                      fontSize: 10,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            title: const AppBarTitle(),
             actions: [
               IconButton(
                 onPressed: () {},
@@ -77,7 +86,7 @@ class HomePage extends StatelessWidget {
                         width: 12,
                         height: 12,
                         decoration: BoxDecoration(
-                          color: MyColor.red,
+                          color: MyColor.red2,
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -90,6 +99,10 @@ class HomePage extends StatelessWidget {
                 splashRadius: 25,
                 icon: Image.asset("assets/icons/cart.png"),
               ),
+              IconButton(
+                onPressed: () => _logoutDialog(context),
+                icon: const Icon(Icons.logout_rounded),
+              )
             ],
             elevation: 0,
           ),
@@ -102,68 +115,37 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
+          body: SmartRefresher(
+            // enablePullUp: true,
+            header: const WaterDropHeader(),
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
             child: ListView(
-              children: [
-                const Header(),
-                const SizedBox(height: 10),
-                const SearchBar(),
-                const SizedBox(height: 10),
-                const ProductCategory(),
-                const SizedBox(height: 10),
-                if (categoryProvider.getCategory != "Today")
-                  const Product(todayCategory: "Category"),
-                if (categoryProvider.getCategory == "Today")
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Popular",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          ),
-                          Text("See more"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Popular"),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Hot",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          ),
-                          Text("See more"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Hot"),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Discount",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700),
-                          ),
-                          Text("See more"),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Product(todayCategory: "Discount"),
-                    ],
-                  ),
-                const SizedBox(height: 10),
+              cacheExtent: 10000,
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              children: const [
+                Header(),
+                SearchBar(),
+                ProductCategory(),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Product(todayCategory: "Popular"),
+                ),
+                SizedBox(height: 20),
+                // Container(
+                //   child: (_categoryProvider.getCategory != "Today")
+                //       ? Container(
+                //           color: Colors.white,
+                //           padding: const EdgeInsets.only(left: 10, right: 10),
+                //           child: Column(
+                //             children: const [],
+                //           ),
+                //         )
+                //       : const HomeContent(),
+                // ),
               ],
             ),
           ),

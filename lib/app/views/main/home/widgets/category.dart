@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/color.dart';
-import 'package:project/app/models/category_model.dart';
-import 'package:project/app/view_model/category_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../constant/color.dart';
+import '../../../../models/category_model.dart';
+import '../../../../view_model/category_provider.dart';
 
 class ProductCategory extends StatelessWidget {
   const ProductCategory({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class ProductCategory extends StatelessWidget {
     List<Map<String, String>> categoryData = [
       {
         "asset": "assets/icons/fire.png",
-        "name": "Today",
+        "name": "Popular",
       },
       {
         "asset": "assets/icons/bread.png",
@@ -39,8 +40,10 @@ class ProductCategory extends StatelessWidget {
     final Size _size = MediaQuery.of(context).size;
     final categoryProvider = Provider.of<CategoryProvider>(context);
     
-    return SizedBox(
-      height: _size.height * 0.11,
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.11 : _size.height * 0.22,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: categoryData.map(
@@ -56,8 +59,8 @@ class ProductCategory extends StatelessWidget {
                   GestureDetector(
                     onTap: () => categoryProvider.setCategory = category.name,
                     child: Container(
-                      height: _size.height * 0.08,
-                      width: _size.height * 0.08,
+                      height: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.07 : _size.width * 0.07,
+                      width: (MediaQuery.of(context).orientation == Orientation.portrait)? _size.height * 0.07 : _size.width * 0.07,
                       decoration: BoxDecoration(
                         color: (categoryProvider.getCategory == category.name)
                             ? MyColor.yellow

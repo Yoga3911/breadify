@@ -1,5 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/view_model/login_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
@@ -9,6 +12,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _login = Provider.of<LoginProvider>(context);
+    final _user = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(

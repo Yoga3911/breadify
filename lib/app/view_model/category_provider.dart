@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class CategoryProvider with ChangeNotifier {
-  String _category = "Today";
+  String _category = "Popular";
 
   get getCategory => _category;
 
