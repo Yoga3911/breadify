@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/view_model/login_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
@@ -46,9 +47,12 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
+                  child: const AutoSizeText(
                     "Welcome Back!",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 50, 
+                      fontWeight: FontWeight.w700),
                   ),
                 ),
                 Container(
@@ -57,8 +61,9 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.55,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
+                  child: const AutoSizeText(
                     "Log In To Continue",
+                    maxLines: 1,
                     style: TextStyle(
                         fontSize: 30,
                         color: MyColor.yellow,
@@ -211,7 +216,8 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () => _login.signIn(context, _user, Social.google),
+                      onPressed: (){},
+                      // onPressed: () => _login.signIn(context, _user, Social.google),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/google.png"),
@@ -221,7 +227,8 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () => _login.signIn(context, _user, Social.facebook),
+                      onPressed: (){},
+                      // onPressed: () => _login.signIn(context, _user, Social.facebook),
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
