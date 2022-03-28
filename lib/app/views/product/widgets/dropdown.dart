@@ -3,8 +3,6 @@ import 'package:project/app/constant/color.dart';
 import 'package:project/app/view_model/add_prod_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../components/custom_dropdown.dart';
-
 class MyDropDown extends StatelessWidget {
   const MyDropDown({Key? key}) : super(key: key);
 

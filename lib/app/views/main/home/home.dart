@@ -1,14 +1,14 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/views/main/home/widgets/alert.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../constant/collection.dart';
-import '../../main/home/widgets/content.dart';
+import '../../../view_model/user_prodvider.dart';
 import '../../main/home/widgets/title.dart';
-import '../../../view_model/category_provider.dart';
 import '../../../views/main/home/widgets/category.dart';
 import '../../../views/main/home/widgets/header.dart';
 import '../../../views/main/home/widgets/product.dart';
@@ -52,8 +52,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-    final _categoryProvider = Provider.of<CategoryProvider>(context);
-    // final User _user = Provider.of<UserProvider>(context).getUser;
+    // final _categoryProvider = Provider.of<CategoryProvider>(context);
+    final User _user = Provider.of<UserProvider>(context).getUser;
 
     return ScrollConfiguration(
       behavior: NoGlow(),
@@ -65,8 +65,8 @@ class _HomePageState extends State<HomePage> {
             leading: IconButton(
               splashRadius: 1,
               onPressed: () {},
-              icon: const CircleAvatar(
-                backgroundImage: NetworkImage(_blank),
+              icon: CircleAvatar(
+                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
               ),
             ),
             title: const AppBarTitle(),
