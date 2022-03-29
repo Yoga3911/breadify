@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/color.dart';
 
+import '../../constant/color.dart';
 import 'feed/feed.dart';
 import 'home/home.dart';
 import 'favorite/favorite.dart';
-import 'order/history.dart';
+import 'order/order.dart';
+import 'order/widgets/history.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -16,14 +17,36 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  void _onTap(int index) => setState(() => _selectedIndex = index);
-
-  final List<Widget> _widgetData = [
-    const HomePage(),
-    const FeedPage(),
-    const HistoryPage(),
-    const FavoritePage(),
+  final List<Map<String, String>> _iconData = [
+    {
+      "path": "assets/icons/home.png",
+      "label": "Home",
+    },
+    {
+      "path": "assets/icons/compas.png",
+      "label": "Feed",
+    },
+    {
+      "path": "assets/icons/box.png",
+      "label": "Orders",
+    },
+    {
+      "path": "assets/icons/love.png",
+      "label": "Favorite",
+    },
   ];
+
+  BottomNavigationBarItem btmNavbar(String label, String icon) {
+    return BottomNavigationBarItem(
+      icon: Image.asset(icon, scale: 1.5),
+      activeIcon: Image.asset(
+        icon,
+        scale: 1.5,
+        color: MyColor.yellow,
+      ),
+      label: label,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,46 +54,26 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: const TextStyle(fontSize: 12),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
-        onTap: _onTap,
+        onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: MyColor.yellow,
         unselectedItemColor: MyColor.black,
-        showUnselectedLabels: true,
+        // showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home_outlined),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/compas.png", scale: 1.5),
-            activeIcon: Image.asset(
-              "assets/icons/compas.png",
-              scale: 1.5,
-              color: MyColor.yellow,
-            ),
-            label: "Feed",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("assets/icons/box.png", scale: 1.5),
-            activeIcon: Image.asset(
-              "assets/icons/box.png",
-              scale: 1.5,
-              color: MyColor.yellow,
-            ),
-            label: "Orders",
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline_rounded),
-            activeIcon: Icon(Icons.favorite_outline_rounded),
-            label: "Favorite",
-          ),
-        ],
+        items: _iconData
+            .map(
+              (e) => btmNavbar(e["label"]!, e["path"]!),
+            )
+            .toList(),
       ),
       body: IndexedStack(
         index: _selectedIndex,
-        children: _widgetData,
+        children: const [
+          HomePage(),
+          FeedPage(),
+          OrderPage(),
+          FavoritePage(),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/views/product/add_product.dart';
 
 import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';
@@ -7,8 +8,8 @@ import '../views/auth/register.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
 import '../views/main/main_page.dart';
-import '../views/main/order/history.dart';
-import '../views/main/order/ongoing.dart';
+import '../views/main/order/widgets/history.dart';
+import '../views/main/order/widgets/ongoing.dart';
 import '../views/profile/profile.dart';
 import '../views/main/home/home.dart';
 import '../views/introduction/introduction.dart';
@@ -30,23 +31,25 @@ class Routes {
   static const String profile = "/profile";
   static const String store = "/store";
   static const String product = "/product";
+  static const String addProduct = "/product/add";
   static const String cart = "/cart";
   static const String checkout = "/checkout";
 
   static final data = <String, WidgetBuilder>{
-    introduction: (context) => const IntroductionPage(),
-    login: (context) => const LoginPage(),
-    register: (context) => const RegisterPage(), 
-    main: (context) => const MainPage(), 
-    home: (context) => const HomePage(),
-    feed: (context) => const FeedPage(),
-    history: (context) => const HistoryPage(),
-    ongoing: (context) => const OngoingPage(),
-    favorite: (context) => const FavoritePage(),
-    profile: (context) => const ProfilePage(),
-    store: (context) => const StorePage(),
-    product: (context) => const ProductPage(),
-    cart: (context) => const CartPage(),
-    checkout: (context) => const CheckoutPage(),
+    introduction: (_) => const IntroductionPage(),
+    login: (_) => const LoginPage(),
+    register: (_) => const RegisterPage(), 
+    main: (_) => const MainPage(), 
+    home: (_) => const HomePage(),
+    feed: (_) => const FeedPage(),
+    // history: (_) => const HistoryPage(),
+    // ongoing: (_) => const OngoingPage(),
+    favorite: (_) => const FavoritePage(),
+    profile: (_) => const ProfilePage(),
+    store: (_) => const StorePage(),
+    addProduct: (_) => const AddProductPage(),
+    product: (_) => const ProductPage(),
+    cart: (_) => const CartPage(),
+    checkout: (_) => const CheckoutPage(),
   };
 }

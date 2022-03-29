@@ -1,13 +1,20 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:project/app/views/main/home/widgets/alert.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../constant/collection.dart';
+import '../../../view_model/user_prodvider.dart';
+import '../../main/home/widgets/title.dart';
+import '../../../views/main/home/widgets/category.dart';
+import '../../../views/main/home/widgets/header.dart';
+import '../../../views/main/home/widgets/product.dart';
+import '../../../views/main/home/widgets/search.dart';
 import '../../../constant/glow.dart';
 import '../../../constant/color.dart';
-import '../../../constant/collection.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,157 +24,130 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void _logoutDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const LogOutDialog());
+  }
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 2000));
+    MyCollection.product.snapshots().listen((event) {
+      log(event.docs.first["name"]);
+    });
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
+    const String _blank =
+        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+    // final _categoryProvider = Provider.of<CategoryProvider>(context);
+    // final User _user = Provider.of<UserProvider>(context).getUser;
+
     return ScrollConfiguration(
       behavior: NoGlow(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: const Padding(
-            padding: EdgeInsets.all(10),
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/superman.png"),
-            ),
-          ),
-          title: Container(
-            width: 170,
-            height: 45,
-            padding: const EdgeInsets.only(
-              left: 10,
-            ),
-            decoration: BoxDecoration(
-              color: MyColor.yellow,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  "Rp 100.000",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                Text(
-                  "Click to see transaction history",
-                  style: TextStyle(
-                    color: MyColor.grey,
-                    fontSize: 10,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            IconButton(
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              splashRadius: 1,
               onPressed: () {},
-              splashRadius: 25,
-              icon: Stack(
-                children: [
-                  const Icon(
-                    Icons.notifications_outlined,
-                    size: 30,
-                  ),
-                  Positioned(
-                    left: 15,
-                    top: 5,
-                    child: Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: MyColor.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  )
-                ],
+              icon: CircleAvatar(
+                backgroundImage: NetworkImage(_blank),
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              splashRadius: 25,
-              icon: Image.asset("assets/icons/cart.png"),
-            ),
-          ],
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: ListView(
-            children: [
-              const Text(
-                "Hello, Pakdhe!",
-                style: TextStyle(color: MyColor.grey, fontSize: 12),
-              ),
-              const Text(
-                "Aku menyebutnya",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-              ),
-              RichText(
-                text: const TextSpan(
+            title: const AppBarTitle(),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                splashRadius: 25,
+                icon: Stack(
                   children: [
-                    TextSpan(
-                      text: "Tampan dan ",
-                      style: TextStyle(color: MyColor.black, fontSize: 18, fontWeight: FontWeight.w800),
+                    const Icon(
+                      Icons.notifications_outlined,
+                      size: 30,
                     ),
-                    TextSpan(
-                      text: "Pemberani",
-                      style: TextStyle(color: MyColor.yellow, fontSize: 18, fontWeight: FontWeight.w800),
-                    ),
+                    Positioned(
+                      left: 15,
+                      top: 5,
+                      child: Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: MyColor.red2,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              FutureBuilder<QuerySnapshot>(
-                future: MyCollection.products.orderBy("create_at").get(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return MasonryGridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 8,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                      crossAxisCount: 2,
-                      itemBuilder: (_, index) {
-                        return Shimmer.fromColors(
-                          baseColor: MyColor.grey,
-                          highlightColor: MyColor.grey2,
-                          direction: ShimmerDirection.ltr,
-                          child: Container(
-                            height: index.isOdd ? 250 : 300,
-                            decoration: BoxDecoration(
-                              color: MyColor.grey,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  return MasonryGridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 8,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    crossAxisCount: 2,
-                    itemBuilder: (_, index) {
-                      return Container(
-                        height: index.isOdd ? 250 : 300,
-                        decoration: BoxDecoration(
-                          color: MyColor.yellow,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      );
-                    },
-                  );
-                },
+              IconButton(
+                onPressed: () {},
+                splashRadius: 25,
+                icon: Image.asset("assets/icons/cart.png"),
               ),
+              IconButton(
+                onPressed: () => _logoutDialog(context),
+                icon: const Icon(Icons.logout_rounded),
+              )
             ],
+            elevation: 0,
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            heroTag: "home",
+            backgroundColor: MyColor.red2,
+            child: Image.asset(
+              "assets/icons/message.png",
+              color: Colors.white,
+            ),
+          ),
+          body: SmartRefresher(
+            enablePullDown: true,
+            header: const WaterDropHeader(),
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: ListView(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              children: const [
+                Header(),
+                SearchBar(),
+                ProductCategory(),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Product(todayCategory: "Popular"),
+                ),
+                SizedBox(height: 20),
+                // Container(
+                //   child: (_categoryProvider.getCategory != "Today")
+                //       ? Container(
+                //           color: Colors.white,
+                //           padding: const EdgeInsets.only(left: 10, right: 10),
+                //           child: Column(
+                //             children: const [],
+                //           ),
+                //         )
+                //       : const HomeContent(),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
