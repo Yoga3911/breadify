@@ -4,7 +4,8 @@ import '../../constant/color.dart';
 import 'feed/feed.dart';
 import 'home/home.dart';
 import 'favorite/favorite.dart';
-import 'order/history.dart';
+import 'order/order.dart';
+import 'order/widgets/history.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _MainPageState extends State<MainPage> {
         children: const [
           HomePage(),
           FeedPage(),
-          HistoryPage(),
+          OrderPage(),
           FavoritePage(),
         ],
       ),

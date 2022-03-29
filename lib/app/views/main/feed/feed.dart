@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
+//pemanggilan class
 import '../../../models/feeds_models.dart';
+
+//utk konten feed 
+import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
 final List<FeedsContent> feedscontent = [
   FeedsContent(
@@ -66,14 +69,14 @@ class FeedPage extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(Icons.shopping_cart),
               color: Colors.white,
-              tooltip: 'cart',
+              tooltip: 'Cart',
             )
           ],
         ),
         body: ListView.builder(
           itemCount: feedscontent.length,
           itemBuilder: (context, index) =>
-              Feed(index: index), //manggil konten feed() (widgets)
+              Feed(index: index), //manggil konten class Feed() utk isi kontem dr folder widgets
         ),
       ),
     );
