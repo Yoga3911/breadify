@@ -28,22 +28,38 @@ class FavoritePage extends StatelessWidget {
                     Stack(
                       children: [
                         Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           margin: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025),
-                          height: MediaQuery.of(context).size.height*0.4,
+                            MediaQuery.of(context).size.width*0.0335, 
+                            15, 
+                            MediaQuery.of(context).size.width*0.0165, 
+                            0),
+                          height: MediaQuery.of(context).size.height*0.35,
                           width: MediaQuery.of(context).size.width*0.45,
+                          child: Image(image: NetworkImage("https://img.qraved.co/v2/image/data/2016/05/16/12725205_1145755085435610_1979819820_n-x.jpg"),
+                          fit: BoxFit.cover,
+                          ),
                         ),
+                      ],
+                    ),
+                    Stack(
+                      children: [
                         Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           margin: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025, 
-                            MediaQuery.of(context).size.width*0.025),
-                          height: MediaQuery.of(context).size.height*0.4,
+                            MediaQuery.of(context).size.width*0.0165, 
+                            15, 
+                            MediaQuery.of(context).size.width*0.0335, 
+                            0),
+                          height: MediaQuery.of(context).size.height*0.35,
                           width: MediaQuery.of(context).size.width*0.45,
+                          child: Image(image: NetworkImage("https://www.elmundoeats.com/wp-content/uploads/2018/06/Yeasted-Sweet-Potato-Donuts.jpg"),
+                          fit: BoxFit.cover,
+                          ),
                         ),
                       ],
                     ),
