@@ -1,80 +1,27 @@
-import 'dart:developer';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/collection.dart';
-import 'package:project/app/services/facebook.dart';
-import 'package:project/app/services/google.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:project/app/view_model/login_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
 
-enum Social { google, facebook }
-
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
-  final String _blank = "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-
-  Future<void> _signIn(
-      BuildContext context, UserProvider _user, Social social) async {
-    switch (social) {
-      case Social.google:
-        GoogleService.signIn().then(
-          (user) async {
-            final pref = await SharedPreferences.getInstance();
-            pref.setString("social", "google");
-            _user.setUser = user.user!;
-            final account = await MyCollection.user
-                .where("email", isEqualTo: user.user!.email)
-                .get();
-            if (account.docs.isEmpty) {
-              MyCollection.user.add(
-                {
-                  "name": user.user!.displayName,
-                  "email": user.user!.email,
-                  "provider": "Google",
-                  "image_url": user.user!.photoURL ?? _blank,
-                },
-              );
-            }
-            final data = await MyCollection.user.where("email", isEqualTo: user.user!.email).get();
-            log(data.docs.first.id);
-            Navigator.pushReplacementNamed(context, Routes.main);
-          },
-        );
-        break;
-      case Social.facebook:
-        FacebookService.signIn().then(
-          (user) async {
-            final pref = await SharedPreferences.getInstance();
-            pref.setString("social", "google");
-            _user.setUser = user.user!;
-            final account = await MyCollection.user
-                .where("email", isEqualTo: user.user!.email)
-                .get();
-            if (account.docs.isEmpty) {
-              MyCollection.user.add(
-                {
-                  "name": user.user!.displayName,
-                  "email": user.user!.email,
-                  "provider": "Facebook",
-                  "image_url": user.user!.photoURL,
-                },
-              );
-            }
-            Navigator.pushReplacementNamed(context, Routes.main);
-          },
-        );
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final _login = Provider.of<LoginProvider>(context);
     final _user = Provider.of<UserProvider>(context);
+    final Size _size = MediaQuery.of(context).size;
+    final _spinkit = SpinKitCircle(
+      itemBuilder: (BuildContext context, int index) => DecoratedBox(
+        decoration:
+            BoxDecoration(color: index.isEven ? MyColor.yellow : Colors.black),
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -108,8 +55,9 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.46,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
+                  child: const AutoSizeText(
                     "Welcome Back!",
+                    maxLines: 1,
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -119,8 +67,9 @@ class LoginPage extends StatelessWidget {
                       MediaQuery.of(context).size.height * 0.55,
                       MediaQuery.of(context).size.height * 0.05,
                       MediaQuery.of(context).size.height * 0.05),
-                  child: const Text(
+                  child: const AutoSizeText(
                     "Log In To Continue",
+                    maxLines: 1,
                     style: TextStyle(
                         fontSize: 30,
                         color: MyColor.yellow,
@@ -132,9 +81,9 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 0,
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 0),
             child: TextField(
               decoration: InputDecoration(
@@ -157,9 +106,9 @@ class LoginPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 30,
-                MediaQuery.of(context).size.height * 0.1,
+                MediaQuery.of(context).size.height * 0.05,
                 30),
             child: TextField(
               obscureText: true,
@@ -273,7 +222,14 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () => _signIn(context, _user, Social.google),
+                      onPressed: () async {
+                        loading(context, _size, _spinkit);
+                        await _login.signIn(context, _user, Social.google);
+                        await Future.delayed(
+                          const Duration(seconds: 3),
+                        );
+                        Navigator.pop(context);
+                      },
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/google.png"),
@@ -283,7 +239,14 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () => _signIn(context, _user, Social.facebook),
+                      onPressed: () async {
+                        loading(context, _size, _spinkit);
+                        await _login.signIn(context, _user, Social.facebook);
+                        await Future.delayed(
+                          const Duration(seconds: 3),
+                        );
+                        Navigator.pop(context);
+                      },
                       iconSize: 40,
                       icon: const Image(
                         image: AssetImage("assets/images/facebook.png"),
@@ -297,6 +260,36 @@ class LoginPage extends StatelessWidget {
               )
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> loading(
+      BuildContext context, Size _size, SpinKitCircle _spinkit) {
+    return showDialog(
+      context: context,
+      builder: (_) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: _size.height * 0.15,
+            height: _size.height * 0.15,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _spinkit,
+                const Text(
+                  "Loading ...",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

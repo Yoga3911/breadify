@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/models/product_model.dart';
+
+import '../../../../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -8,13 +9,13 @@ class ProductCard extends StatelessWidget {
     required this.size,
     required this.index,
     required this.product,
-    required this.storeName,
+    // required this.storeName,
   }) : super(key: key);
 
   final Size size;
   final int index;
   final ProductModel product;
-  final String storeName;
+  // final String storeName;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class ProductCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              storeName,
+                              product.storeName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 255, 204, 0),
