@@ -32,7 +32,6 @@ class ProductCard extends StatelessWidget {
           children: [
             ClipRRect(
               child: CachedNetworkImage(
-                key: ValueKey(product.image),
                 imageUrl: product.image,
                 fit: BoxFit.cover,
                 height: double.infinity,

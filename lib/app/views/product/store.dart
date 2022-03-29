@@ -169,7 +169,6 @@ class StorePage extends StatelessWidget {
                           shrinkWrap: true,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 20,
-                          cacheExtent: 10000,
                           itemCount: 6,
                           gridDelegate:
                               const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -202,7 +201,6 @@ class StorePage extends StatelessWidget {
                           shrinkWrap: true,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 20,
-                          cacheExtent: 10000,
                           itemCount: snapshot.data!.docs.length,
                           gridDelegate:
                               const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -228,8 +226,6 @@ class StorePage extends StatelessWidget {
                                   children: [
                                     ClipRRect(
                                       child: CachedNetworkImage(
-                                        key: ValueKey(product.image),
-                                        cacheKey: product.image,
                                         imageUrl: product.image,
                                         fit: BoxFit.cover,
                                         height: double.infinity,

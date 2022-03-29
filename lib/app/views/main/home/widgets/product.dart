@@ -106,7 +106,6 @@ class _ProductState extends State<Product> {
           );
         }
         return MasonryGridView.builder(
-          cacheExtent: 10000,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: snapshot.data!.docs.length,

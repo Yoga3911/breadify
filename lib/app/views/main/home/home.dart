@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     // final _categoryProvider = Provider.of<CategoryProvider>(context);
-    final User _user = Provider.of<UserProvider>(context).getUser;
+    // final User _user = Provider.of<UserProvider>(context).getUser;
 
     return ScrollConfiguration(
       behavior: NoGlow(),
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               splashRadius: 1,
               onPressed: () {},
               icon: CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
+                backgroundImage: NetworkImage(_blank),
               ),
             ),
             title: const AppBarTitle(),
@@ -123,7 +123,6 @@ class _HomePageState extends State<HomePage> {
             onRefresh: _onRefresh,
             onLoading: _onLoading,
             child: ListView(
-              cacheExtent: 10000,
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
               children: const [
