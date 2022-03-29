@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 2000));
     MyCollection.product.snapshots().listen((event) {
-      inspect(event.docs.first["name"]);
+      log(event.docs.first["name"]);
     });
     _refreshController.refreshCompleted();
   }
