@@ -43,6 +43,8 @@ class Routes {
     feed: (_) => const FeedPage(),
     // history: (_) => const HistoryPage(),
     // ongoing: (_) => const OngoingPage(),
+    favorite: (_) => const FavoritePage(),
+
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),
     addProduct: (_) => const AddProductPage(),
