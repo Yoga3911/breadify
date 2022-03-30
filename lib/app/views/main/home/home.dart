@@ -1,14 +1,11 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/views/main/home/widgets/alert.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../constant/collection.dart';
-import '../../../view_model/user_prodvider.dart';
+import '../home/widgets/alert.dart';
 import '../../main/home/widgets/title.dart';
+import '../../../constant/collection.dart';
 import '../../../views/main/home/widgets/category.dart';
 import '../../../views/main/home/widgets/header.dart';
 import '../../../views/main/home/widgets/product.dart';

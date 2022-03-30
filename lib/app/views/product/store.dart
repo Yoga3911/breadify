@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/models/product_model.dart';
 import 'package:project/app/models/user_model.dart';
 import 'package:project/app/routes/route.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:project/app/view_model/product_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../models/store_model.dart';
@@ -22,6 +21,9 @@ class StorePage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final UserModel _seller = _args["seller"] as UserModel;
     final StoreModel _store = _args["store"] as StoreModel;
+    final _productProvider = Provider.of<ProductProvider>(context);
+    
+    // List<ProductModel> _productData = _productProvider.getAllProduct;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -161,10 +163,8 @@ class StorePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                FutureBuilder<QuerySnapshot>(
-                  future: MyCollection.product
-                      .where("user_id", isEqualTo: _seller.id)
-                      .get(),
+                FutureBuilder<List<ProductModel>>(
+                  future: _productProvider.getDataById(_store.id),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
@@ -201,21 +201,22 @@ class StorePage extends StatelessWidget {
                     }
                     return Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 10),
+                        left: 10,
+                        right: 10,
+                        bottom: 10,
+                      ),
                       child: MasonryGridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         mainAxisSpacing: 20,
                         crossAxisSpacing: 20,
-                        itemCount: snapshot.data!.docs.length,
+                        itemCount: snapshot.data!.length,
                         gridDelegate:
                             const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                         ),
                         itemBuilder: (_, index) {
-                          final ProductModel product = ProductModel.fromJson(
-                              snapshot.data!.docs[index].data()
-                                  as Map<String, dynamic>);
+                          final _product = snapshot.data![index];
                           return Material(
                             elevation: 5,
                             color: Colors.white,
@@ -232,7 +233,7 @@ class StorePage extends StatelessWidget {
                                 children: [
                                   ClipRRect(
                                     child: CachedNetworkImage(
-                                      imageUrl: product.image,
+                                      imageUrl: _product.image,
                                       fit: BoxFit.cover,
                                       height: double.infinity,
                                       width: double.infinity,
@@ -267,7 +268,7 @@ class StorePage extends StatelessWidget {
                                               alignment:
                                                   const Alignment(-1, 0.55),
                                               child: Text(
-                                                product.name,
+                                                _product.name,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                   fontSize: 18,
@@ -293,7 +294,8 @@ class StorePage extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Image.asset(
-                                                      "assets/icons/fav1.png")
+                                                    "assets/icons/fav1.png",
+                                                  )
                                                 ],
                                               ),
                                             )
@@ -310,7 +312,7 @@ class StorePage extends StatelessWidget {
                       ),
                     );
                   },
-                )
+                ),
               ],
             ),
           ),

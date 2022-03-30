@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:project/app/view_model/login_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
@@ -16,7 +15,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _login = Provider.of<LoginProvider>(context);
     final _user = Provider.of<UserProvider>(context);
-    final Size _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(

@@ -72,7 +72,7 @@ class ContentProduct extends StatelessWidget {
                             Container(
                               height: size.height * 0.06,
                               width: size.height * 0.06,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -80,14 +80,14 @@ class ContentProduct extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Blank",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Icon(Icons.store_mall_directory_rounded),
                                     SizedBox(width: 5),
                                     Text(

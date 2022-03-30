@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:project/app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +30,7 @@ class LoginProvider with ChangeNotifier {
                 UserModel(
                   email: user.user!.email!,
                   id: "",
-                  imageUrl: user.user!.photoURL!,
+                  imageUrl: user.user!.photoURL ?? _blank,
                   name: user.user!.displayName!,
                   roleId: "1",
                   provider: "Google",
