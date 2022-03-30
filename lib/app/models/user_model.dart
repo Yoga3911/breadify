@@ -1,10 +1,4 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
-
-String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
     UserModel({
@@ -24,28 +18,28 @@ class UserModel {
     final String name;
     final String roleId;
     final String provider;
-    final Timestamp createAt;
-    final Timestamp updateAt;
+    final DateTime createAt;
+    final DateTime updateAt;
 
-    factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    factory UserModel.fromMap(Map<String, dynamic> json) => UserModel(
         email: json["email"],
         id: json["id"],
         imageUrl: json["image_url"],
         name: json["name"],
         roleId: json["role_id"],
         provider: json["provider"],
-        createAt: json["create_at"],
-        updateAt: json["update_at"],
+        createAt: (json["create_at"] as Timestamp).toDate(),
+        updateAt: (json["update_at"] as Timestamp).toDate(),
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "email": email,
         "id": id,
         "image_url": imageUrl,
         "name": name,
         "role_id": roleId,
         "provider": provider,
-        "create_at": createAt,
-        "update_at": updateAt,
+        "create_at": createAt.toIso8601String(),
+        "update_at": updateAt.toIso8601String(),
     };
 }

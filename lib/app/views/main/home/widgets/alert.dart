@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../routes/route.dart';
@@ -30,10 +31,16 @@ class LogOutDialog extends StatelessWidget {
                 await FacebookService.signOut();
                 break;
             }
+            showDialog(
+              context: context,
+              builder: (_) => const CustomLoading(),
+            );
             Navigator.pushNamedAndRemoveUntil(
               context,
               Routes.login,
               (route) => false,
+            ).then(
+              (_) => Navigator.pop(context),
             );
           },
           child: const Text("Yakin"),
