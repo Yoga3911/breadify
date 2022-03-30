@@ -43,7 +43,13 @@ class FavoritePage extends StatelessWidget {
                           ),
                         ),
                         Container(
+                          margin: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width*0.0335, 
+                            15, 
+                            MediaQuery.of(context).size.width*0.0165, 
+                            0),
                           height: MediaQuery.of(context).size.height * 0.35,
+                          width: MediaQuery.of(context).size.width*0.45,
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Colors.transparent, Colors.white],
@@ -71,13 +77,19 @@ class FavoritePage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.transparent, Colors.white],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,),
-                        ),
+                          margin: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width*0.0165, 
+                            15, 
+                            MediaQuery.of(context).size.width*0.0335, 
+                            0),
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          width: MediaQuery.of(context).size.width*0.45,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.transparent, Colors.white],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,),
+                          ),
                         ),
                       ],
                     ),
