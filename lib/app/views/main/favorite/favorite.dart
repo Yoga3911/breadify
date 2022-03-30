@@ -53,7 +53,18 @@ class FavoritePage extends StatelessWidget {
               context,
               "http://kampoengroti.com/data/product/207.jpg",
               "Roti Coklat",
-              "Ahooy Bakery")
+              "Ahooy Bakery"),
+            list_favorite(
+              context,
+              "https://1.bp.blogspot.com/-pidi3vMShyk/VuEgoD1BAyI/AAAAAAAAA1w/tG_YkRt_ahw/s640/Cara-Membuat-Roti-Manis-Lembut.jpg",
+              "Roti Manis",
+              "Kampret Bakery"),
+            list_favorite(
+              context,
+              "https://img-global.cpcdn.com/recipes/e1d0575715abd80e/751x532cq70/roti-abon-foto-resep-utama.jpg",
+              "Roti Abon",
+              "Mooo Bakery"),
+              
           ]
         ),
       ),
@@ -74,7 +85,7 @@ class FavoritePage extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.transparent, Colors.white],
               begin: Alignment.topCenter,
@@ -87,7 +98,7 @@ class FavoritePage extends StatelessWidget {
               0, MediaQuery.of(context).size.height * 0.28, 0, 0),
           child: Row(
             children: [
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Column(
@@ -100,22 +111,21 @@ class FavoritePage extends StatelessWidget {
                   Text(
                     text2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 15,
                         color: MyColor.yellow,
                         fontWeight: FontWeight.bold),
                   )
                 ],
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
-              Icon(
-                Icons.favorite,
-                color: Colors.pink,
-                size: 40,
+              IconButton(
+                onPressed: (){}, 
+                icon: const Icon(Icons.favorite, color: Colors.pink, size: 40,),
               ),
-              Spacer(
+               const Spacer(
                 flex: 1,
               ),
             ],
