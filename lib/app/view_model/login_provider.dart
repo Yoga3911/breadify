@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:project/app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/collection.dart';
@@ -28,19 +29,26 @@ class LoginProvider with ChangeNotifier {
                 .get();
             if (account.docs.isEmpty) {
               MyCollection.user.add(
-                {
-                  "name": user.user!.displayName,
-                  "email": user.user!.email,
-                  "provider": "Google",
-                  "image_url": user.user!.photoURL ?? _blank,
-                },
+                UserModel(
+                  email: user.user!.email!,
+                  id: "",
+                  imageUrl: user.user!.photoURL!,
+                  name: user.user!.displayName!,
+                  roleId: "1",
+                  provider: "Google",
+                  createAt: DateTime.now(),
+                  updateAt: DateTime.now(),
+                ).toMap(),
               );
+              final data = await MyCollection.user
+                  .where("email", isEqualTo: user.user!.email)
+                  .get();
+              MyCollection.user.doc(data.docs.first.id).update({
+                "id": data.docs.first.id,
+              });
             }
-            final data = await MyCollection.user
-                .where("email", isEqualTo: user.user!.email)
-                .get();
-            log(data.docs.first.id);
-            Navigator.pushReplacementNamed(context, Routes.main);
+            Navigator.pushReplacementNamed(context, Routes.main)
+                .then((_) => Navigator.pop(context));
           },
         );
         break;
@@ -63,7 +71,8 @@ class LoginProvider with ChangeNotifier {
                 },
               );
             }
-            Navigator.pushReplacementNamed(context, Routes.main);
+            Navigator.pushReplacementNamed(context, Routes.main)
+                .then((value) => Navigator.pop(context));
           },
         );
         break;

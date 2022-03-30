@@ -128,8 +128,7 @@ class _ProductState extends State<Product> {
                   context,
                   Routes.product,
                   arguments: {
-                    "product_id": snapshot.data!.docs[index].id,
-                    "product_data": product,
+                    "product": product,
                     "category": widget.todayCategory,
                     // "seller_id": seller.userId,
                   },

@@ -13,23 +13,23 @@ class ContentProduct extends StatelessWidget {
   const ContentProduct({
     Key? key,
     // required this.todayCategory,
-    required this.productId,
+    // required this.productId,
     required this.size,
     required this.product,
     required this.currency,
-    required this.sellerId,
+    // required this.sellerId,
   }) : super(key: key);
   // final String todayCategory;
-  final String productId;
+  // final String productId;
   final Size size;
   final ProductModel product;
   final String currency;
-  final String sellerId;
+  // final String sellerId;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
-      future: MyCollection.user.doc(sellerId).get(),
+      future: MyCollection.store.doc(product.storeId).get(),
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(
@@ -52,8 +52,8 @@ class ContentProduct extends StatelessWidget {
             direction: ShimmerDirection.ltr,
           );
         }
-        final _seller =
-            UserModel.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+        final _store =
+            StoreModel.fromJson(snapshot.data!.data() as Map<String, dynamic>);
         return Padding(
           padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
           child: Column(
@@ -62,12 +62,11 @@ class ContentProduct extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FutureBuilder<QuerySnapshot>(
-                    future: MyCollection.store
-                        .where("user_id", isEqualTo: _seller.id)
-                        .get(),
-                    builder: (_, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                  FutureBuilder<DocumentSnapshot>(
+                    future:
+                        MyCollection.user.doc(snapshot.data!["user_id"]).get(),
+                    builder: (_, snapshot2) {
+                      if (snapshot2.connectionState == ConnectionState.waiting) {
                         return Row(
                           children: [
                             Container(
@@ -82,17 +81,17 @@ class ContentProduct extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _seller.name,
+                                  "Blank",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Row(
-                                  children: const [
+                                  children: [
                                     Icon(Icons.store_mall_directory_rounded),
                                     SizedBox(width: 5),
                                     Text(
-                                      "Loading ...",
+                                      "Blank",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: MyColor.yellow,
@@ -105,8 +104,8 @@ class ContentProduct extends StatelessWidget {
                           ],
                         );
                       }
-                      final StoreModel _store = StoreModel.fromJson(
-                          snapshot.data!.docs.first.data()
+                      final UserModel _seller = UserModel.fromMap(
+                          snapshot2.data!.data()
                               as Map<String, dynamic>);
                       return GestureDetector(
                         onTap: () => Navigator.pushNamed(

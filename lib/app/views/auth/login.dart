@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:project/app/view_model/login_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
@@ -16,12 +17,6 @@ class LoginPage extends StatelessWidget {
     final _login = Provider.of<LoginProvider>(context);
     final _user = Provider.of<UserProvider>(context);
     final Size _size = MediaQuery.of(context).size;
-    final _spinkit = SpinKitCircle(
-      itemBuilder: (BuildContext context, int index) => DecoratedBox(
-        decoration:
-            BoxDecoration(color: index.isEven ? MyColor.yellow : Colors.black),
-      ),
-    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -222,13 +217,9 @@ class LoginPage extends StatelessWidget {
                       flex: 8,
                     ),
                     IconButton(
-                      onPressed: () async {
-                        loading(context, _size, _spinkit);
-                        await _login.signIn(context, _user, Social.google);
-                        await Future.delayed(
-                          const Duration(seconds: 3),
-                        );
-                        Navigator.pop(context);
+                      onPressed: () {
+                        showDialog(context: context, builder: (_) => const CustomLoading());
+                        _login.signIn(context, _user, Social.google);
                       },
                       iconSize: 40,
                       icon: const Image(
@@ -239,13 +230,9 @@ class LoginPage extends StatelessWidget {
                       flex: 3,
                     ),
                     IconButton(
-                      onPressed: () async {
-                        loading(context, _size, _spinkit);
-                        await _login.signIn(context, _user, Social.facebook);
-                        await Future.delayed(
-                          const Duration(seconds: 3),
-                        );
-                        Navigator.pop(context);
+                      onPressed: () {
+                        showDialog(context: context, builder: (_) => const CustomLoading());
+                        _login.signIn(context, _user, Social.facebook);
                       },
                       iconSize: 40,
                       icon: const Image(
@@ -260,36 +247,6 @@ class LoginPage extends StatelessWidget {
               )
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Future<dynamic> loading(
-      BuildContext context, Size _size, SpinKitCircle _spinkit) {
-    return showDialog(
-      context: context,
-      builder: (_) => Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            width: _size.height * 0.15,
-            height: _size.height * 0.15,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _spinkit,
-                const Text(
-                  "Loading ...",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                )
-              ],
-            ),
-          )
         ],
       ),
     );

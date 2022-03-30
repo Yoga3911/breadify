@@ -24,13 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _logoutDialog(BuildContext context) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => const LogOutDialog());
-  }
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -101,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Image.asset("assets/icons/cart.png"),
               ),
               IconButton(
-                onPressed: () => _logoutDialog(context),
+                onPressed: () => showDialog(context: context, builder: (_) => const LogOutDialog()),
                 icon: const Icon(Icons.logout_rounded),
               )
             ],

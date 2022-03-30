@@ -130,18 +130,24 @@ class StorePage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "Alamat: " + _store.address,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Text(
+                        "Alamat: " + _store.address,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                    Text(
-                      "Open: " + _store.open + " - " + _store.close,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Text(
+                        "Open: " + _store.open + " - " + _store.close,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -197,113 +203,111 @@ class StorePage extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, bottom: 10),
                       child: MasonryGridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          itemCount: snapshot.data!.docs.length,
-                          gridDelegate:
-                              const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                          ),
-                          itemBuilder: (_, index) {
-                            final ProductModel product = ProductModel.fromJson(
-                                snapshot.data!.docs[index].data()
-                                    as Map<String, dynamic>);
-                            return Material(
-                              elevation: 5,
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                height: (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                    ? _size.height * 0.3
-                                    : _size.height * 0.4,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      child: CachedNetworkImage(
-                                        imageUrl: product.image,
-                                        fit: BoxFit.cover,
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                      ),
-                                      borderRadius: BorderRadius.circular(15),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        itemCount: snapshot.data!.docs.length,
+                        gridDelegate:
+                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemBuilder: (_, index) {
+                          final ProductModel product = ProductModel.fromJson(
+                              snapshot.data!.docs[index].data()
+                                  as Map<String, dynamic>);
+                          return Material(
+                            elevation: 5,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              height: (MediaQuery.of(context).orientation ==
+                                      Orientation.portrait)
+                                  ? _size.height * 0.3
+                                  : _size.height * 0.4,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    child: CachedNetworkImage(
+                                      imageUrl: product.image,
+                                      fit: BoxFit.cover,
+                                      height: double.infinity,
+                                      width: double.infinity,
                                     ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                        height: (MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait)
-                                            ? _size.height * 0.21
-                                            : _size.height * 0.4,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          gradient: const LinearGradient(
-                                            colors: [
-                                              Color.fromARGB(0, 255, 255, 255),
-                                              Colors.white,
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                          ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      height:
+                                          (MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait)
+                                              ? _size.height * 0.21
+                                              : _size.height * 0.4,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            Color.fromARGB(0, 255, 255, 255),
+                                            Colors.white,
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          child: Stack(
-                                            children: [
-                                              Align(
-                                                alignment: index.isOdd
-                                                    ? const Alignment(-1, 0.5)
-                                                    : const Alignment(-1, 0.65),
-                                                child: Text(
-                                                  product.name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w900,
-                                                  ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment:
+                                                  const Alignment(-1, 0.55),
+                                              child: Text(
+                                                product.name,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w900,
                                                 ),
                                               ),
-                                              Align(
-                                                alignment:
-                                                    const Alignment(-1, 0.95),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      product.storeName,
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Color.fromARGB(
-                                                            255, 255, 204, 0),
-                                                      ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  const Alignment(-1, 0.95),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    _store.storeName,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color.fromARGB(
+                                                          255, 255, 204, 0),
                                                     ),
-                                                    Image.asset(
-                                                        "assets/icons/fav1.png")
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                                  ),
+                                                  Image.asset(
+                                                      "assets/icons/fav1.png")
+                                                ],
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          }),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 )

@@ -7,20 +7,20 @@ class HeaderProduct extends StatelessWidget {
   const HeaderProduct({
     Key? key,
     // required this.todayCategory,
-    required this.productId,
+    // required this.productId,
     required this.size,
     required this.product,
   }) : super(key: key);
 
   // final String todayCategory;
-  final String productId;
+  // final String productId;
   final Size size;
   final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: productId + "hero",
+      tag: product.id + "hero",
       child: Stack(
         children: [
           SizedBox(
