@@ -28,9 +28,6 @@ class FavoritePage extends StatelessWidget {
                     Stack(
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
                           margin: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width*0.0335, 
                             15, 
@@ -38,8 +35,20 @@ class FavoritePage extends StatelessWidget {
                             0),
                           height: MediaQuery.of(context).size.height*0.35,
                           width: MediaQuery.of(context).size.width*0.45,
-                          child: Image(image: NetworkImage("https://img.qraved.co/v2/image/data/2016/05/16/12725205_1145755085435610_1979819820_n-x.jpg"),
-                          fit: BoxFit.cover,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: const Image(image: NetworkImage("https://img.qraved.co/v2/image/data/2016/05/16/12725205_1145755085435610_1979819820_n-x.jpg"),
+                            fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.transparent, Colors.white],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,),
                           ),
                         ),
                       ],
@@ -47,9 +56,6 @@ class FavoritePage extends StatelessWidget {
                     Stack(
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
                           margin: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width*0.0165, 
                             15, 
@@ -57,9 +63,21 @@ class FavoritePage extends StatelessWidget {
                             0),
                           height: MediaQuery.of(context).size.height*0.35,
                           width: MediaQuery.of(context).size.width*0.45,
-                          child: Image(image: NetworkImage("https://www.elmundoeats.com/wp-content/uploads/2018/06/Yeasted-Sweet-Potato-Donuts.jpg"),
-                          fit: BoxFit.cover,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: const Image(image: NetworkImage("https://www.elmundoeats.com/wp-content/uploads/2018/06/Yeasted-Sweet-Potato-Donuts.jpg"),
+                            fit: BoxFit.cover,
+                            ),
                           ),
+                        ),
+                        Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.transparent, Colors.white],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,),
+                        ),
                         ),
                       ],
                     ),
