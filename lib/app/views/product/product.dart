@@ -12,10 +12,7 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _args =
         (ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>);
-    final String _productId = _args["product_id"];
-    final ProductModel _product = _args["product_data"];
-    // final _todayCategory = _args["category"];
-    // final String _sellerId = _args["seller_id"];
+    final ProductModel _product = _args["product"];
 
     final Size _size = MediaQuery.of(context).size;
 
@@ -66,18 +63,13 @@ class ProductPage extends StatelessWidget {
             body: ListView(
               children: [
                 HeaderProduct(
-                  // todayCategory: _todayCategory,
-                  productId: _productId,
                   size: _size,
                   product: _product,
                 ),
                 ContentProduct(
-                  // todayCategory: _todayCategory,
-                  productId: _productId,
                   size: _size,
                   product: _product,
                   currency: _currency,
-                  sellerId: _product.userId,
                 )
               ],
             ),

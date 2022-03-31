@@ -3,9 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project/app/constant/glow.dart';
-import 'package:project/app/views/product/widgets/dropdown.dart';
-import 'package:project/app/views/product/widgets/txt_field.dart';
+
+import '../../constant/glow.dart';
+import '../../views/product/widgets/dropdown.dart';
+import '../../views/product/widgets/txt_field.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({Key? key}) : super(key: key);

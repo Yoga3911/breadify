@@ -47,27 +47,16 @@ class AddProductProvider with ChangeNotifier {
     } else if (cat == "Cookies") {
       category = "Cookies";
       icon = "assets/icons/cookies.png";
-    }else if (cat == "Cakes") {
+    } else if (cat == "Cakes") {
       category = "Cakes";
       icon = "assets/icons/cakes.png";
-    }else if (cat == "Pastry") {
+    } else if (cat == "Pastry") {
       category = "Pastry";
       icon = "assets/icons/pastry.png";
-    }else if (cat == "Brownies") {
+    } else if (cat == "Brownies") {
       category = "Brownies";
       icon = "assets/icons/brownie.png";
     }
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    // emailLogin.dispose();
-    // passLogin.dispose();
-    // nameRegis.dispose();
-    // emailRegis.dispose();
-    // pass1Regis.dispose();
-    // pass2Regis.dispose();
-    super.dispose();
   }
 }

@@ -1,14 +1,11 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/views/main/home/widgets/alert.dart';
-import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../constant/collection.dart';
-import '../../../view_model/user_prodvider.dart';
+import '../home/widgets/alert.dart';
 import '../../main/home/widgets/title.dart';
+import '../../../constant/collection.dart';
 import '../../../views/main/home/widgets/category.dart';
 import '../../../views/main/home/widgets/header.dart';
 import '../../../views/main/home/widgets/product.dart';
@@ -24,13 +21,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _logoutDialog(BuildContext context) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => const LogOutDialog());
-  }
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -52,7 +42,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-    // final _categoryProvider = Provider.of<CategoryProvider>(context);
     // final User _user = Provider.of<UserProvider>(context).getUser;
 
     return ScrollConfiguration(
@@ -101,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Image.asset("assets/icons/cart.png"),
               ),
               IconButton(
-                onPressed: () => _logoutDialog(context),
+                onPressed: () => showDialog(context: context, builder: (_) => const LogOutDialog()),
                 icon: const Icon(Icons.logout_rounded),
               )
             ],
@@ -123,29 +112,11 @@ class _HomePageState extends State<HomePage> {
             onRefresh: _onRefresh,
             onLoading: _onLoading,
             child: ListView(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
               children: const [
                 Header(),
                 SearchBar(),
                 ProductCategory(),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Product(todayCategory: "Popular"),
-                ),
-                SizedBox(height: 20),
-                // Container(
-                //   child: (_categoryProvider.getCategory != "Today")
-                //       ? Container(
-                //           color: Colors.white,
-                //           padding: const EdgeInsets.only(left: 10, right: 10),
-                //           child: Column(
-                //             children: const [],
-                //           ),
-                //         )
-                //       : const HomeContent(),
-                // ),
+                Product(),
               ],
             ),
           ),
