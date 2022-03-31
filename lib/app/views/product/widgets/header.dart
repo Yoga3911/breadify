@@ -6,15 +6,14 @@ import '../../../models/product_model.dart';
 class HeaderProduct extends StatelessWidget {
   const HeaderProduct({
     Key? key,
-    required this.size,
     required this.product,
   }) : super(key: key);
   
-  final Size size;
   final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Hero(
       tag: product.id + "hero",
       child: Stack(

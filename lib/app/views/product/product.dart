@@ -62,11 +62,9 @@ class ProductPage extends StatelessWidget {
             body: ListView(
               children: [
                 HeaderProduct(
-                  size: size,
                   product: product,
                 ),
                 ContentProduct(
-                  size: size,
                   product: product,
                   currency: _currency,
                 )

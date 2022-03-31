@@ -105,7 +105,6 @@ class Product extends StatelessWidget {
                 child: Hero(
                   tag: product.id + "hero",
                   child: ProductCard(
-                    size: size,
                     index: index,
                     product: product,
                   ),
