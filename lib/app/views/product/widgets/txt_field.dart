@@ -15,16 +15,16 @@ class MyTxtField extends StatefulWidget {
 
 class _MyTxtFieldState extends State<MyTxtField> {
   final FocusNode _focus = FocusNode();
-  Color color = Colors.black;
-  bool isFloating = false;
+  Color _color = Colors.black;
+  bool _isFloating = false;
   @override
   void initState() {
     _focus.addListener(
       () => setState(
         () {
-          color = _focus.hasFocus ? MyColor.yellow : Colors.black;
-          isFloating =
-              _focus.hasFocus ? isFloating = true : isFloating = false;
+          _color = _focus.hasFocus ? MyColor.yellow : Colors.black;
+          _isFloating =
+              _focus.hasFocus ? _isFloating = true : _isFloating = false;
         },
       ),
     );
@@ -46,13 +46,13 @@ class _MyTxtFieldState extends State<MyTxtField> {
         focusNode: _focus,
         decoration: InputDecoration(
           label: Text(widget.hint),
-          floatingLabelBehavior: isFloating
+          floatingLabelBehavior: _isFloating
             ? FloatingLabelBehavior.auto
             : FloatingLabelBehavior.never,
           hintText: widget.hint,
           prefixIcon: Image.asset(
             widget.icon,
-            color: color,
+            color: _color,
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),

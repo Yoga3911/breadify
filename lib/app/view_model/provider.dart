@@ -1,4 +1,3 @@
-import 'package:project/app/view_model/add_prod_provider.dart';
 import 'package:project/app/view_model/category_provider.dart';
 import 'package:project/app/view_model/login_provider.dart';
 import 'package:project/app/view_model/product_provider.dart';
@@ -11,7 +10,6 @@ final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => CategoryProvider()),
   ChangeNotifierProvider(create: (_) => UserProvider()),
   ChangeNotifierProvider(create: (_) => LoginProvider()),
-  ChangeNotifierProvider(create: (_) => AddProductProvider()),
   ChangeNotifierProvider(create: (_) => ProductProvider()),
   ChangeNotifierProvider(create: (_) => StoreProvider()),
 ];

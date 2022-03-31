@@ -11,10 +11,11 @@ import 'user_prodvider.dart';
 enum Social { google, facebook }
 
 class LoginProvider with ChangeNotifier {
+  final String _blank =
+      "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+  
   Future<void> signIn(
       BuildContext context, UserProvider _user, Social social) async {
-    const String _blank =
-        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     switch (social) {
       case Social.google:
         GoogleService.signIn().then(

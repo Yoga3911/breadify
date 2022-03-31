@@ -10,14 +10,13 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _args =
-        (ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>);
-    final ProductModel _product = _args["product"];
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final ProductModel product = args["product"];
 
-    final Size _size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
-    final String _reversed =
-        _product.price.toString().split("").reversed.join();
+    final String _reversed = product.price.toString().split("").reversed.join();
     String _reverseC = "";
     int _step = 0;
 
@@ -48,8 +47,8 @@ class ProductPage extends StatelessWidget {
               onPressed: () {},
               label: Padding(
                 padding: EdgeInsets.only(
-                  left: _size.width * 0.2,
-                  right: _size.width * 0.2,
+                  left: size.width * 0.2,
+                  right: size.width * 0.2,
                 ),
                 child: const Text(
                   "Add to cart",
@@ -63,12 +62,12 @@ class ProductPage extends StatelessWidget {
             body: ListView(
               children: [
                 HeaderProduct(
-                  size: _size,
-                  product: _product,
+                  size: size,
+                  product: product,
                 ),
                 ContentProduct(
-                  size: _size,
-                  product: _product,
+                  size: size,
+                  product: product,
                   currency: _currency,
                 )
               ],

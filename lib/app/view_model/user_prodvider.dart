@@ -7,8 +7,8 @@ class UserProvider with ChangeNotifier {
   User? _user;
   User? _seller;
 
-  get getUser => _user;
-  get getSeller => _seller;
+  User get getUser => _user!;
+  User get getSeller => _seller!;
 
   set setUser(User userCredential) => _user = userCredential;
   set setSeller(User userCredential) => _seller = userCredential;

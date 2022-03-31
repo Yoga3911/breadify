@@ -21,6 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String _blank =
+      "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -40,10 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const String _blank =
-        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-    // final User _user = Provider.of<UserProvider>(context).getUser;
-
+    // final _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -90,7 +90,8 @@ class _HomePageState extends State<HomePage> {
                 icon: Image.asset("assets/icons/cart.png"),
               ),
               IconButton(
-                onPressed: () => showDialog(context: context, builder: (_) => const LogOutDialog()),
+                onPressed: () => showDialog(
+                    context: context, builder: (_) => const LogOutDialog()),
                 icon: const Icon(Icons.logout_rounded),
               )
             ],

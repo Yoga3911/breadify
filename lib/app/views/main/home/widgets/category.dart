@@ -19,15 +19,15 @@ class ProductCategory extends StatelessWidget {
       CategoryModel(name: "Brownies", asset: "assets/icons/brownie.png"),
     ];
 
-    final Size _size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final categoryProvider = Provider.of<CategoryProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: SizedBox(
         height: (MediaQuery.of(context).orientation == Orientation.portrait)
-            ? _size.height * 0.11
-            : _size.height * 0.22,
+            ? size.height * 0.11
+            : size.height * 0.22,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
@@ -43,12 +43,12 @@ class ProductCategory extends StatelessWidget {
                       child: Container(
                         height: (MediaQuery.of(context).orientation ==
                                 Orientation.portrait)
-                            ? _size.height * 0.07
-                            : _size.width * 0.07,
+                            ? size.height * 0.07
+                            : size.width * 0.07,
                         width: (MediaQuery.of(context).orientation ==
                                 Orientation.portrait)
-                            ? _size.height * 0.07
-                            : _size.width * 0.07,
+                            ? size.height * 0.07
+                            : size.width * 0.07,
                         decoration: BoxDecoration(
                           color: (categoryProvider.getCategory == category.name)
                               ? MyColor.yellow
