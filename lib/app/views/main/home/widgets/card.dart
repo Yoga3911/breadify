@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/models/store_model.dart';
+import 'package:project/app/view_model/store_provider.dart';
+import 'package:project/app/widgets/shimmer.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../models/product_model.dart';
 
@@ -9,22 +13,25 @@ class ProductCard extends StatelessWidget {
     required this.size,
     required this.index,
     required this.product,
-    // required this.storeName,
   }) : super(key: key);
 
   final Size size;
   final int index;
   final ProductModel product;
-  // final String storeName;
 
   @override
   Widget build(BuildContext context) {
+    final storeProvider = Provider.of<StoreProvider>(context);
     return Material(
       elevation: 5,
       color: Colors.white,
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        height: (MediaQuery.of(context).orientation == Orientation.portrait)? index.isOdd ? size.height * 0.24 : size.height * 0.3 : size.height * 0.4,
+        height: (MediaQuery.of(context).orientation == Orientation.portrait)
+            ? index.isOdd
+                ? size.height * 0.24
+                : size.height * 0.3
+            : size.height * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -42,7 +49,12 @@ class ProductCard extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: (MediaQuery.of(context).orientation == Orientation.portrait)? index.isOdd ? size.height * 0.15 : size.height * 0.21 : size.height * 0.4,
+                height:
+                    (MediaQuery.of(context).orientation == Orientation.portrait)
+                        ? index.isOdd
+                            ? size.height * 0.15
+                            : size.height * 0.21
+                        : size.height * 0.4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   gradient: const LinearGradient(
@@ -60,8 +72,8 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Align(
                         alignment: index.isOdd
-                            ? const Alignment(-1, 0.5)
-                            : const Alignment(-1, 0.65),
+                            ? const Alignment(-1, 0.45)
+                            : const Alignment(-1, 0.6),
                         child: Text(
                           product.name,
                           overflow: TextOverflow.ellipsis,
@@ -76,12 +88,31 @@ class ProductCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              product.storeName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 255, 204, 0),
-                              ),
+                            FutureBuilder<StoreModel>(
+                              future:
+                                  storeProvider.getStoreById(product.storeId),
+                              builder: (_, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CustomShimmer(
+                                    widget: Container(
+                                      width: 50,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return Text(
+                                  snapshot.data!.storeName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 255, 204, 0),
+                                  ),
+                                );
+                              },
                             ),
                             Image.asset("assets/icons/fav1.png")
                           ],

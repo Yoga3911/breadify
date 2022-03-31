@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
-import 'package:project/app/views/auth/login.dart';
 
 import '../../constant/color.dart';
 
