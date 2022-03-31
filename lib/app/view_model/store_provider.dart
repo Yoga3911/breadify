@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:project/app/constant/collection.dart';
-import 'package:project/app/models/store_model.dart';
+import 'package:flutter/material.dart';
+
+import '../constant/collection.dart';
+import '../models/store_model.dart';
 
 class StoreProvider with ChangeNotifier {
   Future<StoreModel> getStoreById(String storeId) async {

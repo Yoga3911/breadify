@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:project/app/constant/collection.dart';
-import 'package:project/app/models/user_model.dart';
+import 'package:flutter/material.dart';
+
+import '../constant/collection.dart';
+import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   User? _user;
