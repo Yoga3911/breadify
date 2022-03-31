@@ -1,15 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:project/app/constant/glow.dart';
-import 'package:project/app/models/product_model.dart';
-import 'package:project/app/models/user_model.dart';
-import 'package:project/app/routes/route.dart';
-import 'package:project/app/view_model/product_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../constant/glow.dart';
+import '../../models/product_model.dart';
+import '../../models/user_model.dart';
+import '../../routes/route.dart';
 import '../../constant/color.dart';
 import '../../models/store_model.dart';
+import '../../../app/view_model/product_provider.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -17,13 +17,12 @@ class StorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-    final _args =
+    final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final UserModel _seller = _args["seller"] as UserModel;
-    final StoreModel _store = _args["store"] as StoreModel;
-    final _productProvider = Provider.of<ProductProvider>(context);
-    
-    // List<ProductModel> _productData = _productProvider.getAllProduct;
+    final UserModel seller = args["seller"] as UserModel;
+    final StoreModel store = args["store"] as StoreModel;
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -117,7 +116,7 @@ class StorePage extends StatelessWidget {
                               radius: _size.height * 0.08,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage(_seller.imageUrl),
+                                backgroundImage: NetworkImage(seller.imageUrl),
                                 radius: _size.height * 0.075,
                               ),
                             ),
@@ -126,7 +125,7 @@ class StorePage extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      _store.storeName,
+                      store.storeName,
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -135,7 +134,7 @@ class StorePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        "Alamat: " + _store.address,
+                        "Alamat: " + store.address,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -145,7 +144,7 @@ class StorePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        "Open: " + _store.open + " - " + _store.close,
+                        "Open: " + store.open + " - " + store.close,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -164,7 +163,7 @@ class StorePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 FutureBuilder<List<ProductModel>>(
-                  future: _productProvider.getDataById(_store.id),
+                  future: productProvider.getDataById(store.id),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
@@ -285,7 +284,7 @@ class StorePage extends StatelessWidget {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    _store.storeName,
+                                                    store.storeName,
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,

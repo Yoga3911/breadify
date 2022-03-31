@@ -23,8 +23,6 @@ class Routes {
   static const String main = "/main";
   static const String home = "/home";
   static const String feed = "/feed";
-  static const String history = "/history";
-  static const String ongoing = "/ongoing";
   static const String favorite = "/favorite";
   static const String profile = "/profile";
   static const String store = "/store";
@@ -40,8 +38,6 @@ class Routes {
     main: (_) => const MainPage(), 
     home: (_) => const HomePage(),
     feed: (_) => const FeedPage(),
-    // history: (_) => const HistoryPage(),
-    // ongoing: (_) => const OngoingPage(),
     favorite: (_) => const FavoritePage(),
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),

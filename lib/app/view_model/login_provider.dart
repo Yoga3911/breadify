@@ -36,14 +36,16 @@ class LoginProvider with ChangeNotifier {
                   provider: "Google",
                   createAt: DateTime.now(),
                   updateAt: DateTime.now(),
-                ).toMap(),
+                ).toJson(),
               );
               final data = await MyCollection.user
                   .where("email", isEqualTo: user.user!.email)
                   .get();
-              MyCollection.user.doc(data.docs.first.id).update({
-                "id": data.docs.first.id,
-              });
+              MyCollection.user.doc(data.docs.first.id).update(
+                {
+                  "id": data.docs.first.id,
+                },
+              );
             }
             Navigator.pushReplacementNamed(context, Routes.main)
                 .then((_) => Navigator.pop(context));
@@ -70,7 +72,7 @@ class LoginProvider with ChangeNotifier {
               );
             }
             Navigator.pushReplacementNamed(context, Routes.main)
-                .then((value) => Navigator.pop(context));
+                .then((_) => Navigator.pop(context));
           },
         );
         break;

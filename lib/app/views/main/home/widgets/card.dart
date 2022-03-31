@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/collection.dart';
+import 'package:project/app/models/store_model.dart';
+import 'package:project/app/view_model/store_provider.dart';
+import 'package:project/app/widgets/shimmer.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../models/product_model.dart';
 
@@ -11,16 +13,15 @@ class ProductCard extends StatelessWidget {
     required this.size,
     required this.index,
     required this.product,
-    // required this.storeName,
   }) : super(key: key);
 
   final Size size;
   final int index;
   final ProductModel product;
-  // final String storeName;
 
   @override
   Widget build(BuildContext context) {
+    final storeProvider = Provider.of<StoreProvider>(context);
     return Material(
       elevation: 5,
       color: Colors.white,
@@ -87,17 +88,25 @@ class ProductCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FutureBuilder<DocumentSnapshot>(
+                            FutureBuilder<StoreModel>(
                               future:
-                                  MyCollection.store.doc(product.storeId).get(),
+                                  storeProvider.getStoreById(product.storeId),
                               builder: (_, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const SizedBox();
+                                  return CustomShimmer(
+                                    widget: Container(
+                                      width: 50,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  );
                                 }
-
                                 return Text(
-                                  snapshot.data!["store_name"],
+                                  snapshot.data!.storeName,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromARGB(255, 255, 204, 0),

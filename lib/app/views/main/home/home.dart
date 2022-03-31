@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     const String _blank =
         "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-    // final _categoryProvider = Provider.of<CategoryProvider>(context);
     // final User _user = Provider.of<UserProvider>(context).getUser;
 
     return ScrollConfiguration(
@@ -113,29 +112,11 @@ class _HomePageState extends State<HomePage> {
             onRefresh: _onRefresh,
             onLoading: _onLoading,
             child: ListView(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
               children: const [
                 Header(),
                 SearchBar(),
                 ProductCategory(),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Product(todayCategory: "Popular"),
-                ),
-                SizedBox(height: 20),
-                // Container(
-                //   child: (_categoryProvider.getCategory != "Today")
-                //       ? Container(
-                //           color: Colors.white,
-                //           padding: const EdgeInsets.only(left: 10, right: 10),
-                //           child: Column(
-                //             children: const [],
-                //           ),
-                //         )
-                //       : const HomeContent(),
-                // ),
+                Product(),
               ],
             ),
           ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/color.dart';
-import 'package:project/app/view_model/add_prod_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../constant/color.dart';
+import '../../../view_model/add_prod_provider.dart';
 
 class MyDropDown extends StatelessWidget {
   const MyDropDown({Key? key}) : super(key: key);

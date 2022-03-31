@@ -21,7 +21,7 @@ class UserModel {
     final DateTime createAt;
     final DateTime updateAt;
 
-    factory UserModel.fromMap(Map<String, dynamic> json) => UserModel(
+    factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         email: json["email"],
         id: json["id"],
         imageUrl: json["image_url"],
@@ -32,7 +32,7 @@ class UserModel {
         updateAt: (json["update_at"] as Timestamp).toDate(),
     );
 
-    Map<String, dynamic> toMap() => {
+    Map<String, dynamic> toJson() => {
         "email": email,
         "id": id,
         "image_url": imageUrl,

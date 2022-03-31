@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/widgets/custom_loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../widgets/custom_loading.dart';
 import '../../../../routes/route.dart';
 import '../../../../services/facebook.dart';
 import '../../../../services/google.dart';

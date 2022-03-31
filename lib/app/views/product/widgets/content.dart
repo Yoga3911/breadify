@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/models/store_model.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:provider/provider.dart';
 
+import '../../../view_model/store_provider.dart';
+import '../../../view_model/user_prodvider.dart';
+import '../../../widgets/shimmer.dart';
 import '../../../routes/route.dart';
-import '../../../constant/collection.dart';
 import '../../../constant/color.dart';
 import '../../../models/product_model.dart';
 import '../../../models/user_model.dart';
@@ -12,108 +13,96 @@ import '../../../models/user_model.dart';
 class ContentProduct extends StatelessWidget {
   const ContentProduct({
     Key? key,
-    // required this.todayCategory,
-    // required this.productId,
     required this.size,
     required this.product,
     required this.currency,
-    // required this.sellerId,
   }) : super(key: key);
-  // final String todayCategory;
-  // final String productId;
   final Size size;
   final ProductModel product;
   final String currency;
-  // final String sellerId;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: MyCollection.store.doc(product.storeId).get(),
-      builder: (_, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Shimmer.fromColors(
-            child: Row(
+    final storeProvider = Provider.of<StoreProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
+      child: FutureBuilder<StoreModel>(
+        future: storeProvider.getStoreById(product.storeId),
+        builder: (_, store) {
+          if (store.connectionState == ConnectionState.waiting) {
+            return Row(
               children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.height * 0.06,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                CustomShimmer(
+                  widget: Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    height: size.height * 0.06,
+                    width: size.height * 0.06,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
                 ),
-                Container(
-                  color: Colors.white,
-                  height: 30,
-                  width: 100,
+                CustomShimmer(
+                  widget: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    width: 100,
+                  ),
                 ),
               ],
-            ),
-            baseColor: MyColor.grey2,
-            highlightColor: MyColor.grey3,
-            direction: ShimmerDirection.ltr,
-          );
-        }
-        final _store =
-            StoreModel.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-        return Padding(
-          padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
-          child: Column(
+            );
+          }
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FutureBuilder<DocumentSnapshot>(
-                    future:
-                        MyCollection.user.doc(snapshot.data!["user_id"]).get(),
-                    builder: (_, snapshot2) {
-                      if (snapshot2.connectionState == ConnectionState.waiting) {
+                  FutureBuilder<UserModel>(
+                    future: userProvider.getUserById(store.data!.userId),
+                    builder: (_, user) {
+                      if (user.connectionState ==
+                          ConnectionState.waiting) {
                         return Row(
                           children: [
-                            Container(
-                              height: size.height * 0.06,
-                              width: size.height * 0.06,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
+                            CustomShimmer(
+                              widget: Container(
+                                margin: const EdgeInsets.only(right: 20),
+                                height: size.height * 0.06,
+                                width: size.height * 0.06,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 20),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Blank",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            CustomShimmer(
+                              widget: Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                Row(
-                                  children: const [
-                                    Icon(Icons.store_mall_directory_rounded),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "Blank",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: MyColor.yellow,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
+                                width: 100,
+                              ),
+                            ),
                           ],
                         );
                       }
-                      final UserModel _seller = UserModel.fromMap(
-                          snapshot2.data!.data()
-                              as Map<String, dynamic>);
                       return GestureDetector(
                         onTap: () => Navigator.pushNamed(
                           context,
                           Routes.store,
                           arguments: {
-                            "seller": _seller,
-                            "store": _store,
+                            "seller": user.data,
+                            "store": store.data,
                           },
                         ),
                         child: Row(
@@ -127,7 +116,7 @@ class ContentProduct extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      _seller.imageUrl,
+                                      user.data!.imageUrl,
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -139,7 +128,7 @@ class ContentProduct extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _seller.name,
+                                  user.data!.name,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -150,7 +139,7 @@ class ContentProduct extends StatelessWidget {
                                         Icons.store_mall_directory_rounded),
                                     const SizedBox(width: 5),
                                     Text(
-                                      _store.storeName,
+                                      store.data!.storeName,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: MyColor.yellow,
@@ -199,9 +188,9 @@ class ContentProduct extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.1),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

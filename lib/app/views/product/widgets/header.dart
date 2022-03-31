@@ -6,14 +6,10 @@ import '../../../models/product_model.dart';
 class HeaderProduct extends StatelessWidget {
   const HeaderProduct({
     Key? key,
-    // required this.todayCategory,
-    // required this.productId,
     required this.size,
     required this.product,
   }) : super(key: key);
-
-  // final String todayCategory;
-  // final String productId;
+  
   final Size size;
   final ProductModel product;
 

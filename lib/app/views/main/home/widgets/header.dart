@@ -8,9 +8,8 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final User _user = Provider.of<UserProvider>(context).getUser;
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
-      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
