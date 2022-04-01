@@ -1,6 +1,5 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:project/app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/collection.dart';
@@ -12,10 +11,11 @@ import 'user_prodvider.dart';
 enum Social { google, facebook }
 
 class LoginProvider with ChangeNotifier {
+  final String _blank =
+      "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
+  
   Future<void> signIn(
       BuildContext context, UserProvider _user, Social social) async {
-    const String _blank =
-        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
     switch (social) {
       case Social.google:
         GoogleService.signIn().then(
@@ -28,19 +28,28 @@ class LoginProvider with ChangeNotifier {
                 .get();
             if (account.docs.isEmpty) {
               MyCollection.user.add(
+                UserModel(
+                  email: user.user!.email!,
+                  id: "",
+                  imageUrl: user.user!.photoURL ?? _blank,
+                  name: user.user!.displayName!,
+                  roleId: "1",
+                  provider: "Google",
+                  createAt: DateTime.now(),
+                  updateAt: DateTime.now(),
+                ).toJson(),
+              );
+              final data = await MyCollection.user
+                  .where("email", isEqualTo: user.user!.email)
+                  .get();
+              MyCollection.user.doc(data.docs.first.id).update(
                 {
-                  "name": user.user!.displayName,
-                  "email": user.user!.email,
-                  "provider": "Google",
-                  "image_url": user.user!.photoURL ?? _blank,
+                  "id": data.docs.first.id,
                 },
               );
             }
-            final data = await MyCollection.user
-                .where("email", isEqualTo: user.user!.email)
-                .get();
-            log(data.docs.first.id);
-            Navigator.pushReplacementNamed(context, Routes.main);
+            Navigator.pushReplacementNamed(context, Routes.main)
+                .then((_) => Navigator.pop(context));
           },
         );
         break;
@@ -63,7 +72,8 @@ class LoginProvider with ChangeNotifier {
                 },
               );
             }
-            Navigator.pushReplacementNamed(context, Routes.main);
+            Navigator.pushReplacementNamed(context, Routes.main)
+                .then((_) => Navigator.pop(context));
           },
         );
         break;

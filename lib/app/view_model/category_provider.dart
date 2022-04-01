@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CategoryProvider with ChangeNotifier {
   String _category = "Popular";
 
-  get getCategory => _category;
+  String get getCategory => _category;
 
   set setCategory(String val) {
     _category = val;
