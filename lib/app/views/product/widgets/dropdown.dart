@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/color.dart';
-import 'package:project/app/view_model/add_prod_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../views/product/widgets/product_category.dart';
+import '../../../constant/color.dart';
+import '../../../view_model/product_provider.dart';
 
 class MyDropDown extends StatelessWidget {
   const MyDropDown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final dropDown = Provider.of<AddProductProvider>(context);
-    Size _size = MediaQuery.of(context).size;
+    final product = Provider.of<ProductProvider>(context);
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         GestureDetector(
-          onTap: () => dropDown.changeCategory(""),
+          onTap: () => product.changeCategory(""),
           child: TextField(
             enabled: false,
             decoration: InputDecoration(
@@ -29,12 +31,12 @@ class MyDropDown extends StatelessWidget {
               prefixIcon: Transform.scale(
                 scale: 0.6,
                 child: Image.asset(
-                  dropDown.icon,
+                  product.icon,
                   fit: BoxFit.cover,
                 ),
               ),
               suffixIcon: AnimatedRotation(
-                turns: dropDown.rotate,
+                turns: product.rotate,
                 curve: Curves.linear,
                 duration: const Duration(milliseconds: 100),
                 child: const Icon(
@@ -43,7 +45,7 @@ class MyDropDown extends StatelessWidget {
                 ),
               ),
               label: Text(
-                dropDown.category,
+                product.category,
                 style: const TextStyle(color: Colors.black),
               ),
               border: OutlineInputBorder(
@@ -53,9 +55,9 @@ class MyDropDown extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5),
-        if (dropDown.isShow)
+        if (product.isShow)
           SizedBox(
-            width: _size.width,
+            width: size.width,
             child: Container(
                 padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
@@ -70,27 +72,27 @@ class MyDropDown extends StatelessWidget {
                 child: Column(
                   children: [
                     ProductCategory(
-                      dropDown: dropDown,
+                      product: product,
                       category: "Bread",
                       icon: "assets/icons/bread.png",
                     ),
                     ProductCategory(
-                      dropDown: dropDown,
+                      product: product,
                       category: "Cookies",
                       icon: "assets/icons/cookies.png",
                     ),
                     ProductCategory(
-                      dropDown: dropDown,
+                      product: product,
                       category: "Cakes",
                       icon: "assets/icons/cakes.png",
                     ),
                     ProductCategory(
-                      dropDown: dropDown,
+                      product: product,
                       category: "Pastry",
                       icon: "assets/icons/pastry.png",
                     ),
                     ProductCategory(
-                      dropDown: dropDown,
+                      product: product,
                       category: "Brownies",
                       icon: "assets/icons/brownie.png",
                     ),
@@ -100,44 +102,6 @@ class MyDropDown extends StatelessWidget {
             ),
           )
       ],
-    );
-  }
-}
-
-class ProductCategory extends StatelessWidget {
-  const ProductCategory(
-      {Key? key,
-      required this.dropDown,
-      required this.category,
-      required this.icon})
-      : super(key: key);
-  final AddProductProvider dropDown;
-  final String category;
-  final String icon;
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      ),
-      child: ListTile(
-        visualDensity: VisualDensity.comfortable,
-        onTap: () {
-          dropDown.changeCategory(category);
-        },
-        leading: Transform.scale(
-          scale: 0.7,
-          child: Image.asset(
-            icon,
-            fit: BoxFit.cover,
-          ),
-        ),
-        title: Text(
-          category,
-          style: const TextStyle(color: Colors.black),
-        ),
-      ),
     );
   }
 }

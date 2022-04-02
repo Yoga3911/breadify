@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../constant/color.dart';
-import '../../../../routes/route.dart';
+import '../../../../view_model/auth_provider.dart';
+import '../../../../widgets/custom_loading.dart';
 import '../../../../services/facebook.dart';
 import '../../../../services/google.dart';
 
@@ -12,13 +12,7 @@ class LogOutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
-    final _spinkit = SpinKitCircle(
-      itemBuilder: (BuildContext context, int index) => DecoratedBox(
-        decoration:
-            BoxDecoration(color: index.isEven ? MyColor.yellow : Colors.black),
-      ),
-    );
+    final auth = Provider.of<AuthProvider>(context);
     return AlertDialog(
       title: const Text(
         "Apakah kamu yakin ingin logout?",
@@ -30,50 +24,16 @@ class LogOutDialog extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
+            showDialog(context: context, builder: (_) => const CustomLoading());
             final pref = await SharedPreferences.getInstance();
             switch (pref.getString("social")) {
-              case "google":
-                await GoogleService.signOut();
+              case "Google":
+                auth.logout(context, GoogleService());
                 break;
-              case "facebook":
-                await FacebookService.signOut();
+              case "Facebook":
+                auth.logout(context, FacebookService());
                 break;
             }
-            showDialog(
-              context: context,
-              builder: (_) => Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: _size.height * 0.15,
-                    height: _size.height * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _spinkit,
-                        const Text(
-                          "Loading ...",
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            );
-            await Future.delayed(
-              const Duration(seconds: 3),
-            );
-            Navigator.pop(context);
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              Routes.login,
-              (route) => false,
-            );
           },
           child: const Text("Yakin"),
         ),

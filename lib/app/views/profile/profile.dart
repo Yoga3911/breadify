@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height*0.1,
-                child: Image(image: AssetImage("assets/images/superman.png"),),
+                child: const Image(image: AssetImage("assets/images/superman.png"),),
               ),
               Column(
                 children: [
