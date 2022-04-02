@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
+import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
 
 final List<NotifContent> notifcontent = [
   NotifContent(
@@ -34,7 +35,8 @@ class NotifPage extends StatelessWidget {
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
-            }, tooltip: "Back",
+            },
+            tooltip: "Back",
             icon: const Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
@@ -44,6 +46,9 @@ class NotifPage extends StatelessWidget {
             "Notifications",
             style: TextStyle(color: Colors.white),
           ),
+        ),
+        body: ListView.builder(itemCount: notifcontent.length,
+          itemBuilder: (context, index) => Notif(index: index),
         ),
       ),
     );
