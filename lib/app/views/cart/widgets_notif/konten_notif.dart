@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+//memanggil kerangka notif :
 import '../notif.dart';
 
-//memanggil kerangka notif :
 
 class Notif extends StatelessWidget {
   const Notif({required this.index, Key? key}) : super(key: key);
@@ -71,7 +71,42 @@ class Notif extends StatelessWidget {
           ),
 
           //2) anak ke-2 : column for text
-          Column(children: <Widget>[],)
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              //2a) price
+              Text(
+                notifcontent[index].price,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+              const SizedBox(height: 25),
+
+              //2b) icon jam & date
+              Row(
+                children: [
+                  //icon jam
+                  const Icon(
+                    Icons.watch_later_outlined,
+                    color: Color(0xFFB4B4B4),
+                    size: 12,
+                  ),
+                  const SizedBox(width: 3), //jarak
+                  //date
+                  Text(
+                    notifcontent[index].date,
+                    style: const TextStyle(
+                        color: Color(0xFFB4B4B4),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10),
+                  ),
+                ],
+              )
+            ],
+          )
         ],
       ),
     );

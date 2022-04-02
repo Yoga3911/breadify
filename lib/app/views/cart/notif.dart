@@ -50,7 +50,7 @@ class NotifPage extends StatelessWidget {
           ),
           title: const Text(
             "Notifications",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
         body: ListView.builder(
