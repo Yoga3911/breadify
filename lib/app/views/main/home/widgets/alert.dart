@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/view_model/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../view_model/auth_provider.dart';
 import '../../../../widgets/custom_loading.dart';
-import '../../../../routes/route.dart';
 import '../../../../services/facebook.dart';
 import '../../../../services/google.dart';
 
