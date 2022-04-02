@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
-//memanggil kerangka notif :
 import '../notif.dart';
+
+//memanggil kerangka notif :
 
 class Notif extends StatelessWidget {
   const Notif({required this.index, Key? key}) : super(key: key);
@@ -34,13 +33,37 @@ class Notif extends StatelessWidget {
 
               //1b) column for text : status, product, note
               Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   //status transaksi
-                  Text(notifcontent[index].status),
+                  Text(
+                    notifcontent[index].status,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 15),
+                  ),
                   //product/menu
-                  Text(notifcontent[index].product),
+                  Text(
+                    notifcontent[index].product,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.amber,
+                        fontSize: 13),
+                  ),
+                  SizedBox(height: 10),
                   //note
-                  Text(notifcontent[index].note),
+                  Text(
+                    notifcontent[index].note,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 180, 180, 180),
+                        fontSize: 12),
+                  ),
                 ],
               )
             ],

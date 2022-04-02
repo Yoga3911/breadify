@@ -7,14 +7,13 @@ import '../../models/notif_models.dart';
 //utk konten Notif :
 import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
 
-
 final List<NotifContent> notifcontent = [
   NotifContent(
-      status: "status",
-      product: "product",
-      note: "note",
-      price: "price",
-      date: "date"),
+      status: "Transaction successful",
+      product: "Pain au Cholate",
+      note: "Your order will be delivered soon.\nPlease be patient",
+      price: "Rp 60.000",
+      date: "08-03-2022 10.00 AM"),
   NotifContent(
       status: "status",
       product: "product",
@@ -53,11 +52,11 @@ class NotifPage extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: ListView.builder(itemCount: notifcontent.length,
+        body: ListView.builder(
+          itemCount: notifcontent.length,
           itemBuilder: (context, index) => Notif(index: index),
         ),
       ),
     );
   }
 }
-
