@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
+
+//pemanggilan class
+import '../../models/notif_models.dart';
+
+//utk konten Notif :
 import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
+
 
 final List<NotifContent> notifcontent = [
   NotifContent(
@@ -55,17 +61,3 @@ class NotifPage extends StatelessWidget {
   }
 }
 
-class NotifContent {
-  final String status;
-  final String product;
-  final String note;
-  final String price;
-  final String date;
-
-  NotifContent(
-      {required this.status,
-      required this.product,
-      required this.note,
-      required this.price,
-      required this.date});
-}
