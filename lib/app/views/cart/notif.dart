@@ -13,19 +13,19 @@ final List<NotifContent> notifcontent = [
       product: "Pain au Cholate",
       note: "Your order will be delivered soon.\nPlease be patient",
       price: "Rp 60.000",
-      date: "08-03-2022 10.00 AM"),
+      date: "18-03-2022 10.00 AM"),
   NotifContent(
       status: "Transaction successful",
-      product: "Pain au Cholate",
+      product: "Cheese Toast",
       note: "Your order will be delivered soon.\nPlease be patient",
-      price: "Rp 60.000",
-      date: "08-03-2022 10.00 AM"),
+      price: "Rp 108.000",
+      date: "16-03-2022 10.30 AM"),
   NotifContent(
       status: "Transaction successful",
-      product: "Pain au Cholate",
+      product: "Strawberry Cupcakes",
       note: "Your order will be delivered soon.\nPlease be patient",
-      price: "Rp 60.000",
-      date: "08-03-2022 10.00 AM"),
+      price: "Rp 24.000",
+      date: "8-03-2022 06.00 PM"),
 
 ];
 
