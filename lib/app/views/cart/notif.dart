@@ -26,7 +26,6 @@ final List<NotifContent> notifcontent = [
       note: "Your order will be delivered soon.\nPlease be patient",
       price: "Rp 24.000",
       date: "8-03-2022 06.00 PM"),
-
 ];
 
 class NotifPage extends StatelessWidget {
