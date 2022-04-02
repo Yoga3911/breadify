@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _user = Provider.of<UserProvider>(context).getUser;
+    // final _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -58,13 +58,13 @@ class _HomePageState extends State<HomePage> {
               splashRadius: 1,
               onPressed: () {},
               icon: CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
+                backgroundImage: NetworkImage( _blank),
               ),
             ),
             title: const AppBarTitle(),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, Routes.notif),
                 splashRadius: 25,
                 icon: Stack(
                   children: [

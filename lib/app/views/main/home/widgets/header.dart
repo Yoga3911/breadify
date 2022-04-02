@@ -10,14 +10,14 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User _user = Provider.of<UserProvider>(context).getUser;
+    // final User _user = Provider.of<UserProvider>(context).getUser;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Hello, ${_user.displayName}!",
+            "Hello",
             style: const TextStyle(
               color: MyColor.grey,
               fontSize: 12,
