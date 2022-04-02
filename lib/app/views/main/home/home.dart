@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../view_model/user_prodvider.dart';
 import '../home/widgets/alert.dart';
 import '../../main/home/widgets/title.dart';
 import '../../../constant/collection.dart';
@@ -43,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final _user = Provider.of<UserProvider>(context).getUser;
+    final _user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               splashRadius: 1,
               onPressed: () {},
               icon: CircleAvatar(
-                backgroundImage: NetworkImage(_blank),
+                backgroundImage: NetworkImage(_user.photoURL ?? _blank),
               ),
             ),
             title: const AppBarTitle(),

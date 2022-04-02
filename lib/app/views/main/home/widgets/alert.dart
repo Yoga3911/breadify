@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/view_model/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../widgets/custom_loading.dart';
@@ -11,6 +13,7 @@ class LogOutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return AlertDialog(
       title: const Text(
         "Apakah kamu yakin ingin logout?",
@@ -22,26 +25,16 @@ class LogOutDialog extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
+            showDialog(context: context, builder: (_) => const CustomLoading());
             final pref = await SharedPreferences.getInstance();
             switch (pref.getString("social")) {
-              case "google":
-                await GoogleService.signOut();
+              case "Google":
+                auth.logout(context, GoogleService());
                 break;
-              case "facebook":
-                await FacebookService.signOut();
+              case "Facebook":
+                auth.logout(context, FacebookService());
                 break;
             }
-            showDialog(
-              context: context,
-              builder: (_) => const CustomLoading(),
-            );
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              Routes.login,
-              (route) => false,
-            ).then(
-              (_) => Navigator.pop(context),
-            );
           },
           child: const Text("Yakin"),
         ),

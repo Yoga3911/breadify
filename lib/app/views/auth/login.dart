@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/view_model/login_provider.dart';
+import 'package:project/app/services/facebook.dart';
+import 'package:project/app/services/google.dart';
+import 'package:project/app/view_model/auth_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +16,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _login = Provider.of<LoginProvider>(context);
-    final _user = Provider.of<UserProvider>(context);
+    final auth = Provider.of<AuthProvider>(context);
+    final user = Provider.of<UserProvider>(context);
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
@@ -220,7 +222,7 @@ class LoginPage extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           showDialog(context: context, builder: (_) => const CustomLoading());
-                          _login.signIn(context, _user, Social.google);
+                          auth.login(context, user, GoogleService());
                         },
                         iconSize: 40,
                         icon: const Image(
@@ -233,7 +235,7 @@ class LoginPage extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           showDialog(context: context, builder: (_) => const CustomLoading());
-                          _login.signIn(context, _user, Social.facebook);
+                          auth.login(context, user, FacebookService());
                         },
                         iconSize: 40,
                         icon: const Image(

@@ -1,20 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constant/color.dart';
+import '../../../../view_model/user_prodvider.dart';
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final User _user = Provider.of<UserProvider>(context).getUser;
+    final User _user = Provider.of<UserProvider>(context).getUser;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Hello!",
+            "Hello, ${_user.displayName}!",
             style: const TextStyle(
               color: MyColor.grey,
               fontSize: 12,
