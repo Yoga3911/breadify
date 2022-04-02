@@ -60,10 +60,10 @@ class FeedPage extends StatelessWidget {
           backgroundColor: const Color(0xffFFD635),
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Colors.white,),
             tooltip: 'search',
           ),
-          title: const Text("Feed"),
+          title: const Text("Feed", style: TextStyle(color: Colors.white),),
           actions: <Widget>[
             IconButton(
               onPressed: () {},
