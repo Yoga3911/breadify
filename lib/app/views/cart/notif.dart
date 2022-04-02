@@ -15,17 +15,18 @@ final List<NotifContent> notifcontent = [
       price: "Rp 60.000",
       date: "08-03-2022 10.00 AM"),
   NotifContent(
-      status: "status",
-      product: "product",
-      note: "note",
-      price: "price",
-      date: "date"),
+      status: "Transaction successful",
+      product: "Pain au Cholate",
+      note: "Your order will be delivered soon.\nPlease be patient",
+      price: "Rp 60.000",
+      date: "08-03-2022 10.00 AM"),
   NotifContent(
-      status: "status",
-      product: "product",
-      note: "note",
-      price: "price",
-      date: "date"),
+      status: "Transaction successful",
+      product: "Pain au Cholate",
+      note: "Your order will be delivered soon.\nPlease be patient",
+      price: "Rp 60.000",
+      date: "08-03-2022 10.00 AM"),
+
 ];
 
 class NotifPage extends StatelessWidget {

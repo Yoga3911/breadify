@@ -12,6 +12,7 @@ class Notif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(top: 5, left: 10, right: 10),
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * 0.1,
       decoration: const BoxDecoration(
@@ -52,24 +53,25 @@ class Notif extends StatelessWidget {
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.amber,
-                        fontSize: 13),
+                        fontSize: 15),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10), //jarak
                   //note
                   Text(
                     notifcontent[index].note,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 180, 180, 180),
+                        color: Color(0xFFB4B4B4),
                         fontSize: 12),
                   ),
                 ],
               )
             ],
-          )
+          ),
 
           //2) anak ke-2 : column for text
+          Column(children: <Widget>[],)
         ],
       ),
     );
