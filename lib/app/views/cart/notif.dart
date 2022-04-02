@@ -29,7 +29,18 @@ class NotifPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: NoGlow(),
-      child: Scaffold(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+            ),
+          ),
+          title: Text("Notifications"),
+        ),
+      ),
     );
   }
 }
