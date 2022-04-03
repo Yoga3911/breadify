@@ -1,3 +1,4 @@
+import 'package:project/app/view_model/cart_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -13,4 +14,5 @@ final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => AuthProvider()),
   ChangeNotifierProvider(create: (_) => ProductProvider()),
   ChangeNotifierProvider(create: (_) => StoreProvider()),
+  ChangeNotifierProvider(create: (_) => CartProvider()),
 ];

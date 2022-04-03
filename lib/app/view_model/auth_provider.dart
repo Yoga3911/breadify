@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/models/user_model.dart';
+import 'package:project/app/services/storage_service.dart';
 import 'package:project/app/services/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +17,7 @@ class AuthProvider with ChangeNotifier {
       (user) async {
         final pref = await SharedPreferences.getInstance();
         pref.setString("social", social.name);
-        _user.setUser = user.user!;
+
         final account = await MyCollection.user
             .where("email", isEqualTo: user.user!.email)
             .get();
@@ -33,15 +34,25 @@ class AuthProvider with ChangeNotifier {
               updateAt: DateTime.now(),
             ).toJson(),
           );
+
           final data = await MyCollection.user
               .where("email", isEqualTo: user.user!.email)
               .get();
-          MyCollection.user.doc(data.docs.first.id).update(
+          final userData = UserModel.fromJson(
+              data.docs.first.data() as Map<String, dynamic>);
+
+          MyCollection.user.doc(userData.id).update(
             {
-              "id": data.docs.first.id,
+              "id": userData.id,
             },
           );
         }
+        final data = await MyCollection.user
+            .where("email", isEqualTo: user.user!.email)
+            .get();
+        
+        await StorageService().saveUser(data.docs.first.data() as Map<String, dynamic>);
+        _user.setUser = await StorageService().loadUser();
         Navigator.pushReplacementNamed(context, Routes.main)
             .then((_) => Navigator.pop(context));
       },

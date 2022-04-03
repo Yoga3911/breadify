@@ -5,13 +5,13 @@ import '../constant/collection.dart';
 import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  UserModel? _user;
   User? _seller;
 
-  User get getUser => _user!;
+  UserModel get getUser => _user!;
   User get getSeller => _seller!;
 
-  set setUser(User userCredential) => _user = userCredential;
+  set setUser(UserModel userModel) => _user = userModel;
   set setSeller(User userCredential) => _seller = userCredential;
 
   Future<UserModel> getUserById(String userId) async {
