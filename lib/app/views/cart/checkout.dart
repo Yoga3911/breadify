@@ -27,7 +27,22 @@ class CheckoutPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
+        // body: ListView.builder(itemBuilder: (context, index) => ),
       ),
     );
   }
+}
+
+class CheckoutContent {
+  final String img;
+  final String productName;
+  final String bakery;
+  final String price;
+  final String quantity;
+  CheckoutContent(
+      {required this.img,
+      required this.productName,
+      required this.bakery,
+      required this.price,
+      required this.quantity});
 }
