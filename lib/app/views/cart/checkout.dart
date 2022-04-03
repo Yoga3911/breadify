@@ -7,6 +7,27 @@ import 'package:project/app/constant/glow.dart';
 //utk konten Notif :
 // import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
 
+final List<CheckoutContent> checkoutcontent = [
+  CheckoutContent(
+      img: "img",
+      productName: "Pain au Chocolate",
+      bakery: "Vincii Bakery",
+      price: "Rp 6.000",
+      quantity: "10x"),
+  CheckoutContent(
+      img: "img",
+      productName: "Cheese Toast",
+      bakery: "Wina Bakery",
+      price: "Rp 18.000",
+      quantity: "6x"),
+  CheckoutContent(
+      img: "img",
+      productName: "Strawberry Cupcakes",
+      bakery: "Vincii Bakery",
+      price: "Rp 8.000",
+      quantity: "3x"),
+];
+
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({Key? key}) : super(key: key);
 
