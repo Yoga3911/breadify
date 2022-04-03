@@ -39,6 +39,29 @@ class CheckoutPage extends StatelessWidget {
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
+        floatingActionButton: Container(
+          height: 48,
+          width: 130,
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: FittedBox(
+            child: FloatingActionButton(
+              splashColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              onPressed: () {},
+              child: const Text(
+                "Order",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {},

@@ -9,7 +9,7 @@ class Checkout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.fromLTRB(15, 10, 5, 10),
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * 0.15,
       child: Row(
