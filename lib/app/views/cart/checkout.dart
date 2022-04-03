@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
+import 'package:project/app/views/cart/widgets_checkout/konten_checkout.dart';
 
 //pemanggilan class
 // import '../../models/notif_models.dart';
@@ -48,7 +49,9 @@ class CheckoutPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        // body: ListView.builder(itemBuilder: (context, index) => ),
+        body: ListView.builder(
+            itemCount: checkoutcontent.length,
+            itemBuilder: (context, index) => Checkout(index: index)),
       ),
     );
   }
