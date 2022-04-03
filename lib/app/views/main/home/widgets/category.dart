@@ -10,13 +10,13 @@ class ProductCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoryData = <CategoryModel>[
-      CategoryModel(name: "Popular", asset: "assets/icons/fire.png"),
-      CategoryModel(name: "Bread", asset: "assets/icons/bread.png"),
-      CategoryModel(name: "Cookies", asset: "assets/icons/cookies.png"),
-      CategoryModel(name: "Cakes", asset: "assets/icons/cakes.png"),
-      CategoryModel(name: "Pastry" , asset: "assets/icons/pastry.png"),
-      CategoryModel(name: "Brownies", asset: "assets/icons/brownie.png"),
+    final categoryData =  <CategoryModel>[
+      const CategoryModel(name: "Popular", asset: "assets/icons/fire.png"),
+      const CategoryModel(name: "Bread", asset: "assets/icons/bread.png"),
+      const CategoryModel(name: "Cookies", asset: "assets/icons/cookies.png"),
+      const CategoryModel(name: "Cakes", asset: "assets/icons/cakes.png"),
+      const CategoryModel(name: "Pastry" , asset: "assets/icons/pastry.png"),
+      const CategoryModel(name: "Brownies", asset: "assets/icons/brownie.png"),
     ];
 
     final size = MediaQuery.of(context).size;
