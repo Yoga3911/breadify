@@ -12,17 +12,13 @@ class Checkout extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * 0.15,
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey),
-        ),
-      ),
       child: Row(
         children: <Widget>[
           //1) anak ke-1 : gambar produk
           Container(
             width: MediaQuery.of(context).size.width * 0.3,
-            color: Colors.green,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), color: Colors.green),
           ),
 
           const SizedBox(width: 12), //jarak
@@ -44,18 +40,31 @@ class Checkout extends StatelessWidget {
               //2b) bakery
               Text(checkoutcontent[index].bakery),
 
-            
+              const SizedBox(
+                height: 30, //jarak
+              ),
 
               //2c) row : price & quantity
               Row(
                 children: <Widget>[
                   //price
-                  Text(checkoutcontent[index].price),
+                  Text(
+                    checkoutcontent[index].price,
+                    style: const TextStyle(
+                        color: Colors.amber, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
+                    //jarak
                     width: 120,
                   ),
                   //quantity
-                  Text(checkoutcontent[index].quantity),
+                  Text(
+                    checkoutcontent[index].quantity,
+                    style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               )
             ],
