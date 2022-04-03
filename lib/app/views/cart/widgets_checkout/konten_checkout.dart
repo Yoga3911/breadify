@@ -22,9 +22,10 @@ class Checkout extends StatelessWidget {
           //1) anak ke-1 : gambar produk
           Container(
             width: MediaQuery.of(context).size.width * 0.3,
-            color: Colors.red,
+            color: Colors.green,
           ),
-          const SizedBox(width: 4),
+
+          const SizedBox(width: 12), //jarak
 
           //2) column : for text
           Column(
@@ -32,11 +33,31 @@ class Checkout extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               //2a) product name
-              Text(checkoutcontent[index].productName),
+              Text(
+                checkoutcontent[index].productName,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+
               //2b) bakery
               Text(checkoutcontent[index].bakery),
-              //2c) price
-              Text(checkoutcontent[index].price)
+
+            
+
+              //2c) row : price & quantity
+              Row(
+                children: <Widget>[
+                  //price
+                  Text(checkoutcontent[index].price),
+                  const SizedBox(
+                    width: 120,
+                  ),
+                  //quantity
+                  Text(checkoutcontent[index].quantity),
+                ],
+              )
             ],
           )
         ],
