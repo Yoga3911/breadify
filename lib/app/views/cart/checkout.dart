@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/views/cart/widgets_checkout/konten_checkout.dart';
+
 
 //pemanggilan class
-// import '../../models/notif_models.dart';
+import '../../models/checkout_models.dart';
 
-//utk konten Notif :
-// import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
+//utk konten Checkout :
+import 'package:project/app/views/cart/widgets_checkout/konten_checkout.dart';
 
 final List<CheckoutContent> checkoutcontent = [
   CheckoutContent(
@@ -57,16 +57,3 @@ class CheckoutPage extends StatelessWidget {
   }
 }
 
-class CheckoutContent {
-  final String img;
-  final String productName;
-  final String bakery;
-  final String price;
-  final String quantity;
-  CheckoutContent(
-      {required this.img,
-      required this.productName,
-      required this.bakery,
-      required this.price,
-      required this.quantity});
-}
