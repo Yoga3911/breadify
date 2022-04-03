@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
-  ProductModel({
+  const ProductModel({
     required this.id,
     required this.name,
     required this.price,
