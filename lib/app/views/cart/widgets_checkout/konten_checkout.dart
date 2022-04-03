@@ -18,7 +18,11 @@ class Checkout extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width * 0.3,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.green),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                  image: NetworkImage(checkoutcontent[index].img),
+                  fit: BoxFit.cover),
+            ),
           ),
 
           const SizedBox(width: 12), //jarak
