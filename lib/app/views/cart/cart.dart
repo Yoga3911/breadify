@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/views/cart/checkout.dart';
+
+import '../../routes/route.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -23,6 +26,10 @@ class CartPage extends StatelessWidget {
           ),
         ),
       ),
+      body: Center(
+          child: ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, Routes.checkout),
+              child: const Text("tekan saya"))),
     );
   }
 }
