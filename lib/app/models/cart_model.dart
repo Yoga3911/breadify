@@ -27,4 +27,9 @@ class CartModel with ChangeNotifier {
         "product_id": productId,
         "quantity": quantity,
       };
+
+  set setChecked(bool val) {
+    isChecked = val;
+    notifyListeners();
+  }
 }

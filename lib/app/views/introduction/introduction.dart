@@ -58,8 +58,11 @@ class _IntroductionPageState extends State<IntroductionPage> {
           style: TextStyle(fontSize: 17),
         ),
         footer: ElevatedButton(
-          onPressed: () =>
-              Navigator.pushReplacementNamed(context, Routes.login),
+          onPressed: () async {
+            final pref = await SharedPreferences.getInstance();
+            pref.setBool("intro", false);
+            Navigator.pushReplacementNamed(context, Routes.login);
+          },
           child: const Text("Spend your money!"),
           style: ElevatedButton.styleFrom(
             padding:

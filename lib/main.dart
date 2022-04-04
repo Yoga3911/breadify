@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +9,9 @@ import 'app/routes/route.dart';
 
 void selectRoute() async {
   final pref = await SharedPreferences.getInstance();
-   if (pref.getBool("intro") == false) {
+  if (pref.getString("id") != null) {
+    runApp(const MyApp(route: Routes.main));
+  } else if (pref.getBool("intro") == false) {
     runApp(const MyApp(route: Routes.login));
   } else if (pref.getBool("intro") == null) {
     runApp(const MyApp(route: Routes.introduction));

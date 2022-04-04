@@ -53,6 +53,7 @@ class AuthProvider with ChangeNotifier {
         
         await StorageService().saveUser(data.docs.first.data() as Map<String, dynamic>);
         _user.setUser = await StorageService().loadUser();
+        await StorageService().saveId(data.docs.first["id"]);
         Navigator.pushReplacementNamed(context, Routes.main)
             .then((_) => Navigator.pop(context));
       },

@@ -34,6 +34,7 @@ class LogOutDialog extends StatelessWidget {
                 auth.logout(context, FacebookService());
                 break;
             }
+            pref.remove("id");
           },
           child: const Text("Yakin"),
         ),

@@ -21,7 +21,12 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
-  Future<List<ProductModel>> getById(String storeId) async {
+  Future<ProductModel> getById(String id) async {
+    final data = await MyCollection.product.doc(id).get();
+    return ProductModel.fromJson(data.data() as Map<String, dynamic>);
+  }
+
+  Future<List<ProductModel>> getByStoreId(String storeId) async {
     final data =
         await MyCollection.product.where("store_id", isEqualTo: storeId).get();
 

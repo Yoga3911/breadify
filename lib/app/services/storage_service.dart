@@ -38,4 +38,9 @@ class StorageService {
       updateAt: DateTime.parse(pref.getString(_updateAt)!),
     );
   }
+
+  Future<void> saveId(String id) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setString("id", id);
+  }
 }

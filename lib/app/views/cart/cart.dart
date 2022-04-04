@@ -22,7 +22,7 @@ class CartPage extends StatelessWidget {
       behavior: NoGlow(),
       child: WillPopScope(
         onWillPop: () async {
-          // product.setTotal = -product.total;
+          cart.setTotal = -cart.getTotal;
           return true;
         },
         child: Scaffold(
@@ -33,7 +33,7 @@ class CartPage extends StatelessWidget {
             ),
             leading: GestureDetector(
               onTap: () {
-                // product.setTotal = -product.total;
+                cart.setTotal = -cart.getTotal;
                 return Navigator.pop(context);
               },
               child: Container(
@@ -51,13 +51,14 @@ class CartPage extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, top: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Consumer<ProductProvider>(
+                        Consumer<CartProvider>(
                           builder: (_, value, __) => Text(
-                            "All )",
+                            "All (${value.getTotal})",
                             style: const TextStyle(
                               color: MyColor.grey,
                               fontWeight: FontWeight.bold,
@@ -80,19 +81,36 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   FutureBuilder<List<CartModel>>(
-                    future: cart.getAll(user.getUser.id),
+                    future: cart.getById(user.getUser.id),
                     builder: (_, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       }
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) => ChangeNotifierProvider(
-                          create: (_) => snapshot.data![index],
-                          child: const CartItem(),
-                        ),
+                      return Column(
+                        children: [
+                          for (CartModel item in snapshot.data!)
+                            FutureBuilder<ProductModel>(
+                              future: product.getById(item.productId),
+                              builder: (_, snapshot2) {
+                                if (snapshot2.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const SizedBox();
+                                }
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: 1,
+                                  itemBuilder: (_, index) =>
+                                      ChangeNotifierProvider(
+                                    create: (_) => item,
+                                    child: CartItem(
+                                      productImage: snapshot2.data!.image,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                        ],
                       );
                     },
                   )
