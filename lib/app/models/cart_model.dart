@@ -12,7 +12,8 @@ class CartModel with ChangeNotifier {
   final String userId;
   final String productId;
   final int quantity;
-  bool isChecked = false;
+  bool _isChecked = false;
+  int _totalItem = 0;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         id: json["id"],
@@ -29,7 +30,16 @@ class CartModel with ChangeNotifier {
       };
 
   set setChecked(bool val) {
-    isChecked = val;
+    _isChecked = val;
     notifyListeners();
   }
+
+  bool get getChecked => _isChecked;
+
+  set setTotalItem(int val) {
+    _totalItem += val;
+    notifyListeners();
+  }
+
+  int get getTotalItem => _totalItem;
 }
