@@ -90,7 +90,7 @@ class CartPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Consumer<CartProvider>(
-                          builder: (, value, _) => Text(
+                          builder: (_, value, __) => Text(
                             "All (${value.getTotal})",
                             style: const TextStyle(
                               color: MyColor.grey,
