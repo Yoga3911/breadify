@@ -89,7 +89,7 @@ class ProductCard extends StatelessWidget {
                           children: [
                             FutureBuilder<StoreModel>(
                               future:
-                                  storeProvider.getStoreById(product.storeId),
+                                  storeProvider.getById(product.storeId),
                               builder: (_, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {

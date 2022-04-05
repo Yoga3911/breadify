@@ -22,7 +22,7 @@ class Product extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: FutureBuilder<List<ProductModel>>(
-        future: productProvider.getDataByCategory(categoryProvider.getCategory),
+        future: productProvider.getByCategory(categoryProvider.getCategory),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MasonryGridView.builder(

@@ -11,8 +11,22 @@ class ProductProvider with ChangeNotifier {
     this.category = "Category",
     this.icon = "assets/icons/category.png",
   });
+  
+  Future<List<ProductModel>> getAll() async {
+    final data = await MyCollection.product.get();
 
-  Future<List<ProductModel>> getDataById(String storeId) async {
+    return <ProductModel>[
+      for (QueryDocumentSnapshot<Object?> item in data.docs)
+        ProductModel.fromJson(item.data() as Map<String, dynamic>)
+    ];
+  }
+
+  Future<ProductModel> getById(String id) async {
+    final data = await MyCollection.product.doc(id).get();
+    return ProductModel.fromJson(data.data() as Map<String, dynamic>);
+  }
+
+  Future<List<ProductModel>> getByStoreId(String storeId) async {
     final data =
         await MyCollection.product.where("store_id", isEqualTo: storeId).get();
 
@@ -22,7 +36,7 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
-  Future<List<ProductModel>> getDataByCategory(String category) async {
+  Future<List<ProductModel>> getByCategory(String category) async {
     switch (category) {
       case "Popular":
         final data = await MyCollection.product.get();
@@ -31,35 +45,45 @@ class ProductProvider with ChangeNotifier {
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
       case "Bread":
-        final data = await MyCollection.product.where("category_id", isEqualTo: "1").get();
+        final data = await MyCollection.product
+            .where("category_id", isEqualTo: "1")
+            .get();
         return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
       case "Cookies":
-        final data = await MyCollection.product.where("category_id", isEqualTo: "2").get();
+        final data = await MyCollection.product
+            .where("category_id", isEqualTo: "2")
+            .get();
         return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
       case "Cakes":
-        final data = await MyCollection.product.where("category_id", isEqualTo: "3").get();
+        final data = await MyCollection.product
+            .where("category_id", isEqualTo: "3")
+            .get();
         return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
       case "Pastry":
-        final data = await MyCollection.product.where("category_id", isEqualTo: "4").get();
+        final data = await MyCollection.product
+            .where("category_id", isEqualTo: "4")
+            .get();
         return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
       case "Brownies":
-        final data = await MyCollection.product.where("category_id", isEqualTo: "5").get();
+        final data = await MyCollection.product
+            .where("category_id", isEqualTo: "5")
+            .get();
         return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
-        ];  
+        ];
       default:
         return <ProductModel>[];
     }

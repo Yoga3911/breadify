@@ -163,7 +163,7 @@ class StorePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 FutureBuilder<List<ProductModel>>(
-                  future: productProvider.getDataById(store.id),
+                  future: productProvider.getByStoreId(store.id),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(

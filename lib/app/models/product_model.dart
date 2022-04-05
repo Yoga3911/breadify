@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
-class ProductModel {
+class ProductModel with ChangeNotifier {
   ProductModel({
     required this.id,
     required this.name,
@@ -11,6 +12,7 @@ class ProductModel {
     required this.storeId,
     required this.createAt,
     required this.updateAt,
+    required this.isChecked,
   });
 
   final String id;
@@ -22,6 +24,7 @@ class ProductModel {
   final String storeId;
   final DateTime createAt;
   final DateTime updateAt;
+  bool isChecked = false;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -33,6 +36,7 @@ class ProductModel {
         storeId: json["store_id"],
         createAt: (json["create_at"] as Timestamp).toDate(),
         updateAt: (json["update_at"] as Timestamp).toDate(),
+        isChecked: false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,4 +49,11 @@ class ProductModel {
         "create_at": createAt.toIso8601String(),
         "update_at": updateAt.toIso8601String(),
       };
+
+  int _total = 0;
+
+  set setChecked(bool value) {
+    isChecked = value;
+    notifyListeners();
+  }
 }

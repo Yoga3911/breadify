@@ -27,7 +27,7 @@ class ContentProduct extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
       child: FutureBuilder<StoreModel>(
-        future: storeProvider.getStoreById(product.storeId),
+        future: storeProvider.getById(product.storeId),
         builder: (_, store) {
           if (store.connectionState == ConnectionState.waiting) {
             return Row(
