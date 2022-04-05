@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/views/cart/notif.dart';
 import 'package:project/app/views/product/add_product.dart';
 
 import '../views/cart/cart.dart';
@@ -30,6 +31,7 @@ class Routes {
   static const String addProduct = "/product/add";
   static const String cart = "/cart";
   static const String checkout = "/checkout";
+  static const String notif = "/notif";
 
   static final data = <String, WidgetBuilder>{
     introduction: (_) => const IntroductionPage(),
@@ -45,5 +47,6 @@ class Routes {
     product: (_) => const ProductPage(),
     cart: (_) => const CartPage(),
     checkout: (_) => const CheckoutPage(),
+    notif: (_) => const NotifPage(),
   };
 }

@@ -83,7 +83,7 @@ class FavoritePage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Image(
-                image: NetworkImage(img),
+                image: AssetImage("assets/images/sampul.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

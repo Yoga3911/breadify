@@ -18,8 +18,16 @@ class ChooseAll extends StatelessWidget {
               for (var item in value) {
                 if (tap && !item.getChecked) {
                   notifier.setTotal = 1;
+                  item.setChecked = tap;
                 } else if (!tap && item.getChecked) {
+                  item.setChecked = !tap;
                   notifier.setTotal = -1;
+                } else if (!tap && notifier.getTotal == 0) {
+                  notifier.setTotal = 0;
+                  notifier.setSelectAll = tap;
+                } else if (tap && notifier.getTotal != 0) {
+                  notifier.setTotal = 0;
+                  notifier.setSelectAll = tap;
                 }
                 item.setChecked = notifier.getSelectAll;
               }
