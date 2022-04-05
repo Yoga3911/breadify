@@ -8,6 +8,7 @@ import 'package:project/app/views/cart/widgets/inc_dec_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/cart_provider.dart';
+import '../../../widgets/currency.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({
@@ -16,11 +17,13 @@ class CartItem extends StatelessWidget {
     required this.productName,
     required this.productPrice,
     required this.storeId,
+    required this.productQuantity,
   }) : super(key: key);
   final String productImage;
   final String productName;
   final int productPrice;
   final String storeId;
+  final int productQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +38,15 @@ class CartItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Consumer<CartModel>(
-              builder: (_, value, __) => Checkbox(
-                value: value.getChecked,
-                onChanged: (tap) {
-                  value.setChecked = tap ?? false;
-                  (tap == true) ? cart.setTotal = 1 : cart.setTotal = -1;
-                },
+            Consumer<CartProvider>(
+              builder: (_, notifier, __) => Consumer<CartModel>(
+                builder: (_, value, __) => Checkbox(
+                  value: value.getChecked,
+                  onChanged: (tap) {
+                    value.setChecked = tap ?? false;
+                    (tap == true) ? cart.setTotal = 1 : cart.setTotal = -1;
+                  },
+                ),
               ),
             ),
             SizedBox(
@@ -92,20 +97,35 @@ class CartItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Rp $productPrice",
+                      "Rp ${currency(productPrice)}",
                       style: const TextStyle(
                           color: MyColor.yellow, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const IncDecBtn(label: "-"),
+                        IncDecBtn(
+                          label: "-",
+                          quantity: productQuantity,
+                          price: productPrice,
+                        ),
+                        const SizedBox(width: 15),
                         Consumer<CartModel>(
                           builder: (_, value, __) => Text(
                             value.getTotalItem.toString(),
                           ),
                         ),
-                        const IncDecBtn(label: "+")
+                        const SizedBox(width: 15),
+                        IncDecBtn(
+                          label: "+",
+                          quantity: productQuantity,
+                          price: productPrice,
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          "Stock: $productQuantity",
+                          style: const TextStyle(color: MyColor.grey),
+                        )
                       ],
                     )
                   ],

@@ -12,7 +12,6 @@ import '../../../../constant/color.dart';
 
 class Product extends StatelessWidget {
   const Product({Key? key}) : super(key: key);
-  final String _todayCategory = "Category";
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +96,6 @@ class Product extends StatelessWidget {
                     Routes.product,
                     arguments: {
                       "product": product,
-                      "category": _todayCategory,
-                      // "seller_id": seller.userId,
                     },
                   );
                 },

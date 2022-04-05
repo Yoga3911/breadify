@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/widgets/currency.dart';
 
 import '../../constant/glow.dart';
 import '../../views/product/widgets/content.dart';
@@ -15,24 +16,6 @@ class ProductPage extends StatelessWidget {
     final ProductModel product = args["product"];
 
     final size = MediaQuery.of(context).size;
-
-    final String _reversed = product.price.toString().split("").reversed.join();
-    String _reverseC = "";
-    int _step = 0;
-
-    for (int i = 0; i < _reversed.length; i++) {
-      _reverseC += _reversed[i];
-      if (_reversed.length > 3) {
-        if (_step == 2) {
-          _reverseC += ".";
-        }
-        _step += 1;
-        if (_step == 3) {
-          _step = 0;
-        }
-      }
-    }
-    final String _currency = _reverseC.split("").reversed.join();
 
     return Container(
       color: Colors.white,
@@ -66,7 +49,6 @@ class ProductPage extends StatelessWidget {
                 ),
                 ContentProduct(
                   product: product,
-                  currency: _currency,
                 )
               ],
             ),

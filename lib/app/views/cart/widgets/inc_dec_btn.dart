@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/models/cart_model.dart';
+import 'package:project/app/view_model/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constant/color.dart';
 
 class IncDecBtn extends StatelessWidget {
-  const IncDecBtn({Key? key, required this.label}) : super(key: key);
+  const IncDecBtn({
+    Key? key,
+    required this.label,
+    required this.quantity,
+    required this.price,
+  }) : super(key: key);
   final String label;
+  final int quantity;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +28,20 @@ class IncDecBtn extends StatelessWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            if (label == "+") {
-              cartModel.setTotalItem = 1;
-            } else if (label == "-") {
-              cartModel.setTotalItem = -1;
-            }
-          },
-          borderRadius: BorderRadius.circular(3),
-          child: Center(child: Text(label)),
+        child: Consumer<CartProvider>(
+          builder: (_, notifier, __) => InkWell(
+            onTap: () {
+              if (label == "+" && cartModel.getTotalItem < quantity) {
+                cartModel.setTotalItem = 1;
+                notifier.setTotalMoney = price;
+              } else if (label == "-" && cartModel.getTotalItem > 0) {
+                cartModel.setTotalItem = -1;
+                notifier.setTotalMoney = -price;
+              }
+            },
+            borderRadius: BorderRadius.circular(3),
+            child: Center(child: Text(label)),
+          ),
         ),
       ),
     );
