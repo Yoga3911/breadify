@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String _blank =
-      "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -46,7 +44,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< be
     // final _user = Provider.of<UserProvider>(context).getUser;
+=======
+    // final user = Provider.of<UserProvider>(context).getUser;
+    final user = Provider.of<UserProvider>(context).getUser;
+>>>>>>> eko
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -57,8 +60,17 @@ class _HomePageState extends State<HomePage> {
             leading: IconButton(
               splashRadius: 1,
               onPressed: () {},
+<<<<<<< be
               icon: CircleAvatar(
                 backgroundImage: NetworkImage( _blank),
+=======
+              icon: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  imageUrl: user.imageUrl,
+                  fit: BoxFit.cover,
+                ),
+>>>>>>> eko
               ),
             ),
             title: const AppBarTitle(),
