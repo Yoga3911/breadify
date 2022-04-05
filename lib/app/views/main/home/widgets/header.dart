@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/models/user_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constant/color.dart';
@@ -10,14 +10,14 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final User _user = Provider.of<UserProvider>(context).getUser;
+    final UserModel user = Provider.of<UserProvider>(context).getUser;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Hello",
+            "Hello, ${user.name}!",
             style: const TextStyle(
               color: MyColor.grey,
               fontSize: 12,

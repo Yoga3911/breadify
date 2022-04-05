@@ -44,12 +44,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< be
-    // final _user = Provider.of<UserProvider>(context).getUser;
-=======
     // final user = Provider.of<UserProvider>(context).getUser;
     final user = Provider.of<UserProvider>(context).getUser;
->>>>>>> eko
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -60,23 +56,18 @@ class _HomePageState extends State<HomePage> {
             leading: IconButton(
               splashRadius: 1,
               onPressed: () {},
-<<<<<<< be
-              icon: CircleAvatar(
-                backgroundImage: NetworkImage( _blank),
-=======
               icon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: CachedNetworkImage(
                   imageUrl: user.imageUrl,
                   fit: BoxFit.cover,
                 ),
->>>>>>> eko
               ),
             ),
             title: const AppBarTitle(),
             actions: [
               IconButton(
-                onPressed: () => Navigator.pushNamed(context, Routes.notif),
+                onPressed: () {},
                 splashRadius: 25,
                 icon: Stack(
                   children: [
