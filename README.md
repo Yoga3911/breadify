@@ -23,12 +23,10 @@
   <li>App: Folder dari semua kode aplikasi Breadify berada</li>
   <li>main.dart: File yang pertama dijalankan ketika aplikasi dijalankan</li>
   <li>Constant: Menyimpan variable yang sifatnya constant dan sering digunakan</li>
-  <li>Models: Menyimpan kumpulan model yang didalamnya terdapat Business Login dan Data</li>
+  <li>Models: Menyimpan kumpulan model</li>
   <li>Views: Menyimpan kumpulan view yang didalamnya terdapat UI Logic</li>
-  <li>View Model: Menyimpan kumpulan view model yang didalamnya terdapat Presentation Logic</li>
+  <li>View Model: Menyimpan kumpulan view model yang didalamnya terdapat Presentation & Business Logic</li>
   <li>Routes: Menyimpan rute atau halaman aplikasi Breadify</li>
   <li>Component: Folder yang berisi kumpulan custom shape</li>
   <li>Widget: Folder yang berisi kumpulan custom widget</li>
 </ul>
-<h4>Pattern yang digunakan MVVM</h4>
-<img src="https://firebasestorage.googleapis.com/v0/b/market-api-cda7e.appspot.com/o/breadify%2FMVVM.png?alt=media&token=aacfe24a-2b8e-4716-beb6-92711c259700" width="500px" height="200px">

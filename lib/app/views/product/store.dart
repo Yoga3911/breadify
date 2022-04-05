@@ -16,11 +16,11 @@ class StorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final UserModel seller = args["seller"] as UserModel;
-    final StoreModel store = args["store"] as StoreModel;
+    final UserModel seller = args["seller"];
+    final StoreModel store = args["store"];
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
@@ -47,10 +47,10 @@ class StorePage extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                            bottom: _size.height * 0.08,
+                            bottom: size.height * 0.08,
                           ),
-                          height: _size.height * 0.3,
-                          width: _size.width,
+                          height: size.height * 0.3,
+                          width: size.width,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage("assets/images/sampul.jpg"),
@@ -62,8 +62,8 @@ class StorePage extends StatelessWidget {
                           top: 15,
                           left: 15,
                           child: Container(
-                            height: _size.height * 0.05,
-                            width: _size.height * 0.05,
+                            height: size.height * 0.05,
+                            width: size.height * 0.05,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
@@ -75,7 +75,7 @@ class StorePage extends StatelessWidget {
                                 onTap: () => Navigator.pop(context),
                                 child: Icon(
                                   Icons.arrow_back_ios_new_rounded,
-                                  size: _size.height * 0.025,
+                                  size: size.height * 0.025,
                                 ),
                               ),
                             ),
@@ -85,8 +85,8 @@ class StorePage extends StatelessWidget {
                           top: 15,
                           right: 15,
                           child: Container(
-                            height: _size.height * 0.05,
-                            width: _size.height * 0.05,
+                            height: size.height * 0.05,
+                            width: size.height * 0.05,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
@@ -102,22 +102,22 @@ class StorePage extends StatelessWidget {
                                 ),
                                 child: Icon(
                                   Icons.home_rounded,
-                                  size: _size.height * 0.025,
+                                  size: size.height * 0.025,
                                 ),
                               ),
                             ),
                           ),
                         ),
                         Positioned(
-                          top: _size.height * 0.22,
+                          top: size.height * 0.22,
                           child: Hero(
                             tag: "profile",
                             child: CircleAvatar(
-                              radius: _size.height * 0.08,
+                              radius: size.height * 0.08,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
                                 backgroundImage: NetworkImage(seller.imageUrl),
-                                radius: _size.height * 0.075,
+                                radius: size.height * 0.075,
                               ),
                             ),
                           ),
@@ -163,7 +163,7 @@ class StorePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 FutureBuilder<List<ProductModel>>(
-                  future: productProvider.getDataById(store.id),
+                  future: productProvider.getByStoreId(store.id),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
@@ -187,8 +187,8 @@ class StorePage extends StatelessWidget {
                               child: Container(
                                 height: (MediaQuery.of(context).orientation ==
                                         Orientation.portrait)
-                                    ? _size.height * 0.3
-                                    : _size.height * 0.4,
+                                    ? size.height * 0.3
+                                    : size.height * 0.4,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -223,8 +223,8 @@ class StorePage extends StatelessWidget {
                             child: Container(
                               height: (MediaQuery.of(context).orientation ==
                                       Orientation.portrait)
-                                  ? _size.height * 0.3
-                                  : _size.height * 0.4,
+                                  ? size.height * 0.3
+                                  : size.height * 0.4,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -245,8 +245,8 @@ class StorePage extends StatelessWidget {
                                       height:
                                           (MediaQuery.of(context).orientation ==
                                                   Orientation.portrait)
-                                              ? _size.height * 0.21
-                                              : _size.height * 0.4,
+                                              ? size.height * 0.21
+                                              : size.height * 0.4,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         gradient: const LinearGradient(

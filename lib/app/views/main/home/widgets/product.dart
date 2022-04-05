@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:project/app/view_model/product_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'card.dart';
+import '../../../../view_model/product_provider.dart';
 import '../../../../routes/route.dart';
 import '../../../../view_model/category_provider.dart';
 import '../../../../models/product_model.dart';
 import '../../../../constant/color.dart';
-import 'card.dart';
 
 class Product extends StatelessWidget {
   const Product({Key? key}) : super(key: key);
-  final String todayCategory = "Category";
+  final String _todayCategory = "Category";
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
-    final _categoryProvider = Provider.of<CategoryProvider>(context);
-    final _productProvider = Provider.of<ProductProvider>(context);
+    final size = MediaQuery.of(context).size;
+    final categoryProvider = Provider.of<CategoryProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: FutureBuilder<List<ProductModel>>(
-        future: _productProvider.getDataByCategory(_categoryProvider.getCategory),
+        future: productProvider.getByCategory(categoryProvider.getCategory),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MasonryGridView.builder(
@@ -45,7 +45,7 @@ class Product extends StatelessWidget {
                   direction: ShimmerDirection.ltr,
                   child: Container(
                     height:
-                        index.isOdd ? _size.height * 0.24 : _size.height * 0.3,
+                        index.isOdd ? size.height * 0.24 : size.height * 0.3,
                     decoration: BoxDecoration(
                       color: MyColor.yellow,
                       borderRadius: BorderRadius.circular(15),
@@ -97,7 +97,7 @@ class Product extends StatelessWidget {
                     Routes.product,
                     arguments: {
                       "product": product,
-                      "category": todayCategory,
+                      "category": _todayCategory,
                       // "seller_id": seller.userId,
                     },
                   );
@@ -105,7 +105,6 @@ class Product extends StatelessWidget {
                 child: Hero(
                   tag: product.id + "hero",
                   child: ProductCard(
-                    size: _size,
                     index: index,
                     product: product,
                   ),

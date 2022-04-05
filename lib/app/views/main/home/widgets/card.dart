@@ -1,26 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/models/store_model.dart';
-import 'package:project/app/view_model/store_provider.dart';
-import 'package:project/app/widgets/shimmer.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../models/store_model.dart';
+import '../../../../view_model/store_provider.dart';
+import '../../../../widgets/shimmer.dart';
 import '../../../../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    required this.size,
     required this.index,
     required this.product,
   }) : super(key: key);
 
-  final Size size;
   final int index;
   final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final storeProvider = Provider.of<StoreProvider>(context);
     return Material(
       elevation: 5,
@@ -90,7 +89,7 @@ class ProductCard extends StatelessWidget {
                           children: [
                             FutureBuilder<StoreModel>(
                               future:
-                                  storeProvider.getStoreById(product.storeId),
+                                  storeProvider.getById(product.storeId),
                               builder: (_, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {

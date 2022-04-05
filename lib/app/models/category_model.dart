@@ -1,5 +1,5 @@
 class CategoryModel {
-  CategoryModel({
+  const CategoryModel({
     required this.name,
     required this.asset,
   });

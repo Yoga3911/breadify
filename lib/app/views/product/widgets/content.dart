@@ -13,22 +13,21 @@ import '../../../models/user_model.dart';
 class ContentProduct extends StatelessWidget {
   const ContentProduct({
     Key? key,
-    required this.size,
     required this.product,
     required this.currency,
   }) : super(key: key);
-  final Size size;
   final ProductModel product;
   final String currency;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final storeProvider = Provider.of<StoreProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
       child: FutureBuilder<StoreModel>(
-        future: storeProvider.getStoreById(product.storeId),
+        future: storeProvider.getById(product.storeId),
         builder: (_, store) {
           if (store.connectionState == ConnectionState.waiting) {
             return Row(

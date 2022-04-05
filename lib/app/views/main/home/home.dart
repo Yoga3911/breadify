@@ -1,8 +1,12 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/routes/route.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../view_model/user_prodvider.dart';
 import '../home/widgets/alert.dart';
 import '../../main/home/widgets/title.dart';
 import '../../../constant/collection.dart';
@@ -40,10 +44,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const String _blank =
-        "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd";
-    // final User _user = Provider.of<UserProvider>(context).getUser;
-
+    // final user = Provider.of<UserProvider>(context).getUser;
+    final user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -54,8 +56,12 @@ class _HomePageState extends State<HomePage> {
             leading: IconButton(
               splashRadius: 1,
               onPressed: () {},
-              icon: CircleAvatar(
-                backgroundImage: NetworkImage(_blank),
+              icon: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  imageUrl: user.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             title: const AppBarTitle(),
@@ -85,12 +91,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, Routes.cart),
                 splashRadius: 25,
                 icon: Image.asset("assets/icons/cart.png"),
               ),
               IconButton(
-                onPressed: () => showDialog(context: context, builder: (_) => const LogOutDialog()),
+                onPressed: () => showDialog(
+                    context: context, builder: (_) => const LogOutDialog()),
                 icon: const Icon(Icons.logout_rounded),
               )
             ],
