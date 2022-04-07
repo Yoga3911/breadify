@@ -11,3 +11,16 @@ class CheckoutContent {
       required this.price,
       required this.quantity});
 }
+
+class Address {
+  final String nama;
+  final String telpon;
+  final String alamat;
+  final String kabupaten;
+
+  Address(
+      {required this.nama,
+      required this.telpon,
+      required this.alamat,
+      required this.kabupaten});
+}

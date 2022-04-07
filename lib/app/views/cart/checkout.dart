@@ -92,6 +92,15 @@ class CheckoutPage extends StatelessWidget {
                           child: Image.asset("assets/icons/map.png"),
                         ),
                         //a2) column for text
+                        Column(children: <Widget>[
+                          //judul : address
+                          const Text("Address"),
+                          //nama
+                          //telpon
+                          //alamat
+                          //kabupaten
+                        ],)
+
                       ],
                     ),
                     //b) konten 2 : button "change"
