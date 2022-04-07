@@ -31,9 +31,18 @@ final List<CheckoutContent> checkoutcontent = [
       quantity: "3x"),
 ];
 
-class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({Key? key}) : super(key: key);
+final List<Address> address = [
+  Address(
+      nama: "Pakdhe",
+      telpon: "(+62)1331435366",
+      alamat: "Jalan Mawar no. 123",
+      kabupaten: "KAB. JEMBER, JAWA TIMUR, ID 66666")
+];
 
+class CheckoutPage extends StatelessWidget {
+  const CheckoutPage({required this.i, Key? key}) : super(key: key);
+
+  final int i;
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
@@ -92,15 +101,50 @@ class CheckoutPage extends StatelessWidget {
                           child: Image.asset("assets/icons/map.png"),
                         ),
                         //a2) column for text
-                        Column(children: <Widget>[
-                          //judul : address
-                          const Text("Address"),
-                          //nama
-                          //telpon
-                          //alamat
-                          //kabupaten
-                        ],)
-
+                        Column(
+                          children: <Widget>[
+                            //judul : address
+                            const Text(
+                              "Address",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 15),
+                            ),
+                            //nama
+                            Text(
+                              address[i].nama,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  fontSize: 15),
+                            ),
+                            //telpon
+                            Text(
+                              address[i].telpon,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  fontSize: 15),
+                            ),
+                            //alamat
+                            Text(
+                              address[i].alamat,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  fontSize: 15),
+                            ),
+                            //kabupaten
+                            Text(
+                              address[i].kabupaten,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                  fontSize: 15),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                     //b) konten 2 : button "change"
