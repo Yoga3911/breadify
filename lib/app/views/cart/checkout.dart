@@ -39,46 +39,74 @@ class CheckoutPage extends StatelessWidget {
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
-        floatingActionButton: Container(
-          height: 48,
-          width: 130,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: FittedBox(
-            child: FloatingActionButton(
-              splashColor: Colors.transparent,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              onPressed: () {},
-              child: const Text(
-                "Order",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+          floatingActionButton: Container(
+            height: 48,
+            width: 130,
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: FittedBox(
+              child: FloatingActionButton(
+                splashColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                onPressed: () {},
+                child: const Text(
+                  "Order",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
-        ),
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: Colors.white,
-              )),
-          title: const Text(
-            "Checkout",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                )),
+            title: const Text(
+              "Checkout",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        body: ListView.builder(
-          itemCount: checkoutcontent.length,
-          itemBuilder: (context, index) => Checkout(index: index),
-        ),
-      ),
+          body: ListView(
+            children: <Widget>[
+              //1) utk alamat checkout
+              Container(
+                height: MediaQuery.of(context).size.width * 0.1,
+                color: const Color(0xFFB4B4B4),
+                child: Row(
+                  children: <Widget>[
+                    //a) konten 1 : untuk icon gps & column for text
+                    Row(
+                      children: <Widget>[
+                        //a1) icon GPS
+                        Transform.scale(
+                          scale: 0.7,
+                          child: Image.asset("assets/icons/map.png"),
+                        ),
+                        //a2) column for text
+                      ],
+                    ),
+                    //b) konten 2 : button "change"
+                  ],
+                ),
+              ),
+              //2) utk konten perulangan
+              ListView.builder(
+                itemCount: checkoutcontent.length,
+                itemBuilder: (context, index) => Checkout(index: index),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+              ),
+            ],
+          )),
     );
   }
 }
