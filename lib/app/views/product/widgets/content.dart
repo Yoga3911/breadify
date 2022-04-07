@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/models/store_model.dart';
+import 'package:project/app/widgets/currency.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/store_provider.dart';
@@ -11,13 +12,8 @@ import '../../../models/product_model.dart';
 import '../../../models/user_model.dart';
 
 class ContentProduct extends StatelessWidget {
-  const ContentProduct({
-    Key? key,
-    required this.product,
-    required this.currency,
-  }) : super(key: key);
+  const ContentProduct({Key? key, required this.product}) : super(key: key);
   final ProductModel product;
-  final String currency;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +62,7 @@ class ContentProduct extends StatelessWidget {
                   FutureBuilder<UserModel>(
                     future: userProvider.getUserById(store.data!.userId),
                     builder: (_, user) {
-                      if (user.connectionState ==
-                          ConnectionState.waiting) {
+                      if (user.connectionState == ConnectionState.waiting) {
                         return Row(
                           children: [
                             CustomShimmer(
@@ -155,15 +150,20 @@ class ContentProduct extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                        top: 5, bottom: 5, right: 10, left: 10),
+                      top: 5,
+                      bottom: 5,
+                      right: 10,
+                      left: 10,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: MyColor.cream,
                     ),
                     child: Center(
                       child: Text(
-                        "Rp " + currency,
-                        style: const TextStyle(color: MyColor.yellow),
+                        "Rp " + currency(product.price),
+                        style: const TextStyle(
+                            color: MyColor.yellow, fontWeight: FontWeight.bold),
                       ),
                     ),
                   )

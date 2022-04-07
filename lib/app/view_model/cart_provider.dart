@@ -7,6 +7,7 @@ import '../models/cart_model.dart';
 class CartProvider with ChangeNotifier {
   int _total = 0;
   bool _isSelectAll = false;
+  int _totalMoney = 0;
 
   set setTotal(int val) {
     _total += val;
@@ -25,11 +26,28 @@ class CartProvider with ChangeNotifier {
       for (QueryDocumentSnapshot<Object?> item in data.docs)
         CartModel.fromJson(item.data() as Map<String, dynamic>)
     ];
+    final product = await MyCollection.product.get();
+
+    for (CartModel model in _cartData) {
+      model.setTotalItem = model.quantity;
+      for (var prod in product.docs) {
+        if (prod["id"] == model.productId) {
+          setTotalMoney = model.quantity * prod["price"] as int;
+        }
+      }
+    }
     notifyListeners();
   }
 
   Future<List<CartModel>> get getCartData async => _cartData;
-  
+
   set setSelectAll(bool val) => _isSelectAll = val;
   bool get getSelectAll => _isSelectAll;
+
+  set setTotalMoney(int val) {
+    _totalMoney += val;
+    notifyListeners();
+  }
+
+  int get getTotalMoney => _totalMoney;
 }

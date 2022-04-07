@@ -10,6 +10,7 @@ import 'package:project/app/views/cart/widgets/choose_all.dart';
 import 'package:project/app/views/cart/widgets/item.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/currency.dart';
 import 'widgets/cart_shimmer.dart';
 
 class CartPage extends StatelessWidget {
@@ -26,6 +27,7 @@ class CartPage extends StatelessWidget {
         onWillPop: () async {
           cart.setTotal = -cart.getTotal;
           cart.setSelectAll = false;
+          cart.setTotalMoney = -cart.getTotalMoney;
           return true;
         },
         child: Scaffold(
@@ -38,6 +40,7 @@ class CartPage extends StatelessWidget {
               onTap: () {
                 cart.setTotal = -cart.getTotal;
                 cart.setSelectAll = false;
+                cart.setTotalMoney = -cart.getTotalMoney;
                 return Navigator.pop(context);
               },
               child: Container(
@@ -58,19 +61,34 @@ class CartPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
-                      ChooseAll(),
-                      Text("Choose all")
-                    ],
+                    children: const [ChooseAll(), Text("Choose all")],
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Checkout",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    style: ElevatedButton.styleFrom(primary: MyColor.red2),
+                  Row(
+                    children: [
+                      Consumer<CartProvider>(
+                        builder: (_, value, __) {
+                          
+                          return Text(
+                            "Rp ${currency(value.getTotalMoney)}",
+                            style: const TextStyle(
+                              color: MyColor.yellow,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 15),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Checkout",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        style: ElevatedButton.styleFrom(primary: MyColor.red2),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -114,44 +132,47 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   FutureBuilder(
-                      future: cart.getById(user.getUser.id),
-                      builder: (_, init) {
-                        if (init.connectionState == ConnectionState.waiting) {
-                          return const SizedBox();
-                        }
-                        return FutureBuilder<List<CartModel>>(
-                          future: cart.getCartData,
-                          builder: (_, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const ShimmerCart();
-                            }
-                            return Column(
-                              children: [
-                                for (CartModel item in snapshot.data!)
-                                  FutureBuilder<ProductModel>(
-                                    future: product.getById(item.productId),
-                                    builder: (_, snapshot2) {
-                                      if (snapshot2.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const ShimmerCart();
-                                      }
-                                      return ChangeNotifierProvider(
-                                        create: (_) => item,
-                                        child: CartItem(
-                                          productName: snapshot2.data!.name,
-                                          productImage: snapshot2.data!.image,
-                                          productPrice: snapshot2.data!.price,
-                                          storeId: snapshot2.data!.storeId,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                              ],
-                            );
-                          },
-                        );
-                      })
+                    future: cart.getById(user.getUser.id),
+                    builder: (_, init) {
+                      if (init.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      }
+                      return FutureBuilder<List<CartModel>>(
+                        future: cart.getCartData,
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const ShimmerCart();
+                          }
+                          return Column(
+                            children: [
+                              for (CartModel item in snapshot.data!)
+                                FutureBuilder<ProductModel>(
+                                  future: product.getById(item.productId),
+                                  builder: (_, snapshot2) {
+                                    if (snapshot2.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const ShimmerCart();
+                                    }
+                                    final prod = snapshot2.data!;
+                                    return ChangeNotifierProvider(
+                                      create: (_) => item,
+                                      child: CartItem(
+                                        productName: prod.name,
+                                        productImage: prod.image,
+                                        productPrice: prod.price,
+                                        productQuantity: prod.quantity,
+                                        storeId: prod.storeId,
+                                      ),
+                                    );
+                                  },
+                                ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
             ],

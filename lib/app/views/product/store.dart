@@ -10,6 +10,7 @@ import '../../routes/route.dart';
 import '../../constant/color.dart';
 import '../../models/store_model.dart';
 import '../../../app/view_model/product_provider.dart';
+import '../main/home/widgets/card.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class StorePage extends StatelessWidget {
           behavior: NoGlow(),
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
+              heroTag: "home",
               onPressed: () => Navigator.pushNamed(context, Routes.addProduct),
               child: const Icon(
                 Icons.add,
@@ -216,94 +218,110 @@ class StorePage extends StatelessWidget {
                         ),
                         itemBuilder: (_, index) {
                           final _product = snapshot.data![index];
-                          return Material(
-                            elevation: 5,
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            child: Container(
-                              height: (MediaQuery.of(context).orientation ==
-                                      Orientation.portrait)
-                                  ? size.height * 0.3
-                                  : size.height * 0.4,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    child: CachedNetworkImage(
-                                      imageUrl: _product.image,
-                                      fit: BoxFit.cover,
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                    ),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Container(
-                                      height:
-                                          (MediaQuery.of(context).orientation ==
-                                                  Orientation.portrait)
-                                              ? size.height * 0.21
-                                              : size.height * 0.4,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        gradient: const LinearGradient(
-                                          colors: [
-                                            Color.fromARGB(0, 255, 255, 255),
-                                            Colors.white,
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.product,
+                                arguments: {
+                                  "product": _product,
+                                },
+                              );
+                            },
+                            child: Material(
+                              elevation: 5,
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                height: (MediaQuery.of(context).orientation ==
+                                        Orientation.portrait)
+                                    ? size.height * 0.3
+                                    : size.height * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Hero(
+                                      tag: _product.id + "hero",
+                                      child: ClipRRect(
+                                        child: CachedNetworkImage(
+                                          imageUrl: _product.image,
+                                          fit: BoxFit.cover,
+                                          height: double.infinity,
+                                          width: double.infinity,
                                         ),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              alignment:
-                                                  const Alignment(-1, 0.55),
-                                              child: Text(
-                                                _product.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w900,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        height: (MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.portrait)
+                                            ? size.height * 0.21
+                                            : size.height * 0.4,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          gradient: const LinearGradient(
+                                            colors: [
+                                              Color.fromARGB(0, 255, 255, 255),
+                                              Colors.white,
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Stack(
+                                            children: [
+                                              Align(
+                                                alignment:
+                                                    const Alignment(-1, 0.55),
+                                                child: Text(
+                                                  _product.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Align(
-                                              alignment:
-                                                  const Alignment(-1, 0.95),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    store.storeName,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Color.fromARGB(
-                                                          255, 255, 204, 0),
+                                              Align(
+                                                alignment:
+                                                    const Alignment(-1, 0.95),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      store.storeName,
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Color.fromARGB(
+                                                            255, 255, 204, 0),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Image.asset(
-                                                    "assets/icons/fav1.png",
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
+                                                    Image.asset(
+                                                      "assets/icons/fav1.png",
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
