@@ -7,7 +7,7 @@ import '../models/user_model.dart';
 class UserProvider with ChangeNotifier {
   UserModel? _user;
 
-  UserModel get getUser => _user!;
+  // UserModel get getUser => _user!;
 
   set setUser(UserModel userModel) => _user = userModel;
 

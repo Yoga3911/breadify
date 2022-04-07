@@ -31,18 +31,18 @@ final List<CheckoutContent> checkoutcontent = [
       quantity: "3x"),
 ];
 
-final List<Address> address = [
-  Address(
-      nama: "Pakdhe",
-      telpon: "(+62)1331435366",
-      alamat: "Jalan Mawar no. 123",
-      kabupaten: "KAB. JEMBER, JAWA TIMUR, ID 66666")
-];
+// final List<Address> address = [
+//   Address(
+//       nama: "Pakdhe",
+//       telpon: "(+62)1331435366",
+//       alamat: "Jalan Mawar no. 123",
+//       kabupaten: "KAB. JEMBER, JAWA TIMUR, ID 66666")
+// ];
 
 class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({required this.i, Key? key}) : super(key: key);
+  const CheckoutPage({Key? key}) : super(key: key);
 
-  final int i;
+  // final int i;
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
@@ -88,7 +88,6 @@ class CheckoutPage extends StatelessWidget {
           children: <Widget>[
             //1) utk alamat checkout
             Container(
-              height: MediaQuery.of(context).size.width * 0.1,
               color: const Color(0xFFB4B4B4),
               child: Row(
                 children: <Widget>[
@@ -96,15 +95,15 @@ class CheckoutPage extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       //a1) icon GPS
-                      Transform.scale(
-                        scale: 0.7,
-                        child: Image.asset("assets/icons/map.png"),
-                      ),
+                      SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Image.asset("assets/icons/map.png")),
                       //a2) column for text
                       Column(
-                        children: <Widget>[
+                        children: const <Widget>[
                           //judul : address
-                          const Text(
+                          Text(
                             "Address",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -113,32 +112,32 @@ class CheckoutPage extends StatelessWidget {
                           ),
                           //nama
                           Text(
-                            address[i].nama,
-                            style: const TextStyle(
+                            "Beatriccccc",
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                                 fontSize: 15),
                           ),
                           //telpon
                           Text(
-                            address[i].telpon,
-                            style: const TextStyle(
+                            "0813345678",
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                                 fontSize: 15),
                           ),
                           //alamat
                           Text(
-                            address[i].alamat,
-                            style: const TextStyle(
+                            "jalanlanalnalan",
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                                 fontSize: 15),
                           ),
                           //kabupaten
                           Text(
-                            address[i].kabupaten,
-                            style: const TextStyle(
+                            "jember",
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                                 fontSize: 15),

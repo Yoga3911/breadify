@@ -1,8 +1,11 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/models/product_model.dart';
+import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/cart_provider.dart';
 import 'package:project/app/view_model/product_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
@@ -67,7 +70,6 @@ class CartPage extends StatelessWidget {
                     children: [
                       Consumer<CartProvider>(
                         builder: (_, value, __) {
-                          
                           return Text(
                             "Rp ${currency(value.getTotalMoney)}",
                             style: const TextStyle(
@@ -80,7 +82,9 @@ class CartPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 15),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.checkout);
+                        },
                         child: const Text(
                           "Checkout",
                           style: TextStyle(
@@ -131,48 +135,48 @@ class CartPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  FutureBuilder(
-                    future: cart.getById(user.getUser.id),
-                    builder: (_, init) {
-                      if (init.connectionState == ConnectionState.waiting) {
-                        return const SizedBox();
-                      }
-                      return FutureBuilder<List<CartModel>>(
-                        future: cart.getCartData,
-                        builder: (_, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const ShimmerCart();
-                          }
-                          return Column(
-                            children: [
-                              for (CartModel item in snapshot.data!)
-                                FutureBuilder<ProductModel>(
-                                  future: product.getById(item.productId),
-                                  builder: (_, snapshot2) {
-                                    if (snapshot2.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const ShimmerCart();
-                                    }
-                                    final prod = snapshot2.data!;
-                                    return ChangeNotifierProvider(
-                                      create: (_) => item,
-                                      child: CartItem(
-                                        productName: prod.name,
-                                        productImage: prod.image,
-                                        productPrice: prod.price,
-                                        productQuantity: prod.quantity,
-                                        storeId: prod.storeId,
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  )
+                  // FutureBuilder(
+                  //   future: cart.getById(user.getUser.id),
+                  //   builder: (_, init) {
+                  //     if (init.connectionState == ConnectionState.waiting) {
+                  //       return const SizedBox();
+                  //     }
+                  //     return FutureBuilder<List<CartModel>>(
+                  //       future: cart.getCartData,
+                  //       builder: (_, snapshot) {
+                  //         if (snapshot.connectionState ==
+                  //             ConnectionState.waiting) {
+                  //           return const ShimmerCart();
+                  //         }
+                  //         return Column(
+                  //           children: [
+                  //             for (CartModel item in snapshot.data!)
+                  //               FutureBuilder<ProductModel>(
+                  //                 future: product.getById(item.productId),
+                  //                 builder: (_, snapshot2) {
+                  //                   if (snapshot2.connectionState ==
+                  //                       ConnectionState.waiting) {
+                  //                     return const ShimmerCart();
+                  //                   }
+                  //                   final prod = snapshot2.data!;
+                  //                   return ChangeNotifierProvider(
+                  //                     create: (_) => item,
+                  //                     child: CartItem(
+                  //                       productName: prod.name,
+                  //                       productImage: prod.image,
+                  //                       productPrice: prod.price,
+                  //                       productQuantity: prod.quantity,
+                  //                       storeId: prod.storeId,
+                  //                     ),
+                  //                   );
+                  //                 },
+                  //               ),
+                  //           ],
+                  //         );
+                  //       },
+                  //     );
+                  //   },
+                  // )
                 ],
               ),
             ],
