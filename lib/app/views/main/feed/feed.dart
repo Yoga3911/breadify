@@ -4,7 +4,7 @@ import 'package:project/app/constant/glow.dart';
 //pemanggilan class
 import '../../../models/feeds_models.dart';
 
-//utk konten feed 
+//utk konten feed
 import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 
 final List<FeedsContent> feedscontent = [
@@ -60,10 +60,16 @@ class FeedPage extends StatelessWidget {
           backgroundColor: const Color(0xffFFD635),
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search, color: Colors.white  ,),
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
             tooltip: 'search',
           ),
-          title: const Text("Feed", style: TextStyle(color: Colors.white),),
+          title: const Text(
+            "Feed",
+            style: TextStyle(color: Colors.white),
+          ),
           actions: <Widget>[
             IconButton(
               onPressed: () {},
@@ -75,8 +81,9 @@ class FeedPage extends StatelessWidget {
         ),
         body: ListView.builder(
           itemCount: feedscontent.length,
-          itemBuilder: (context, index) =>
-              Feed(index: index), //manggil konten class Feed() utk isi kontem dr folder widgets
+          itemBuilder: (context, index) => Feed(
+              index:
+                  index), //manggil konten class Feed() utk isi kontem dr folder widgets
         ),
       ),
     );
