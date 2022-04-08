@@ -73,7 +73,9 @@ class CheckoutPage extends StatelessWidget {
         ),
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
@@ -86,21 +88,33 @@ class CheckoutPage extends StatelessWidget {
         ),
         body: ListView(
           children: <Widget>[
-            //1) utk alamat checkout
+            //1) Container utk alamat
             Container(
-              color: const Color(0xFFB4B4B4),
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(5),
+              color: const Color(0xA0E5E5E5),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  //a) konten 1 : untuk icon gps & column for text
+                  //a) konten 1 : ROW() yg berisi icon gps & column for text
                   Row(
                     children: <Widget>[
                       //a1) icon GPS
                       SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Image.asset("assets/icons/map.png")),
+                        width: 40,
+                        height: 40,
+                        child: Image.asset("assets/icons/map.png"),
+                      ),
+
+                      //jarak
+                      const SizedBox(
+                        width: 10,
+                      ),
+
                       //a2) column for text
                       Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: const <Widget>[
                           //judul : address
                           Text(
@@ -112,49 +126,49 @@ class CheckoutPage extends StatelessWidget {
                           ),
                           //nama
                           Text(
-                            "Beatriccccc",
+                            "Beatric Stevany Zebua",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                           //telpon
                           Text(
-                            "0813345678",
+                            "(+62)1331435366",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                           //alamat
                           Text(
-                            "jalanlanalnalan",
+                            "Perum. Pondok Permata Suci, Jl. Permata No. 90",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                           //kabupaten
                           Text(
-                            "jember",
+                            "KAB. JEMBER, JAWA TIMUR, ID 66666",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                         ],
                       )
                     ],
                   ),
-                  //b) konten 2 : button "change"
+                  //b) konten 2 : button ">" utk ganti alamat
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Transform.scale(
-                      scale: 0.7,
+                      scale: 1,
                       child: IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.arrow_forward_ios),
-                        color: Colors.black,
+                        color: const Color(0xFF727272),
                       ),
                     ),
                   ),
