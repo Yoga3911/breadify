@@ -49,24 +49,26 @@ class CheckoutPage extends StatelessWidget {
       behavior: NoGlow(),
       child: Scaffold(
         floatingActionButton: Container(
-          height: 48,
-          width: 130,
+          height: 45,
+          width: 120,
           decoration: BoxDecoration(
             color: Colors.red,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: FittedBox(
-            child: FloatingActionButton(
-              splashColor: Colors.transparent,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              onPressed: () {},
-              child: const Text(
-                "Order",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {},
+              child: const Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Order",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),
@@ -101,9 +103,9 @@ class CheckoutPage extends StatelessWidget {
                     children: <Widget>[
                       //a1) icon GPS
                       SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset("assets/icons/map.png"),
+                        width: 30,
+                        height: 30,
+                        child: Image.asset("assets/icons/map2.png"),
                       ),
 
                       //jarak
@@ -129,7 +131,7 @@ class CheckoutPage extends StatelessWidget {
                             "Beatric Stevany Zebua",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                                color: Color(0xFF8B8B8B),
                                 fontSize: 12),
                           ),
                           //telpon
@@ -137,7 +139,7 @@ class CheckoutPage extends StatelessWidget {
                             "(+62)1331435366",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                                color: Color(0xFF8B8B8B),
                                 fontSize: 12),
                           ),
                           //alamat
@@ -145,7 +147,7 @@ class CheckoutPage extends StatelessWidget {
                             "Perum. Pondok Permata Suci, Jl. Permata No. 90",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                                color: Color(0xFF8B8B8B),
                                 fontSize: 12),
                           ),
                           //kabupaten
@@ -153,7 +155,7 @@ class CheckoutPage extends StatelessWidget {
                             "KAB. JEMBER, JAWA TIMUR, ID 66666",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                                color: Color(0xFF8B8B8B),
                                 fontSize: 12),
                           ),
                         ],
