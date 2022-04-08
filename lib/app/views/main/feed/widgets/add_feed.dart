@@ -36,12 +36,12 @@ class AddFeedPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(color: Colors.amber, width: 2),
                 ),
-                //1) tampilan awal textfield
+                //a) tampilan awal textfield
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(color: Colors.amber, width: 2),
                 ),
-                //2) tampilan ketika textfield ditekan
+                //b) tampilan ketika textfield ditekan
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(color: Colors.amber, width: 2),
@@ -52,13 +52,27 @@ class AddFeedPage extends StatelessWidget {
                 hintStyle: const TextStyle(color: Colors.grey),
               ),
             ),
+
             //2) ROW : button "import from galery" & button "opencam"
-            const SizedBox(height: 50),
+            const SizedBox(height: 50), //jarak
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 //a) button "import from galery"
                 Container(
+                  child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Import from\nGalery",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        onTap: () {},
+                      )),
                   width: 120,
                   height: 50,
                   decoration: BoxDecoration(
@@ -73,7 +87,21 @@ class AddFeedPage extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+                //b) button "open camera"
                 Container(
+                  child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Open\nCamera",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        onTap: () {},
+                      )),
                   width: 120,
                   height: 50,
                   decoration: BoxDecoration(
@@ -82,7 +110,43 @@ class AddFeedPage extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
+
+            //3) blank image
+            const SizedBox(height: 20), //jarak
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(left: 50, right: 50),
+                height: MediaQuery.of(context).size.height * 0.45,
+                color: Colors.amber,
+              ),
+            ),
+
+            //4) button "add feed"
+            const SizedBox(height: 20),
+            Center(
+              child: Container(
+                child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Import from\nGalery",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      onTap: () {},
+                    )),
+                width: 120,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
           ]),
         ),
       ),
