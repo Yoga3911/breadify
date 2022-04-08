@@ -48,29 +48,54 @@ class CheckoutPage extends StatelessWidget {
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
-        floatingActionButton: Container(
-          height: 45,
-          width: 120,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {},
-              child: const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Order",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                  textAlign: TextAlign.center,
+        floatingActionButton: SizedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              //1) Total transaksi
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const <Widget>[
+                  Text("Total transactions"),
+                  Text(
+                    "Rp 192.000",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ],
+              ),
+
+              const SizedBox(width: 10), //jarak
+              //2) button "order"
+              Container(
+                height: 45,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Order",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
         appBar: AppBar(

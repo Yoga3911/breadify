@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/routes/route.dart';
 
 //memanggil kerangka feed
 import '../feed.dart';
@@ -131,6 +132,10 @@ class AddFeedPage extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, Routes.feed, (route) => false);
+                    },
                     child: const Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -142,7 +147,6 @@ class AddFeedPage extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    onTap: () {},
                   ),
                 ),
                 width: 150,
