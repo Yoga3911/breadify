@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 //memanggil kerangka feed
@@ -55,14 +53,34 @@ class AddFeedPage extends StatelessWidget {
               ),
             ),
             //2) ROW : button "import from galery" & button "opencam"
+            const SizedBox(height: 50),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 //a) button "import from galery"
                 Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.amber,
-                )
+                  width: 120,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                const Text(
+                  "OR",
+                  style: TextStyle(
+                      color: Color(0xFF585858),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  width: 120,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ],
             )
           ]),
