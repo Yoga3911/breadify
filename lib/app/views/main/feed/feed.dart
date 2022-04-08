@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
+import 'package:project/app/routes/route.dart';
 
 //pemanggilan class
 import '../../../models/feeds_models.dart';
@@ -48,7 +49,9 @@ class FeedPage extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.addfeed);
+          },
           tooltip: 'add feed',
           child: const Icon(
             Icons.add,
