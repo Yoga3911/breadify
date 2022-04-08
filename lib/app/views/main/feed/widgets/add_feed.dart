@@ -116,31 +116,37 @@ class AddFeedPage extends StatelessWidget {
             const SizedBox(height: 20), //jarak
             Center(
               child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/blank.png"))),
                 margin: const EdgeInsets.only(left: 50, right: 50),
                 height: MediaQuery.of(context).size.height * 0.45,
-                color: Colors.amber,
               ),
             ),
 
             //4) button "add feed"
-            const SizedBox(height: 20),
+            const SizedBox(height: 30), //jarak
             Center(
               child: Container(
                 child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Import from\nGalery",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18),
-                        ),
+                  color: Colors.transparent,
+                  child: InkWell(
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Add Feed",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
-                    )),
-                width: 120,
-                height: 50,
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+                width: 150,
+                height: 40,
                 decoration: BoxDecoration(
                   color: Colors.amber,
                   borderRadius: BorderRadius.circular(10),
