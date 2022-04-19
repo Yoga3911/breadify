@@ -24,7 +24,7 @@ class ProductModel with ChangeNotifier {
   final String storeId;
   final DateTime createAt;
   final DateTime updateAt;
-  bool isChecked = false;
+  bool isChecked;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -36,7 +36,7 @@ class ProductModel with ChangeNotifier {
         storeId: json["store_id"],
         createAt: (json["create_at"] as Timestamp).toDate(),
         updateAt: (json["update_at"] as Timestamp).toDate(),
-        isChecked: false,
+        isChecked: json["is_checked"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,11 +46,19 @@ class ProductModel with ChangeNotifier {
         "quantity": quantity,
         "category_id": categoryId,
         "store_id": storeId,
-        "create_at": createAt.toIso8601String(),
-        "update_at": updateAt.toIso8601String(),
+        "create_at": createAt,
+        "update_at": updateAt,
+        "is_checked": isChecked,
       };
 
   int _total = 0;
+
+  set setTotal(int val) {
+    _total += val;
+    notifyListeners();
+  }
+
+  int get getTotal => _total;
 
   set setChecked(bool value) {
     isChecked = value;

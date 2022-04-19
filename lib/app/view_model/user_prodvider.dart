@@ -12,8 +12,8 @@ class UserProvider with ChangeNotifier {
   set setUser(UserModel userModel) => _user = userModel;
 
   Future<UserModel> getUserById(String userId) async {
-    final data = await MyCollection.user.doc(userId).get();
-    return UserModel.fromJson(data.data() as Map<String, dynamic>);
+    final data = await MyCollection.user.where("id", isEqualTo: userId).get();
+    return UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }
 
   Future<UserModel> getByDocId() async {

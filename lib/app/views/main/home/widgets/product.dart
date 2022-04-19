@@ -7,22 +7,20 @@ import 'card.dart';
 import '../../../../view_model/product_provider.dart';
 import '../../../../routes/route.dart';
 import '../../../../view_model/category_provider.dart';
-import '../../../../models/product_model.dart';
 import '../../../../constant/color.dart';
 
 class Product extends StatelessWidget {
   const Product({Key? key}) : super(key: key);
-  final String _todayCategory = "Category";
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final categoryProvider = Provider.of<CategoryProvider>(context);
-    final productProvider = Provider.of<ProductProvider>(context);
+    final categoryProvider = Provider.of<CategoryProvider>(context, listen: false);
+    final product = Provider.of<ProductProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: FutureBuilder<List<ProductModel>>(
-        future: productProvider.getByCategory(categoryProvider.getCategory),
+      child: FutureBuilder(
+        future: product.getByCategory(categoryProvider.getCategory),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MasonryGridView.builder(
@@ -55,7 +53,7 @@ class Product extends StatelessWidget {
               },
             );
           }
-          if (snapshot.data!.isEmpty) {
+          if (product.getProduct.isEmpty) {
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: Center(
@@ -79,7 +77,7 @@ class Product extends StatelessWidget {
             cacheExtent: 10000,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: snapshot.data!.length,
+            itemCount: product.getProduct.length,
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
             gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -89,24 +87,24 @@ class Product extends StatelessWidget {
                       : 3,
             ),
             itemBuilder: (_, index) {
-              final product = snapshot.data![index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.product,
-                    arguments: {
-                      "product": product,
-                      "category": _todayCategory,
-                      // "seller_id": seller.userId,
-                    },
-                  );
-                },
-                child: Hero(
-                  tag: product.id + "hero",
-                  child: ProductCard(
-                    index: index,
-                    product: product,
+              return ChangeNotifierProvider(
+                create: (_) => product.getProduct[index],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.product,
+                      arguments: {
+                        "product": product.getProduct[index],
+                      },
+                    );
+                  },
+                  child: Hero(
+                    tag: product.getProduct[index].id + "hero",
+                    child: ProductCard(
+                      index: index,
+                      product: product.getProduct[index],
+                    ),
                   ),
                 ),
               );

@@ -2,17 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../models/store_model.dart';
 import '../../../../view_model/store_provider.dart';
 import '../../../../widgets/shimmer.dart';
 import '../../../../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
-    Key? key,
-    required this.index,
-    required this.product,
-  }) : super(key: key);
+  const ProductCard({Key? key, required this.index, required this.product})
+      : super(key: key);
 
   final int index;
   final ProductModel product;
@@ -20,7 +16,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final storeProvider = Provider.of<StoreProvider>(context);
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
     return Material(
       elevation: 5,
       color: Colors.white,
@@ -87,9 +83,8 @@ class ProductCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FutureBuilder<StoreModel>(
-                              future:
-                                  storeProvider.getById(product.storeId),
+                            FutureBuilder(
+                              future: storeProvider.getById(product.storeId),
                               builder: (_, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -105,7 +100,7 @@ class ProductCard extends StatelessWidget {
                                   );
                                 }
                                 return Text(
-                                  snapshot.data!.storeName,
+                                  storeProvider.getStore.storeName,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromARGB(255, 255, 204, 0),
@@ -113,7 +108,6 @@ class ProductCard extends StatelessWidget {
                                 );
                               },
                             ),
-                            Image.asset("assets/icons/fav1.png")
                           ],
                         ),
                       )

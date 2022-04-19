@@ -12,7 +12,7 @@ class FavoritePage extends StatelessWidget {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Favorite"),
+          title: const Text("Favorite"),
           actions: [
             IconButton(
               onPressed: () {},
@@ -29,37 +29,37 @@ class FavoritePage extends StatelessWidget {
               childAspectRatio: 2 / 3,
             ),
             children: [
-              list_favorite(
+              listFavorite(
                   context,
                   "https://img.qraved.co/v2/image/data/2016/05/16/12725205_1145755085435610_1979819820_n-x.jpg",
                   "Cheese Toast",
                   "Wina Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "https://www.elmundoeats.com/wp-content/uploads/2018/06/Yeasted-Sweet-Potato-Donuts.jpg",
                   "Potato Doughnout",
                   "Vincii Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "https://selerasa.com/wp-content/uploads/2016/07/images_cupcake-cappuccino.jpg",
                   "Cupcake",
                   "Yahuu Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/fba8e141-4664-4137-a9ed-dc5d6908e3e3.jpg",
                   "Red Velvet",
                   "Wina Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "http://kampoengroti.com/data/product/207.jpg",
                   "Roti Coklat",
                   "Ahooy Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "https://1.bp.blogspot.com/-pidi3vMShyk/VuEgoD1BAyI/AAAAAAAAA1w/tG_YkRt_ahw/s640/Cara-Membuat-Roti-Manis-Lembut.jpg",
                   "Roti Manis",
                   "Kampret Bakery"),
-              list_favorite(
+              listFavorite(
                   context,
                   "https://img-global.cpcdn.com/recipes/e1d0575715abd80e/751x532cq70/roti-abon-foto-resep-utama.jpg",
                   "Roti Abon",
@@ -69,7 +69,7 @@ class FavoritePage extends StatelessWidget {
     );
   }
 
-  Material list_favorite(
+  Material listFavorite(
       BuildContext context, String img, String text1, String text2) {
     return Material(
       color: Colors.transparent,
@@ -82,7 +82,7 @@ class FavoritePage extends StatelessWidget {
             width: double.infinity,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image(
+              child: const Image(
                 image: AssetImage("assets/images/sampul.jpg"),
                 fit: BoxFit.cover,
               ),

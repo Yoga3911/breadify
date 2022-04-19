@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<UserProvider>(context).getUser;
     final user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
@@ -59,7 +58,8 @@ class _HomePageState extends State<HomePage> {
               icon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: CachedNetworkImage(
-                  imageUrl: user.imageUrl,
+                  imageUrl:
+                      user.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -67,7 +67,9 @@ class _HomePageState extends State<HomePage> {
             title: const AppBarTitle(),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.notif);
+                },
                 splashRadius: 25,
                 icon: Stack(
                   children: [

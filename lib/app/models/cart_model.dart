@@ -14,6 +14,7 @@ class CartModel with ChangeNotifier {
   final int quantity;
   bool _isChecked = false;
   int _totalItem = 0;
+  int _totalMoney = 0;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         id: json["id"],
@@ -42,4 +43,11 @@ class CartModel with ChangeNotifier {
   }
 
   int get getTotalItem => _totalItem;
+
+  set setTotalMoney(int val) {
+    _totalMoney += val;
+    notifyListeners();
+  }
+
+  int get getTotalMoney => _totalMoney;
 }
