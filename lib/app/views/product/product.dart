@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/color.dart';
+import 'package:project/app/view_model/product_provider.dart';
 import 'package:project/app/views/product/widgets/btm_sheet.dart';
-import 'package:project/app/widgets/currency.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
 import '../../views/product/widgets/content.dart';
@@ -13,12 +13,10 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-    final ProductModel product = args["product"];
-
+    final product = Provider.of<ProductProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
-
+    final prod = (ModalRoute.of(context)!.settings.arguments
+        as Map<String, dynamic>)["product"] as ProductModel;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -34,7 +32,12 @@ class ProductPage extends StatelessWidget {
                   context: context,
                   isDismissible: false,
                   backgroundColor: Colors.transparent,
-                  builder: (_) => BtmSheet(product: product),
+                  builder: (_) => BtmSheet(
+                    image: prod.image,
+                    name: prod.name,
+                    price: prod.price,
+                    quantity: prod.quantity,
+                  ),
                 );
               },
               label: Padding(
@@ -51,15 +54,22 @@ class ProductPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            body: ListView(
-              children: [
-                HeaderProduct(
-                  product: product,
-                ),
-                ContentProduct(
-                  product: product,
-                )
-              ],
+            body: FutureBuilder<ProductModel>(
+              future: product.getById(prod.id),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox();
+                }
+                return ChangeNotifierProvider(
+                  create: (_) => snapshot.data,
+                  child: ListView(
+                    children: const [
+                      HeaderProduct(),
+                      ContentProduct(),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/models/store_model.dart';
 import 'package:project/app/widgets/currency.dart';
 import 'package:provider/provider.dart';
 
@@ -12,17 +11,17 @@ import '../../../models/product_model.dart';
 import '../../../models/user_model.dart';
 
 class ContentProduct extends StatelessWidget {
-  const ContentProduct({Key? key, required this.product}) : super(key: key);
-  final ProductModel product;
+  const ContentProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final storeProvider = Provider.of<StoreProvider>(context);
-    final userProvider = Provider.of<UserProvider>(context);
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final product = Provider.of<ProductModel>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
-      child: FutureBuilder<StoreModel>(
+      child: FutureBuilder(
         future: storeProvider.getById(product.storeId),
         builder: (_, store) {
           if (store.connectionState == ConnectionState.waiting) {
@@ -60,7 +59,7 @@ class ContentProduct extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FutureBuilder<UserModel>(
-                    future: userProvider.getUserById(store.data!.userId),
+                    future: userProvider.getUserById(storeProvider.getStore.userId),
                     builder: (_, user) {
                       if (user.connectionState == ConnectionState.waiting) {
                         return Row(
@@ -133,7 +132,7 @@ class ContentProduct extends StatelessWidget {
                                         Icons.store_mall_directory_rounded),
                                     const SizedBox(width: 5),
                                     Text(
-                                      store.data!.storeName,
+                                      storeProvider.getStore.storeName,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: MyColor.yellow,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/models/cart_model.dart';
-import 'package:project/app/models/store_model.dart';
 import 'package:project/app/view_model/store_provider.dart';
 import 'package:project/app/views/cart/widgets/inc_dec_btn.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +77,7 @@ class CartItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    FutureBuilder<StoreModel>(
+                    FutureBuilder(
                       future: store.getById(storeId),
                       builder: (_, snapshot) {
                         if (snapshot.connectionState ==
@@ -86,7 +85,7 @@ class CartItem extends StatelessWidget {
                           return const Text("Loading ...");
                         }
                         return Text(
-                          snapshot.data!.storeName,
+                          store.getStore.storeName,
                           style: const TextStyle(color: MyColor.grey),
                         );
                       },
@@ -129,13 +128,14 @@ class CartItem extends StatelessWidget {
                                 price: productPrice,
                                 productId: productId,
                               ),
-                              const SizedBox(width: 15),
-                              Consumer<CartModel>(
-                                builder: (_, value, __) => Text(
-                                  value.getTotalItem.toString(),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                child: Consumer<CartModel>(
+                                  builder: (_, value, __) => Text(
+                                    value.getTotalItem.toString(),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 15),
                               IncDecBtn(
                                 label: "+",
                                 quantity: productQuantity,

@@ -4,8 +4,14 @@ import '../constant/collection.dart';
 import '../models/store_model.dart';
 
 class StoreProvider with ChangeNotifier {
-  Future<StoreModel> getById(String storeId) async {
+  StoreModel? _storeModel;
+
+  Future<void> getById(String storeId) async {
     final data = await MyCollection.store.doc(storeId).get();
-    return StoreModel.fromJson(data.data() as Map<String, dynamic>);
+    setStore = StoreModel.fromJson(data.data() as Map<String, dynamic>);
   }
+
+  set setStore(StoreModel val) => _storeModel = val;
+
+  StoreModel get getStore => _storeModel!;
 }
