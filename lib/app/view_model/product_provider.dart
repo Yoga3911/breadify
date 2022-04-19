@@ -12,23 +12,14 @@ class ProductProvider with ChangeNotifier {
     this.icon = "assets/icons/category.png",
   });
 
-  List<ProductModel> _getProduct = [];
+  Future<List<ProductModel>> getAll() async {
+    final data = await MyCollection.product.get();
 
-  // Future<void> getAll() async {
-  //   final data = await MyCollection.product.get();
-
-  //   _getProduct = <ProductModel>[
-  //     for (QueryDocumentSnapshot<Object?> item in data.docs)
-  //       ProductModel.fromJson(item.data() as Map<String, dynamic>)
-  //   ];
-  // }
-
-  set setProduct(List<ProductModel> val) {
-     _getProduct = val;
-     notifyListeners();
+    return <ProductModel>[
+      for (QueryDocumentSnapshot<Object?> item in data.docs)
+        ProductModel.fromJson(item.data() as Map<String, dynamic>)
+    ];
   }
-
-  List<ProductModel> get getProduct => _getProduct;
 
   Future<ProductModel> getById(String id) async {
     final data = await MyCollection.product.doc(id).get();
@@ -45,62 +36,57 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
-  Future<void> getByCategory(String category) async {
+  Future<List<ProductModel>> getByCategory(String category) async {
     switch (category) {
       case "Popular":
         final data = await MyCollection.product.get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
       case "Bread":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "1")
             .get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
       case "Cookies":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "2")
             .get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
       case "Cakes":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "3")
             .get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
       case "Pastry":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "4")
             .get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
       case "Brownies":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "5")
             .get();
-        setProduct = <ProductModel>[
+        return <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-        break;
+      default:
+        return <ProductModel>[];
     }
-    notifyListeners();
   }
 
   String category;
