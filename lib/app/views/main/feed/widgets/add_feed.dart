@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
 
 //memanggil kerangka feed
-import '../feed.dart';
 
 class AddFeedPage extends StatelessWidget {
   const AddFeedPage({Key? key}) : super(key: key);

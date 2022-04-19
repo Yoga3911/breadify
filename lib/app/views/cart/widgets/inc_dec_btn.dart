@@ -11,10 +11,12 @@ class IncDecBtn extends StatelessWidget {
     required this.label,
     required this.quantity,
     required this.price,
+    required this.productId
   }) : super(key: key);
   final String label;
   final int quantity;
   final int price;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,6 @@ import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
 //memanggil kerangka feed
-import '../feed.dart';
 
 class Feed extends StatelessWidget {
   const Feed({required this.feedModel, Key? key}) : super(key: key);

@@ -88,22 +88,24 @@ class Product extends StatelessWidget {
                       : 3,
             ),
             itemBuilder: (_, index) {
-              final product = snapshot.data![index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.product,
-                    arguments: {
-                      "product": product,
-                    },
-                  );
-                },
-                child: Hero(
-                  tag: product.id + "hero",
-                  child: ProductCard(
-                    index: index,
-                    product: product,
+              return ChangeNotifierProvider(
+                create: (_) => snapshot.data![index],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.product,
+                      arguments: {
+                        "product": snapshot.data![index],
+                      },
+                    );
+                  },
+                  child: Hero(
+                    tag: snapshot.data![index].id + "hero",
+                    child: ProductCard(
+                      index: index,
+                      product: snapshot.data![index],
+                    ),
                   ),
                 ),
               );

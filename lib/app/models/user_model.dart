@@ -39,7 +39,7 @@ class UserModel {
         "name": name,
         "role_id": roleId,
         "provider": provider,
-        "create_at": createAt.toIso8601String(),
-        "update_at": updateAt.toIso8601String(),
+        "create_at": createAt,
+        "update_at": updateAt,
     };
 }

@@ -10,7 +10,6 @@ import '../../routes/route.dart';
 import '../../constant/color.dart';
 import '../../models/store_model.dart';
 import '../../../app/view_model/product_provider.dart';
-import '../main/home/widgets/card.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);

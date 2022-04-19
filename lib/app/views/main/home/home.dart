@@ -44,8 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<UserProvider>(context).getUser;
-    // final user = Provider.of<UserProvider>(context).getUser;
+    final user = Provider.of<UserProvider>(context).getUser;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: GestureDetector(
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(50),
                 child: CachedNetworkImage(
                   imageUrl:
-                      'https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/user.png?alt=media&token=30e27068-d2ff-4dcb-b734-c818c49863fd.imageUrl',
+                      user.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),

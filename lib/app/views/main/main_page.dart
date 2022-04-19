@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project/app/models/user_model.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/color.dart';
 import 'feed/feed.dart';
@@ -70,7 +69,14 @@ class _MainPageState extends State<MainPage> {
             )
             .toList(),
       ),
-      body:  IndexedStack(
+      body: FutureBuilder<UserModel>(
+        future: user.getByDocId(),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          }
+          user.setUser = snapshot.data!;
+          return IndexedStack(
             index: _selectedIndex,
             children: const [
               HomePage(),
@@ -78,9 +84,9 @@ class _MainPageState extends State<MainPage> {
               OrderPage(),
               FavoritePage(),
             ],
-          ));
-        }
-    
-    
+          );
+        },
+      ),
+    );
   }
-
+}
