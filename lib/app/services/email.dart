@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project/app/services/service.dart';
 
-class EmailService implements Service {
+class EmailService extends SocialService {
   Future<void> signUp(
       {String email = "email", String password = "password"}) async {
     try {
@@ -25,6 +26,7 @@ class EmailService implements Service {
     }
   }
 
+  @override
   Future<UserCredential> signIn(
       {String email = "email@gmail.com", String password = "password"}) async {
     try {
@@ -39,6 +41,7 @@ class EmailService implements Service {
     }
   }
 
+  @override
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     log("Success log out from email account");
