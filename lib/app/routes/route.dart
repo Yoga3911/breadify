@@ -8,6 +8,7 @@ import '../views/auth/login.dart';
 import '../views/auth/register.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
+import '../views/main/feed/widgets/add_feed.dart';
 import '../views/main/main_page.dart';
 import '../views/profile/profile.dart';
 import '../views/main/home/home.dart';
@@ -24,6 +25,7 @@ class Routes {
   static const String main = "/main";
   static const String home = "/home";
   static const String feed = "/feed";
+  static const String addfeed = "/addfeed";
   static const String favorite = "/favorite";
   static const String profile = "/profile";
   static const String store = "/store";
@@ -40,6 +42,7 @@ class Routes {
     main: (_) => const MainPage(), 
     home: (_) => const HomePage(),
     feed: (_) => const FeedPage(),
+    addfeed: (_) => const AddFeedPage(),
     favorite: (_) => const FavoritePage(),
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),

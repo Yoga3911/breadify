@@ -70,14 +70,7 @@ class _MainPageState extends State<MainPage> {
             )
             .toList(),
       ),
-      body: FutureBuilder<UserModel>(
-        future: user.getByDocId(),
-        builder: (_, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox();
-          }
-          user.setUser = snapshot.data!;
-          return IndexedStack(
+      body:  IndexedStack(
             index: _selectedIndex,
             children: const [
               HomePage(),
@@ -85,9 +78,9 @@ class _MainPageState extends State<MainPage> {
               OrderPage(),
               FavoritePage(),
             ],
-          );
-        },
-      ),
-    );
+          ));
+        }
+    
+    
   }
-}
+

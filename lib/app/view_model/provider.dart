@@ -7,6 +7,7 @@ import 'category_provider.dart';
 import 'product_provider.dart';
 import 'store_provider.dart';
 import 'user_prodvider.dart';
+import 'feed_provider.dart';
 
 final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => CategoryProvider()),
@@ -15,4 +16,5 @@ final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => ProductProvider()),
   ChangeNotifierProvider(create: (_) => StoreProvider()),
   ChangeNotifierProvider(create: (_) => CartProvider()),
+  ChangeNotifierProvider(create: (_) => FeedProvider()),
 ];
