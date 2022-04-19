@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/view_model/cart_provider.dart';
+import 'package:project/app/view_model/product_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constant/color.dart';
@@ -11,13 +14,16 @@ class IncDecBtn extends StatelessWidget {
     required this.label,
     required this.quantity,
     required this.price,
+    required this.productId
   }) : super(key: key);
   final String label;
   final int quantity;
   final int price;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<ProductProvider>(context, listen: false);
     final cartModel = Provider.of<CartModel>(context, listen: false);
     return Container(
       height: 25,
@@ -34,9 +40,11 @@ class IncDecBtn extends StatelessWidget {
               if (label == "+" && cartModel.getTotalItem < quantity) {
                 cartModel.setTotalItem = 1;
                 notifier.setTotalMoney = price;
+                product.updateQuantity(productId, quantity + 1);
               } else if (label == "-" && cartModel.getTotalItem > 0) {
                 cartModel.setTotalItem = -1;
                 notifier.setTotalMoney = -price;
+                product.updateQuantity(productId, quantity - 1);
               }
             },
             borderRadius: BorderRadius.circular(3),

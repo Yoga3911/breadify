@@ -135,48 +135,49 @@ class CartPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // FutureBuilder(
-                  //   future: cart.getById(user.getUser.id),
-                  //   builder: (_, init) {
-                  //     if (init.connectionState == ConnectionState.waiting) {
-                  //       return const SizedBox();
-                  //     }
-                  //     return FutureBuilder<List<CartModel>>(
-                  //       future: cart.getCartData,
-                  //       builder: (_, snapshot) {
-                  //         if (snapshot.connectionState ==
-                  //             ConnectionState.waiting) {
-                  //           return const ShimmerCart();
-                  //         }
-                  //         return Column(
-                  //           children: [
-                  //             for (CartModel item in snapshot.data!)
-                  //               FutureBuilder<ProductModel>(
-                  //                 future: product.getById(item.productId),
-                  //                 builder: (_, snapshot2) {
-                  //                   if (snapshot2.connectionState ==
-                  //                       ConnectionState.waiting) {
-                  //                     return const ShimmerCart();
-                  //                   }
-                  //                   final prod = snapshot2.data!;
-                  //                   return ChangeNotifierProvider(
-                  //                     create: (_) => item,
-                  //                     child: CartItem(
-                  //                       productName: prod.name,
-                  //                       productImage: prod.image,
-                  //                       productPrice: prod.price,
-                  //                       productQuantity: prod.quantity,
-                  //                       storeId: prod.storeId,
-                  //                     ),
-                  //                   );
-                  //                 },
-                  //               ),
-                  //           ],
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  // )
+                  FutureBuilder(
+                    future: cart.getById(user.getUser.id),
+                    builder: (_, init) {
+                      if (init.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      }
+                      return FutureBuilder<List<CartModel>>(
+                        future: cart.getCartData,
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const ShimmerCart();
+                          }
+                          return Column(
+                            children: [
+                              for (CartModel item in snapshot.data!)
+                                FutureBuilder<ProductModel>(
+                                  future: product.getById(item.productId),
+                                  builder: (_, snapshot2) {
+                                    if (snapshot2.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const ShimmerCart();
+                                    }
+                                    final prod = snapshot2.data!;
+                                    return ChangeNotifierProvider(
+                                      create: (_) => item,
+                                      child: CartItem(
+                                        productId: prod.id,
+                                        productName: prod.name,
+                                        productImage: prod.image,
+                                        productPrice: prod.price,
+                                        productQuantity: prod.quantity,
+                                        storeId: prod.storeId,
+                                      ),
+                                    );
+                                  },
+                                ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
             ],

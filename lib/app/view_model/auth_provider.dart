@@ -38,20 +38,20 @@ class AuthProvider with ChangeNotifier {
           final data = await MyCollection.user
               .where("email", isEqualTo: user.user!.email)
               .get();
-          final userData = UserModel.fromJson(
-              data.docs.first.data() as Map<String, dynamic>);
 
-          MyCollection.user.doc(userData.id).update(
+          MyCollection.user.doc(data.docs.first.id).update(
             {
-              "id": userData.id,
+              "id": data.docs.first.id,
             },
           );
         }
+
         final data = await MyCollection.user
             .where("email", isEqualTo: user.user!.email)
             .get();
         
-        await StorageService().saveUser(data.docs.first.data() as Map<String, dynamic>);
+        await StorageService()
+            .saveUser(data.docs.first.data() as Map<String, dynamic>);
         _user.setUser = await StorageService().loadUser();
         await StorageService().saveId(data.docs.first["id"]);
         Navigator.pushReplacementNamed(context, Routes.main)

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/color.dart';
+import 'package:project/app/views/product/widgets/btm_sheet.dart';
 import 'package:project/app/widgets/currency.dart';
 
 import '../../constant/glow.dart';
@@ -27,7 +29,14 @@ class ProductPage extends StatelessWidget {
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton.extended(
               heroTag: "home",
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => BtmSheet(product: product),
+                );
+              },
               label: Padding(
                 padding: EdgeInsets.only(
                   left: size.width * 0.2,

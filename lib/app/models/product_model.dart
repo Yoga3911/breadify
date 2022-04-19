@@ -46,8 +46,8 @@ class ProductModel with ChangeNotifier {
         "quantity": quantity,
         "category_id": categoryId,
         "store_id": storeId,
-        "create_at": createAt.toIso8601String(),
-        "update_at": updateAt.toIso8601String(),
+        "create_at": createAt,
+        "update_at": updateAt,
       };
 
   int _total = 0;

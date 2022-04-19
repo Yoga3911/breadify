@@ -11,7 +11,7 @@ class ProductProvider with ChangeNotifier {
     this.category = "Category",
     this.icon = "assets/icons/category.png",
   });
-  
+
   Future<List<ProductModel>> getAll() async {
     final data = await MyCollection.product.get();
 
@@ -119,5 +119,10 @@ class ProductProvider with ChangeNotifier {
       icon = "assets/icons/brownie.png";
     }
     notifyListeners();
+  }
+
+  Future<void> updateQuantity(String productId, int val) async {
+    print("dsadsa");
+    await MyCollection.product.doc(productId).update({"quantity": val});
   }
 }
