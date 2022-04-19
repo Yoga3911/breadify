@@ -2,13 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project/app/services/service.dart';
 
-import 'service.dart';
-
-class GoogleService implements Services {
-  @override
-  String name = "Google";
-
+class GoogleService extends SocialService {
   @override
   Future<UserCredential> signIn() async {
     try {

@@ -2,13 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:project/app/services/service.dart';
 
-import 'service.dart';
-
-class FacebookService implements Services {
-  @override
-  String name = "Facebook";
-
+class FacebookService extends SocialService {
   @override
   Future<UserCredential> signIn() async {
     try {
