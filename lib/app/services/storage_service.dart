@@ -6,6 +6,7 @@ class StorageService {
   static const _id = "id";
   static const _name = "name";
   static const _email = "email";
+  static const _password = "password";
   static const _imageUrl = "image_url";
   static const _roleId = "role_id";
   static const _provider = "provider";
@@ -17,6 +18,7 @@ class StorageService {
     pref.setString(_id, user["id"]);
     pref.setString(_name, user["name"]);
     pref.setString(_email, user["email"]);
+    pref.setString(_password, user["password"]);
     pref.setString(_imageUrl, user["image_url"]);
     pref.setString(_roleId, user["role_id"]);
     pref.setString(_provider, user["provider"]);
@@ -32,6 +34,7 @@ class StorageService {
       email: pref.getString(_email)!,
       imageUrl: pref.getString(_imageUrl)!,
       name: pref.getString(_name)!,
+      password: pref.getString(_password)!,
       roleId: pref.getString(_roleId)!,
       provider: _provider,
       createAt:  DateTime.parse(pref.getString(_createAt)!),
