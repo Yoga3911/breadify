@@ -9,4 +9,5 @@ class MyCollection {
   static final CollectionReference store = FirebaseFirestore.instance.collection("store");
   static final CollectionReference cart = FirebaseFirestore.instance.collection("cart");
   static final CollectionReference feed = FirebaseFirestore.instance.collection("feed");
+  static final CollectionReference order = FirebaseFirestore.instance.collection("order");
 }
