@@ -5,6 +5,7 @@ import 'package:project/app/view_model/feed_provider.dart';
 import 'package:provider/provider.dart';
 
 //pemanggilan class
+import '../../../models/feeds_models.dart';
 
 //utk konten feed
 import 'package:project/app/views/main/feed/widgets/konten_feed.dart';

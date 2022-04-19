@@ -100,6 +100,7 @@ class ProductProvider with ChangeNotifier {
         ];
         break;
     }
+    notifyListeners();
   }
 
   String category;
