@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'auth_provider.dart';
 import 'category_provider.dart';
+import 'order_provider.dart';
 import 'product_provider.dart';
 import 'store_provider.dart';
 import 'user_prodvider.dart';
@@ -17,4 +18,5 @@ final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => StoreProvider()),
   ChangeNotifierProvider(create: (_) => CartProvider()),
   ChangeNotifierProvider(create: (_) => FeedProvider()),
+  ChangeNotifierProvider(create: (_) => OrderProvider()),
 ];
