@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +32,7 @@ class LogOutDialog extends StatelessWidget {
               builder: (_) => const CustomLoading(),
             );
             final pref = await SharedPreferences.getInstance();
+            log(pref.getString("social").toString());
             switch (pref.getString("social")) {
               case "google":
                 auth.logout(context, GoogleService());
@@ -39,6 +42,7 @@ class LogOutDialog extends StatelessWidget {
                 break;
             }
             pref.remove("id");
+            
           },
           child: const Text("Yakin"),
         ),

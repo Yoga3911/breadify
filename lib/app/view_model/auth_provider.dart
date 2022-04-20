@@ -1,5 +1,5 @@
+
 import 'package:flutter/material.dart';
-import 'package:project/app/models/user_model.dart';
 import 'package:project/app/services/storage_service.dart';
 import 'package:project/app/services/service.dart';
 import 'package:provider/provider.dart';
@@ -48,12 +48,10 @@ class AuthProvider with ChangeNotifier {
         (user) async {
           await _user.getUserByEmail(email: email);
 
+          final pref = await SharedPreferences.getInstance();
+          pref.setString("social", provider!);
           Navigator.pushReplacementNamed(context, Routes.home).then(
-            (_) async {
-              final pref = await SharedPreferences.getInstance();
-              pref.setString("social", provider!);
-              Navigator.pop(context);
-            },
+            (_) => Navigator.pop(context),
           );
         },
       );
@@ -69,12 +67,10 @@ class AuthProvider with ChangeNotifier {
 
           await _user.getUserByEmail(email: user.user!.email!);
           _user.setUser = await StorageService().loadUser();
+          final pref = await SharedPreferences.getInstance();
+          pref.setString("social", provider!);
           Navigator.pushReplacementNamed(context, Routes.home).then(
-            (_) async {
-              final pref = await SharedPreferences.getInstance();
-              pref.setString("social", provider!);
-              Navigator.pop(context);
-            },
+            (_) => Navigator.pop(context),
           );
         },
       );
