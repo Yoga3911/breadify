@@ -175,6 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (_) => const CustomLoading(),
                   );
@@ -252,12 +253,14 @@ class _LoginPageState extends State<LoginPage> {
                       IconButton(
                         onPressed: () {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (_) => const CustomLoading());
                           auth.login(
-                              context: context,
-                              social: GoogleService(),
-                              provider: "google");
+                            context: context,
+                            social: GoogleService(),
+                            provider: "google",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(
@@ -270,12 +273,15 @@ class _LoginPageState extends State<LoginPage> {
                       IconButton(
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (_) => const CustomLoading());
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => const CustomLoading(),
+                          );
                           auth.login(
-                              context: context,
-                              social: FacebookService(),
-                              provider: "facebook");
+                            context: context,
+                            social: FacebookService(),
+                            provider: "facebook",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(
