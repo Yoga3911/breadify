@@ -131,6 +131,8 @@ class ProductProvider with ChangeNotifier {
 
   // * >>>>>>>>>>> ADD PRODUCT <<<<<<<<<<<<
 
+  bool isError = true ;
+
   Future<void> insertData({
     String? productName,
     int? price,
