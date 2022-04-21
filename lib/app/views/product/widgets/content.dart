@@ -59,7 +59,8 @@ class ContentProduct extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FutureBuilder<UserModel>(
-                    future: userProvider.getUserById(storeProvider.getStore.userId),
+                    future:
+                        userProvider.getUserById(storeProvider.getStore.userId),
                     builder: (_, user) {
                       if (user.connectionState == ConnectionState.waiting) {
                         return Row(
@@ -89,13 +90,18 @@ class ContentProduct extends StatelessWidget {
                           ],
                         );
                       }
+                      final myStore = storeProvider.getStore;
                       return GestureDetector(
                         onTap: () => Navigator.pushNamed(
                           context,
                           Routes.store,
                           arguments: {
-                            "seller": user.data,
-                            "store": store.data,
+                            "seller_image": user.data!.imageUrl,
+                            "id": myStore.id,
+                            "name": myStore.storeName,
+                            "address": myStore.address,
+                            "open": myStore.open,
+                            "close": myStore.close,
                           },
                         ),
                         child: Row(

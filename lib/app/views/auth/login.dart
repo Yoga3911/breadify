@@ -5,7 +5,6 @@ import 'package:project/app/services/email.dart';
 import 'package:project/app/services/facebook.dart';
 import 'package:project/app/services/google.dart';
 import 'package:project/app/view_model/auth_provider.dart';
-import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
@@ -31,8 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
-    final user = Provider.of<UserProvider>(context);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
 
     return ScrollConfiguration(
       behavior: NoGlow(),

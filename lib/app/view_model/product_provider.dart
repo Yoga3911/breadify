@@ -128,4 +128,36 @@ class ProductProvider with ChangeNotifier {
   Future<void> updateFavorite(String productId, bool val) async {
     await MyCollection.product.doc(productId).update({"is_checked": val});
   }
+
+  // * >>>>>>>>>>> ADD PRODUCT <<<<<<<<<<<<
+
+  Future<void> insertData({
+    String? productName,
+    int? price,
+    int? quantity,
+    String? userId,
+    String? categoryId,
+    String? imgUrl,
+    DateTime? date,
+  }) async {
+    final storeData =
+        await MyCollection.store.where("user_id", isEqualTo: userId).get();
+    final storeId = (storeData.docs.first.data() as Map<String, dynamic>)["id"];
+
+    final product = MyCollection.product.doc();
+    product.set(
+      ProductModel(
+        id: product.id,
+        name: productName!,
+        price: price!,
+        quantity: quantity!,
+        image: imgUrl!,
+        categoryId: categoryId!,
+        storeId: storeId,
+        createAt: date!,
+        updateAt: date,
+        isChecked: false,
+      ).toJson(),
+    );
+  }
 }

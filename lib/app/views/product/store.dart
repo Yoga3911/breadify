@@ -5,10 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
 import '../../models/product_model.dart';
-import '../../models/user_model.dart';
 import '../../routes/route.dart';
 import '../../constant/color.dart';
-import '../../models/store_model.dart';
 import '../../../app/view_model/product_provider.dart';
 
 class StorePage extends StatelessWidget {
@@ -19,9 +17,14 @@ class StorePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final UserModel seller = args["seller"];
-    final StoreModel store = args["store"];
-    final productProvider = Provider.of<ProductProvider>(context);
+    final String sellerImg = args["seller_image"];
+    final String storeName = args["name"];
+    final String address = args["address"];
+    final String open = args["open"];
+    final String close = args["close"];
+    final String id = args["id"];
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
 
     return Container(
       color: Colors.white,
@@ -117,7 +120,7 @@ class StorePage extends StatelessWidget {
                               radius: size.height * 0.08,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage(seller.imageUrl),
+                                backgroundImage: NetworkImage(sellerImg),
                                 radius: size.height * 0.075,
                               ),
                             ),
@@ -126,7 +129,7 @@ class StorePage extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      store.storeName,
+                      storeName,
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -135,7 +138,7 @@ class StorePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        "Alamat: " + store.address,
+                        "Alamat: " + address,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -145,7 +148,7 @@ class StorePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        "Open: " + store.open + " - " + store.close,
+                        "Open: " + open + " - " + close,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -164,7 +167,7 @@ class StorePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 FutureBuilder<List<ProductModel>>(
-                  future: productProvider.getByStoreId(store.id),
+                  future: productProvider.getByStoreId(id),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
@@ -223,7 +226,11 @@ class StorePage extends StatelessWidget {
                                 context,
                                 Routes.product,
                                 arguments: {
-                                  "product": _product,
+                                  "id": snapshot.data![index].id,
+                                  "name": snapshot.data![index].name,
+                                  "price": snapshot.data![index].price,
+                                  "quantity": snapshot.data![index].quantity,
+                                  "image": snapshot.data![index].image,
                                 },
                               );
                             },
@@ -300,7 +307,7 @@ class StorePage extends StatelessWidget {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      store.storeName,
+                                                      storeName,
                                                       style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.w600,

@@ -45,6 +45,7 @@ class ProductModel with ChangeNotifier {
         "price": price,
         "quantity": quantity,
         "category_id": categoryId,
+        "image": image,
         "store_id": storeId,
         "create_at": createAt,
         "update_at": updateAt,

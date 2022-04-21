@@ -96,7 +96,11 @@ class Product extends StatelessWidget {
                       context,
                       Routes.product,
                       arguments: {
-                        "product": snapshot.data![index],
+                        "id": snapshot.data![index].id,
+                        "name": snapshot.data![index].name,
+                        "price": snapshot.data![index].price,
+                        "quantity": snapshot.data![index].quantity,
+                        "image": snapshot.data![index].image,
                       },
                     );
                   },

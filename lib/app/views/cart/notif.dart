@@ -3,9 +3,6 @@ import 'package:project/app/constant/glow.dart';
 import 'package:project/app/view_model/notif_provider.dart';
 import 'package:provider/provider.dart';
 
-//pemanggilan class
-import '../../models/notif_models.dart';
-
 //utk konten Notif :
 import 'package:project/app/views/cart/widgets_notif/konten_notif.dart';
 

@@ -1,4 +1,3 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class HeaderProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AudioPlayer player = AudioPlayer();
-    final product = Provider.of<ProductModel>(context, listen: false);
+    final product = Provider.of<ProductModel>(context, listen: true);
     final productProvider = Provider.of<ProductProvider>(context, listen: true);
     final size = MediaQuery.of(context).size;
     return Hero(
@@ -58,7 +57,7 @@ class HeaderProduct extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(50),
-                  onTap: () async {                    
+                  onTap: () async {
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -95,19 +94,17 @@ class HeaderProduct extends StatelessWidget {
           Positioned(
             bottom: 10,
             right: 15,
-            child: Consumer<ProductModel>(
-              builder: (_, val, __) => product.isChecked
-                  ? const Icon(
-                      Icons.favorite_rounded,
-                      color: Color(0xFFF9595F),
-                      size: 40,
-                    )
-                  : const Icon(
-                      Icons.favorite_border_rounded,
-                      size: 40,
-                    ),
-            ),
-          )
+            child: product.isChecked
+                ? const Icon(
+                    Icons.favorite_rounded,
+                    color: Color(0xFFF9595F),
+                    size: 40,
+                  )
+                : const Icon(
+                    Icons.favorite_border_rounded,
+                    size: 40,
+                  ),
+          ),
         ],
       ),
     );
