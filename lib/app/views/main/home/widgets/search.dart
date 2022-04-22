@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/routes/route.dart';
 
 import '../../../../constant/color.dart';
 
@@ -10,6 +11,13 @@ class SearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextField(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          Navigator.pushNamed(
+            context,
+            Routes.search,
+          );
+        },
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

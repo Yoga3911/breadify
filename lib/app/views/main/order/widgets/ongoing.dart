@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/models/orders_models.dart';
 
-//memanggil kerangka orders :
-import '../order.dart';
 
 class OngoingPage extends StatelessWidget {
   const OngoingPage({required this.orderModel, Key? key}) : super(key: key);

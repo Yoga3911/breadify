@@ -11,7 +11,15 @@ class StoreProvider with ChangeNotifier {
     setStore = StoreModel.fromJson(data.data() as Map<String, dynamic>);
   }
 
-  set setStore(StoreModel val) => _storeModel = val;
+  set setStore(StoreModel val) {
+    _storeModel = val;
+    notifyListeners();
+  }
+
+  Future<StoreModel> getStoreById(String storeId) async {
+    final data = await MyCollection.store.doc(storeId).get();
+    return StoreModel.fromJson(data.data() as Map<String, dynamic>);
+  }
 
   StoreModel get getStore => _storeModel!;
 }

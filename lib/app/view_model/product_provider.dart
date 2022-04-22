@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import '../constant/collection.dart';
 import '../models/product_model.dart';
 
+enum state { loading, done, empty }
+
 class ProductProvider with ChangeNotifier {
   ProductProvider({
     this.category = "Category",
@@ -36,58 +38,93 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
-  Future<List<ProductModel>> getByCategory(String category) async {
+  List<ProductModel> _dataProduct = [];
+  List<ProductModel> _dataFilter = [];
+
+  state? _status;
+
+  set setStatus(state val) => _status = val;
+
+  state get getStatus => _status!;
+
+  Future<void> getByCategory(String category) async {
+    setStatus = state.loading;
     switch (category) {
       case "Popular":
         final data = await MyCollection.product.get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
+        break;
       case "Bread":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "1")
             .get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
+        break;
       case "Cookies":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "2")
             .get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
+        break;
       case "Cakes":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "3")
             .get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
+        break;
       case "Pastry":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "4")
             .get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
+        break;
       case "Brownies":
         final data = await MyCollection.product
             .where("category_id", isEqualTo: "5")
             .get();
-        return <ProductModel>[
+        setDataProduct = <ProductModel>[
           for (QueryDocumentSnapshot<Object?> item in data.docs)
             ProductModel.fromJson(item.data() as Map<String, dynamic>)
         ];
-      default:
-        return <ProductModel>[];
+        break;
     }
   }
+
+  set setDataProduct(List<ProductModel> val) {
+    _dataProduct = val;
+    _dataFilter = val;
+    notifyListeners();
+  }
+
+  getDataProduct(String categoryId) {
+    if (categoryId == "Popular") {
+      _dataFilter = _dataProduct;
+    } else {
+      _dataFilter = _dataProduct
+          .where((element) => element.categoryId == categoryId)
+          .toList();
+    }
+    notifyListeners();
+  }
+
+  List<ProductModel> get getDataFilter => _dataFilter;
+
+  List<ProductModel> get getAllProduct => _dataProduct;
 
   String category;
   String icon;
@@ -127,5 +164,40 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> updateFavorite(String productId, bool val) async {
     await MyCollection.product.doc(productId).update({"is_checked": val});
+    notifyListeners();
+  }
+
+  // * >>>>>>>>>>> ADD PRODUCT <<<<<<<<<<<<
+
+  bool isError = true;
+
+  Future<void> insertData({
+    String? productName,
+    int? price,
+    int? quantity,
+    String? userId,
+    String? categoryId,
+    String? imgUrl,
+    DateTime? date,
+  }) async {
+    final storeData =
+        await MyCollection.store.where("user_id", isEqualTo: userId).get();
+    final storeId = (storeData.docs.first.data() as Map<String, dynamic>)["id"];
+
+    final product = MyCollection.product.doc();
+    product.set(
+      ProductModel(
+        id: product.id,
+        name: productName!,
+        price: price!,
+        quantity: quantity!,
+        image: imgUrl!,
+        categoryId: categoryId!,
+        storeId: storeId,
+        createAt: date!,
+        updateAt: date,
+        isChecked: false,
+      ).toJson(),
+    );
   }
 }

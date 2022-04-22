@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,17 +26,23 @@ class LogOutDialog extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
-            showDialog(context: context, builder: (_) => const CustomLoading());
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (_) => const CustomLoading(),
+            );
             final pref = await SharedPreferences.getInstance();
+            log(pref.getString("social").toString());
             switch (pref.getString("social")) {
-              case "Google":
+              case "google":
                 auth.logout(context, GoogleService());
                 break;
-              case "Facebook":
+              case "facebook":
                 auth.logout(context, FacebookService());
                 break;
             }
             pref.remove("id");
+            
           },
           child: const Text("Yakin"),
         ),

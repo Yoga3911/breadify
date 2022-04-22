@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/auth_provider.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
     password2.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -181,13 +183,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 onPressed: () async {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => const CustomLoading(),
+                  );
                   auth.register(
                     context: context,
                     email: email.text,
                     name: username.text,
                     password: password1.text,
                   );
-                  Navigator.pop(context);
+                  
                 },
                 child: const Text("Sign Up",
                     textAlign: TextAlign.center,

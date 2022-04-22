@@ -123,7 +123,7 @@ class BtmSheet extends StatelessWidget {
                                         onTap: () {},
                                         child: const Icon(Icons.remove_rounded),
                                       ),
-                                      Text("1"),
+                                      const Text("1"),
                                       GestureDetector(
                                         onTap: () {},
                                         child: const Icon(Icons.add_rounded),
