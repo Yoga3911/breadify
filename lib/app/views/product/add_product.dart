@@ -54,12 +54,12 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   Future<void> getImgUrl({String? imgName}) async {
-    imgUrl = await MyCollection.storage.ref(imgName).getDownloadURL();
+    imgUrl = await MyCollection.storage.ref("products/$imgName").getDownloadURL();
   }
 
   Future<void> uploadImg({String? imgName, File? imgFile}) async {
     try {
-      await MyCollection.storage.ref(imgName).putFile(imgFile!);
+      await MyCollection.storage.ref("products/$imgName").putFile(imgFile!);
       log("Image uploaded");
     } on FirebaseException catch (e) {
       log(e.message!);
@@ -305,7 +305,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                               "assets/icons/category.png";
                                           Navigator.pushNamedAndRemoveUntil(
                                             context,
-                                            Routes.home,
+                                            Routes.main,
                                             (route) => false,
                                           );
                                         },

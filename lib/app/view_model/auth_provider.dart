@@ -50,7 +50,7 @@ class AuthProvider with ChangeNotifier {
 
           final pref = await SharedPreferences.getInstance();
           pref.setString("social", provider!);
-          Navigator.pushReplacementNamed(context, Routes.home).then(
+          Navigator.pushReplacementNamed(context, Routes.main).then(
             (_) => Navigator.pop(context),
           );
         },
@@ -69,7 +69,7 @@ class AuthProvider with ChangeNotifier {
           _user.setUser = await StorageService().loadUser();
           final pref = await SharedPreferences.getInstance();
           pref.setString("social", provider!);
-          Navigator.pushReplacementNamed(context, Routes.home).then(
+          Navigator.pushReplacementNamed(context, Routes.main).then(
             (_) => Navigator.pop(context),
           );
         },
