@@ -38,6 +38,16 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
+  Stream<List<ProductModel>> getByStoreIdStream(String storeId) async* {
+    final data =
+        await MyCollection.product.where("store_id", isEqualTo: storeId).get();
+
+    yield <ProductModel>[
+      for (QueryDocumentSnapshot<Object?> item in data.docs)
+        ProductModel.fromJson(item.data() as Map<String, dynamic>)
+    ];
+  }
+
   List<ProductModel> _dataProduct = [];
   List<ProductModel> _dataFilter = [];
 
@@ -179,13 +189,10 @@ class ProductProvider with ChangeNotifier {
     String? categoryId,
     String? imgUrl,
     DateTime? date,
+    String? storeId,
   }) async {
-    final storeData =
-        await MyCollection.store.where("user_id", isEqualTo: userId).get();
-    final storeId = (storeData.docs.first.data() as Map<String, dynamic>)["id"];
-
     final product = MyCollection.product.doc();
-    product.set(
+    await product.set(
       ProductModel(
         id: product.id,
         name: productName!,
@@ -193,11 +200,47 @@ class ProductProvider with ChangeNotifier {
         quantity: quantity!,
         image: imgUrl!,
         categoryId: categoryId!,
-        storeId: storeId,
+        storeId: storeId!,
         createAt: date!,
         updateAt: date,
         isChecked: false,
       ).toJson(),
     );
+  }
+
+  // * >>>>>>>>>>> UPDATE PRODUCT <<<<<<<<<<<<
+
+  Future<void> updateData({
+    String? productId,
+    String? productName,
+    int? price,
+    int? quantity,
+    String? userId,
+    String? categoryId,
+    String? imgUrl,
+    DateTime? date,
+    String? storeId,
+  }) async {
+    final product = MyCollection.product.doc(productId);
+    await product.set(
+      ProductModel(
+        id: product.id,
+        name: productName!,
+        price: price!,
+        quantity: quantity!,
+        image: imgUrl!,
+        categoryId: categoryId!,
+        storeId: storeId!,
+        createAt: date!,
+        updateAt: date,
+        isChecked: false,
+      ).toJson(),
+    );
+  }
+
+  // * >>>>>>>> DELETE PRODUCT <<<<<<<<<
+
+  Future<void> deleteById(String productId) async {
+    await MyCollection.product.doc(productId).delete();
   }
 }

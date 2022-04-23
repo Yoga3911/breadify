@@ -5,29 +5,23 @@ import 'package:project/app/view_model/product_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/product_model.dart';
-import '../../../view_model/user_prodvider.dart';
+import '../../../routes/route.dart';
 
 class HeaderProduct extends StatelessWidget {
-  const HeaderProduct({
-    Key? key,
-    required this.sellerId,
-  }) : super(key: key);
-
-  final String sellerId;
+  const HeaderProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     AudioPlayer player = AudioPlayer();
-    final product = Provider.of<ProductModel>(context, listen: true);
+    final product = Provider.of<ProductModel?>(context, listen: true);
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
-    final user = Provider.of<UserProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
         GestureDetector(
           onDoubleTap: () async {
-            if (!product.isChecked) {
+            if (!product!.isChecked) {
               await player.play(
                   "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/ring.mp3?alt=media&token=470e2a49-1586-440d-abdf-51bb6fafa210");
               await Future.delayed(const Duration(milliseconds: 500));
@@ -39,12 +33,13 @@ class HeaderProduct extends StatelessWidget {
             }
           },
           child: Hero(
-            tag: product.id + "hero",
+            tag: (product?.id ?? "") + "hero",
             child: SizedBox(
               height: size.height * 0.4,
               width: size.width,
               child: CachedNetworkImage(
-                imageUrl: product.image,
+                imageUrl: product?.image ??
+                    "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/products%2Fno-product.png?alt=media&token=28247cc4-d472-4aef-b1c7-517fd62f84d1",
                 fit: BoxFit.cover,
               ),
             ),
@@ -75,35 +70,37 @@ class HeaderProduct extends StatelessWidget {
             ),
           ),
         ),
-        (sellerId == user.getUser.id)
-            ? Positioned(
-                top: 15,
-                right: 15,
-                child: Container(
-                  height: size.height * 0.05,
-                  width: size.height * 0.05,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(50),
-                      onTap: () {},
-                      child: SizedBox(
-                        height: size.height * 0.025,
-                        child: Image.asset("assets/icons/more.png"),
-                      ),
-                    ),
-                  ),
+        Positioned(
+          top: 15,
+          right: 15,
+          child: Container(
+            height: size.height * 0.05,
+            width: size.height * 0.05,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.main,
+                  (route) => false,
                 ),
-              )
-            : const SizedBox(),
+                child: Icon(
+                  Icons.home_rounded,
+                  size: size.height * 0.025,
+                ),
+              ),
+            ),
+          ),
+        ),
         Positioned(
           bottom: 10,
           right: 15,
-          child: product.isChecked
+          child: product?.isChecked ?? false
               ? const Icon(
                   Icons.favorite_rounded,
                   color: Color(0xFFF9595F),

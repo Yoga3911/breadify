@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:project/app/services/email.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,6 +40,9 @@ class LogOutDialog extends StatelessWidget {
                 break;
               case "facebook":
                 auth.logout(context, FacebookService());
+                break;
+              case "email":
+                auth.logout(context, EmailService());
                 break;
             }
             pref.remove("id");

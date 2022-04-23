@@ -4,6 +4,7 @@ import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/views/product/widgets/store_header.dart';
 import 'package:project/app/views/product/widgets/store_product.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../constant/glow.dart';
 import '../../models/product_model.dart';
@@ -31,13 +32,19 @@ class StorePage extends StatelessWidget {
             floatingActionButton: (args["seller_id"] == user.getUser.id)
                 ? FloatingActionButton(
                     heroTag: "home",
-                    onPressed: () =>
-                        Navigator.pushNamed(context, Routes.addProduct),
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Routes.addProduct,
+                      arguments: {
+                        "action": "add",
+                        "store_id": args["id"],
+                      },
+                    ),
                     child: const Icon(
                       Icons.add,
                       color: Colors.white,
                     ),
-                    backgroundColor: MyColor.red2,
+                    backgroundColor: MyColor.yellow,
                   )
                 : null,
             body: ListView(
@@ -54,52 +61,101 @@ class StorePage extends StatelessWidget {
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
                     "All products",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 const SizedBox(height: 10),
-                FutureBuilder<List<ProductModel>>(
-                  future: productProvider.getByStoreId(args["id"]),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
-                        child: MasonryGridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          itemCount: 6,
-                          gridDelegate:
-                              const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                          ),
-                          itemBuilder: (_, index) {
-                            return Material(
-                              elevation: 5,
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                height: (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                    ? size.height * 0.3
-                                    : size.height * 0.4,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                (args["seller_id"] == user.getUser.id)
+                    ? StreamBuilder<List<ProductModel>>(
+                        stream: productProvider.getByStoreIdStream(args["id"]),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                bottom: 10,
+                              ),
+                              child: ListView.builder(
+                                itemCount: 4,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (_, index) => Shimmer.fromColors(
+                                  baseColor: MyColor.grey2,
+                                  highlightColor: MyColor.grey3,
+                                  direction: ShimmerDirection.ltr,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    height: 55,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
-                          },
-                        ),
-                      );
-                    }
-                    return StoreProduct(
-                      productModel: snapshot.data ?? [],
-                      storeName: args["name"],
-                    );
-                  },
-                ),
+                          }
+                          return StoreProduct(
+                            productModel: snapshot.data ?? [],
+                            storeName: args["name"],
+                            sellerId: args["seller_id"],
+                            storeId: args["id"],
+                          );
+                        },
+                      )
+                    : FutureBuilder<List<ProductModel>>(
+                        future: productProvider.getByStoreId(args["id"]),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                bottom: 10,
+                              ),
+                              child: MasonryGridView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                mainAxisSpacing: 20,
+                                crossAxisSpacing: 20,
+                                itemCount: 4,
+                                gridDelegate:
+                                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                ),
+                                itemBuilder: (_, index) {
+                                  return Shimmer.fromColors(
+                                    baseColor: MyColor.grey2,
+                                    highlightColor: MyColor.grey3,
+                                    direction: ShimmerDirection.ltr,
+                                    child: Container(
+                                      height:
+                                          (MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait)
+                                              ? size.height * 0.3
+                                              : size.height * 0.4,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          return StoreProduct(
+                            productModel: snapshot.data ?? [],
+                            storeName: args["name"],
+                            sellerId: args["seller_id"],
+                            storeId: args["id"],
+                          );
+                        },
+                      ),
               ],
             ),
           ),

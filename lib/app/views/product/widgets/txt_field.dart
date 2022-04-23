@@ -11,11 +11,17 @@ class MyTxtField extends StatefulWidget {
     required this.controller,
     required this.hint,
     required this.isNum,
+    this.name = "",
+    this.price = 0,
+    this.quantity = 0,
   }) : super(key: key);
   final String icon;
   final TextEditingController controller;
   final String hint;
   final bool isNum;
+  final String name;
+  final int price;
+  final int quantity;
 
   @override
   State<MyTxtField> createState() => _MyTxtFieldState();
@@ -28,6 +34,9 @@ class _MyTxtFieldState extends State<MyTxtField> {
   bool isError = false;
   @override
   void initState() {
+    (widget.name != "")? widget.controller.text = widget.name : null;
+    (widget.price != 0)? widget.controller.text = widget.price.toString() : null;
+    (widget.quantity != 0)? widget.controller.text = widget.quantity.toString(): null;
     _focus.addListener(
       () => setState(
         () {

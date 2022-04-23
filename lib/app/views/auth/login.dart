@@ -19,12 +19,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  late TextEditingController _email;
+  late TextEditingController _password;
+  
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    email.dispose();
-    password.dispose();
+    _email.dispose();
+    _password.dispose();
     super.dispose();
   }
 
@@ -99,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: email,
+                controller: _email,
                 decoration: InputDecoration(
                     // icon: Icon(Icons.account_box),
                     prefixIcon: const Icon(
@@ -125,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   30),
               child: TextField(
-                controller: password,
+                controller: _password,
                 obscureText: true,
                 decoration: InputDecoration(
                     // icon: Icon(Icons.account_box),
@@ -179,8 +187,8 @@ class _LoginPageState extends State<LoginPage> {
                   );
                   auth.login(
                     context: context,
-                    email: email.text,
-                    password: password.text,
+                    email: _email.text,
+                    password: _password.text,
                     provider: "email",
                     social: EmailService(),
                   );

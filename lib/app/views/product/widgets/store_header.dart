@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../routes/route.dart';
@@ -98,8 +99,15 @@ class StoreHeader extends StatelessWidget {
                   radius: size.height * 0.08,
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(sellerImg),
                     radius: size.height * 0.075,
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: sellerImg,
+                        fit: BoxFit.cover,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ),
+                    ),
                   ),
                 ),
               ),

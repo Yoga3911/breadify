@@ -4,7 +4,6 @@ import 'package:project/app/views/product/widgets/btm_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
-import '../../view_model/user_prodvider.dart';
 import '../../views/product/widgets/content.dart';
 import '../../views/product/widgets/header.dart';
 import '../../models/product_model.dart';
@@ -15,7 +14,6 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<ProductProvider>(context, listen: false);
-    final user = Provider.of<UserProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
@@ -27,38 +25,35 @@ class ProductPage extends StatelessWidget {
           child: Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: (args["seller_id"] == user.getUser.id)
-                ? null
-                : FloatingActionButton.extended(
-                    heroTag: "home",
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isDismissible: false,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) => BtmSheet(
-                          name: args["name"],
-                          price: args["price"],
-                          quantity: args["quantity"],
-                          image: args["image"],
-                        ),
-                      );
-                    },
-                    label: Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.2,
-                        right: size.width * 0.2,
-                      ),
-                      child: const Text(
-                        "Add to cart",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900, fontSize: 16),
-                      ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+            floatingActionButton: FloatingActionButton.extended(
+              heroTag: "home",
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => BtmSheet(
+                    name: args["name"],
+                    price: args["price"],
+                    quantity: args["quantity"],
+                    image: args["image"],
                   ),
+                );
+              },
+              label: Padding(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.2,
+                  right: size.width * 0.2,
+                ),
+                child: const Text(
+                  "Add to cart",
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
             body: FutureBuilder<ProductModel>(
               future: product.getById(args["id"]),
               builder: (_, snapshot) {
@@ -68,13 +63,9 @@ class ProductPage extends StatelessWidget {
                 return ChangeNotifierProvider(
                   create: (_) => snapshot.data,
                   child: ListView(
-                    children: [
-                      HeaderProduct(
-                        sellerId: args["seller_id"],
-                      ),
-                      ContentProduct(
-                        storeModel: args["store"],
-                      ),
+                    children: const [
+                      HeaderProduct(),
+                      ContentProduct(),
                     ],
                   ),
                 );

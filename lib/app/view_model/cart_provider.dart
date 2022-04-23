@@ -39,7 +39,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<CartModel>> get getCartData async => _cartData;
+  List<CartModel> get getCartData => _cartData;
 
   set setSelectAll(bool val) => _isSelectAll = val;
   bool get getSelectAll => _isSelectAll;
