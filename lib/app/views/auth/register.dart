@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:project/app/utils/hash.dart';
 import 'package:project/app/view_model/auth_provider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
@@ -202,9 +203,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     context: context,
                     email: _email.text,
                     name: _username.text,
-                    password: _password1.text,
+                    password: hashPass(_password1.text),
                   );
-                  
                 },
                 child: const Text("Sign Up",
                     textAlign: TextAlign.center,

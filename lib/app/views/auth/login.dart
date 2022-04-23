@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
+import '../../utils/hash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _email;
   late TextEditingController _password;
-  
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -109,21 +110,23 @@ class _LoginPageState extends State<LoginPage> {
               child: TextField(
                 controller: _email,
                 decoration: InputDecoration(
-                    // icon: Icon(Icons.account_box),
-                    prefixIcon: const Icon(
-                      Icons.email_outlined,
+                  // icon: Icon(Icons.account_box),
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: MyColor.yellow,
+                  ),
+                  prefixStyle: const TextStyle(color: Colors.blue),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
                       color: MyColor.yellow,
                     ),
-                    prefixStyle: const TextStyle(color: Colors.blue),
-                    hintText: "Email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: MyColor.yellow,
-                        ))),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -188,15 +191,19 @@ class _LoginPageState extends State<LoginPage> {
                   auth.login(
                     context: context,
                     email: _email.text,
-                    password: _password.text,
+                    password: hashPass(_password.text),
                     provider: "email",
                     social: EmailService(),
                   );
                 },
-                child: const Text("Log In",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                child: const Text(
+                  "Log In",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ),
             ),
             Column(

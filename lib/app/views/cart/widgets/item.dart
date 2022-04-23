@@ -10,7 +10,7 @@ import 'package:project/app/views/cart/widgets/inc_dec_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/cart_provider.dart';
-import '../../../widgets/currency.dart';
+import '../../../utils/currency.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({
