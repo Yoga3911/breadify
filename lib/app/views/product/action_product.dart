@@ -151,12 +151,12 @@ class _AddProductPageState extends State<AddProductPage> {
                                         content: Text(
                                           "Produk berhasil dihapus",
                                         ),
-                                        backgroundColor: Color(0xFFF9595F),
+                                        backgroundColor: Color.fromARGB(255, 255, 74, 80),
                                       ),
                                     );
                                     Navigator.pushNamedAndRemoveUntil(
                                       context,
-                                      Routes.store,
+                                      Routes.main,
                                       (route) => false,
                                     );
                                   },
@@ -401,6 +401,18 @@ class _AddProductPageState extends State<AddProductPage> {
                                                 product.category = "Category";
                                                 product.icon =
                                                     "assets/icons/category.png";
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    duration:
+                                                        Duration(seconds: 3),
+                                                    content: Text(
+                                                      "Produk berhasil ditambahkan",
+                                                    ),
+                                                    backgroundColor:
+                                                        Color.fromARGB(255, 91, 195, 46),
+                                                  ),
+                                                );
                                                 Navigator
                                                     .pushNamedAndRemoveUntil(
                                                   context,
@@ -430,6 +442,18 @@ class _AddProductPageState extends State<AddProductPage> {
                                                 product.category = "Category";
                                                 product.icon =
                                                     "assets/icons/category.png";
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    duration:
+                                                        Duration(seconds: 3),
+                                                    content: Text(
+                                                      "Produk berhasil diubah",
+                                                    ),
+                                                    backgroundColor:
+                                                        Color.fromARGB(255, 59, 147, 255),
+                                                  ),
+                                                );
                                                 Navigator
                                                     .pushNamedAndRemoveUntil(
                                                   context,

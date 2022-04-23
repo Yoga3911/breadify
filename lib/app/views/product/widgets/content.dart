@@ -19,10 +19,10 @@ class ContentProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final product = Provider.of<ProductModel>(context, listen: false);
+    final product = Provider.of<ProductModel?>(context, listen: false);
     final store = Provider.of<StoreProvider>(context, listen: false);
     return FutureBuilder<StoreModel>(
-        future: store.getStoreById(product.storeId),
+        future: store.getStoreById(product?.storeId ?? ""),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox();
@@ -139,7 +139,7 @@ class ContentProduct extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "Rp " + currency(product.price),
+                          "Rp " + currency(product?.price ?? 0),
                           style: const TextStyle(
                               color: MyColor.yellow,
                               fontWeight: FontWeight.bold),
@@ -150,7 +150,7 @@ class ContentProduct extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  product.name,
+                  product?.name ?? "",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 24),
                 ),
