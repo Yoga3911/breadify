@@ -26,7 +26,7 @@ class Product extends StatelessWidget {
             ? MasonryGridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 6,
+                itemCount: 4,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20,
                 cacheExtent: 10000,

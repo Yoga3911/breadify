@@ -13,7 +13,7 @@ class HeaderProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AudioPlayer player = AudioPlayer();
-    final product = Provider.of<ProductModel>(context, listen: true);
+    final product = Provider.of<ProductModel?>(context, listen: true);
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
@@ -21,7 +21,7 @@ class HeaderProduct extends StatelessWidget {
       children: [
         GestureDetector(
           onDoubleTap: () async {
-            if (!product.isChecked) {
+            if (!product!.isChecked) {
               await player.play(
                   "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/ring.mp3?alt=media&token=470e2a49-1586-440d-abdf-51bb6fafa210");
               await Future.delayed(const Duration(milliseconds: 500));
@@ -33,12 +33,13 @@ class HeaderProduct extends StatelessWidget {
             }
           },
           child: Hero(
-            tag: product.id + "hero",
+            tag: (product?.id ?? "") + "hero",
             child: SizedBox(
               height: size.height * 0.4,
               width: size.width,
               child: CachedNetworkImage(
-                imageUrl: product.image,
+                imageUrl: product?.image ??
+                    "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/products%2Fno-product.png?alt=media&token=28247cc4-d472-4aef-b1c7-517fd62f84d1",
                 fit: BoxFit.cover,
               ),
             ),
@@ -99,7 +100,7 @@ class HeaderProduct extends StatelessWidget {
         Positioned(
           bottom: 10,
           right: 15,
-          child: product.isChecked
+          child: product?.isChecked ?? false
               ? const Icon(
                   Icons.favorite_rounded,
                   color: Color(0xFFF9595F),

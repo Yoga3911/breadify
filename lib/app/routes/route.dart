@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/views/cart/notif.dart';
 import 'package:project/app/views/main/home/search_page.dart';
-import 'package:project/app/views/product/add_product.dart';
+import 'package:project/app/views/product/action_product.dart';
 
 import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';

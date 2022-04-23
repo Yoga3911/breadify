@@ -5,13 +5,51 @@ import '../../../views/product/widgets/product_category.dart';
 import '../../../constant/color.dart';
 import '../../../view_model/product_provider.dart';
 
-class MyDropDown extends StatelessWidget {
-  const MyDropDown({Key? key}) : super(key: key);
+class MyDropDown extends StatefulWidget {
+  const MyDropDown({Key? key, this.category = ""}) : super(key: key);
+
+  final String category;
+
+  @override
+  State<MyDropDown> createState() => _MyDropDownState();
+}
+
+class _MyDropDownState extends State<MyDropDown> {
+  @override
+  void initState() {
+    final product = Provider.of<ProductProvider>(context, listen: false);
+    if (widget.category != "") {
+      switch (widget.category) {
+        case "1":
+          product.category = "Bread";
+          product.icon = "assets/icons/bread.png";
+          break;
+        case "2":
+          product.category = "Cookies";
+          product.icon = "assets/icons/cookies.png";
+          break;
+        case "3":
+          product.category = "Cakes";
+          product.icon = "assets/icons/cakes.png";
+          break;
+        case "4":
+          product.category = "Pastry";
+          product.icon = "assets/icons/pastry.png";
+          break;
+        case "5":
+          product.category = "Brownies";
+          product.icon = "assets/icons/brownie.png";
+          break;
+      }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<ProductProvider>(context);
     final size = MediaQuery.of(context).size;
+
     return Column(
       children: [
         GestureDetector(
@@ -59,7 +97,7 @@ class MyDropDown extends StatelessWidget {
           SizedBox(
             width: size.width,
             child: Container(
-                padding: const EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: MyColor.yellow,
                 borderRadius: BorderRadius.circular(15),
