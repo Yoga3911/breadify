@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:project/app/services/storage_service.dart';
 import 'package:project/app/services/service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +65,6 @@ class AuthProvider with ChangeNotifier {
           );
 
           await _user.getUserByEmail(email: user.user!.email!);
-          _user.setUser = await StorageService().loadUser();
           final pref = await SharedPreferences.getInstance();
           pref.setString("social", provider!);
           Navigator.pushReplacementNamed(context, Routes.main).then(

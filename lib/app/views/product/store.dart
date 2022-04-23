@@ -66,8 +66,8 @@ class StorePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 (args["seller_id"] == user.getUser.id)
-                    ? StreamBuilder<List<ProductModel>>(
-                        stream: productProvider.getByStoreIdStream(args["id"]),
+                    ? FutureBuilder<List<ProductModel>>(
+                        future: productProvider.getByStoreId(args["id"]),
                         builder: (_, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {

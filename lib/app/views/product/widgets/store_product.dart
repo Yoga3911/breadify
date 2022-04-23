@@ -16,7 +16,7 @@ class StoreProduct extends StatelessWidget {
     required this.storeId,
   }) : super(key: key);
 
-  final List<ProductModel> productModel;
+  final List<dynamic> productModel;
   final String storeName;
   final String sellerId;
   final String storeId;
@@ -63,12 +63,12 @@ class StoreProduct extends StatelessWidget {
                     Routes.addProduct,
                     arguments: {
                       "action": "update",
-                      "name": productModel[index].name,
-                      "price": productModel[index].price,
-                      "quantity": productModel[index].quantity,
-                      "category": productModel[index].categoryId,
-                      "image": productModel[index].image,
-                      "product_id": productModel[index].id,
+                      "name": product.name,
+                      "price": product.price,
+                      "quantity": product.quantity,
+                      "category": product.categoryId,
+                      "image": product.image,
+                      "product_id": product.id,
                       "store_id": storeId,
                     },
                   ),
@@ -86,7 +86,7 @@ class StoreProduct extends StatelessWidget {
                 crossAxisCount: 2,
               ),
               itemBuilder: (_, index) {
-                final product = productModel[index];
+                ProductModel product = productModel[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(
@@ -154,7 +154,7 @@ class StoreProduct extends StatelessWidget {
                                     Align(
                                       alignment: const Alignment(-1, 0.55),
                                       child: Text(
-                                        productModel[index].name,
+                                        product.name,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontSize: 18,
