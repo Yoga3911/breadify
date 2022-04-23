@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/models/store_model.dart';
 import 'package:project/app/view_model/store_provider.dart';
-import 'package:project/app/widgets/currency.dart';
+import 'package:project/app/utils/currency.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/user_prodvider.dart';

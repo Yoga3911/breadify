@@ -13,7 +13,7 @@ import 'package:project/app/views/cart/widgets/choose_all.dart';
 import 'package:project/app/views/cart/widgets/item.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/currency.dart';
+import '../../utils/currency.dart';
 import 'widgets/cart_shimmer.dart';
 
 class CartPage extends StatelessWidget {

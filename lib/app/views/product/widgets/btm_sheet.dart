@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
-import 'package:project/app/widgets/currency.dart';
+import 'package:project/app/utils/currency.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BtmSheet extends StatelessWidget {
