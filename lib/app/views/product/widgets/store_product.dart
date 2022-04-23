@@ -10,10 +10,12 @@ class StoreProduct extends StatelessWidget {
     Key? key,
     required this.productModel,
     required this.storeName,
+    required this.sellerId,
   }) : super(key: key);
 
   final List<ProductModel> productModel;
   final String storeName;
+  final String sellerId;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class StoreProduct extends StatelessWidget {
                   "price": product.price,
                   "quantity": product.quantity,
                   "image": product.image,
+                  "seller_id": sellerId,
                 },
               );
             },

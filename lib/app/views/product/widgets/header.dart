@@ -5,15 +5,10 @@ import 'package:project/app/view_model/product_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/product_model.dart';
-import '../../../view_model/user_prodvider.dart';
+import '../../../routes/route.dart';
 
 class HeaderProduct extends StatelessWidget {
-  const HeaderProduct({
-    Key? key,
-    required this.sellerId,
-  }) : super(key: key);
-
-  final String sellerId;
+  const HeaderProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +16,6 @@ class HeaderProduct extends StatelessWidget {
     final product = Provider.of<ProductModel>(context, listen: true);
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
-    final user = Provider.of<UserProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -75,31 +69,33 @@ class HeaderProduct extends StatelessWidget {
             ),
           ),
         ),
-        (sellerId == user.getUser.id)
-            ? Positioned(
-                top: 15,
-                right: 15,
-                child: Container(
-                  height: size.height * 0.05,
-                  width: size.height * 0.05,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(50),
-                      onTap: () {},
-                      child: SizedBox(
-                        height: size.height * 0.025,
-                        child: Image.asset("assets/icons/more.png"),
-                      ),
-                    ),
-                  ),
+        Positioned(
+          top: 15,
+          right: 15,
+          child: Container(
+            height: size.height * 0.05,
+            width: size.height * 0.05,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.main,
+                  (route) => false,
                 ),
-              )
-            : const SizedBox(),
+                child: Icon(
+                  Icons.home_rounded,
+                  size: size.height * 0.025,
+                ),
+              ),
+            ),
+          ),
+        ),
         Positioned(
           bottom: 10,
           right: 15,

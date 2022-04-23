@@ -97,6 +97,7 @@ class StorePage extends StatelessWidget {
                     return StoreProduct(
                       productModel: snapshot.data ?? [],
                       storeName: args["name"],
+                      sellerId: args["seller_id"],
                     );
                   },
                 ),

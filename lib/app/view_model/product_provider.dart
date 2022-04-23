@@ -200,4 +200,10 @@ class ProductProvider with ChangeNotifier {
       ).toJson(),
     );
   }
+
+  // * >>>>>>>> DELETE PRODUCT <<<<<<<<<
+
+  Future<void> deleteById(String productId) async {
+    await MyCollection.product.doc(productId).delete();
+  }
 }

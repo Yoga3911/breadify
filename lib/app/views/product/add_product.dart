@@ -23,22 +23,21 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  final TextEditingController _productName = TextEditingController();
-  final TextEditingController _productPrice = TextEditingController();
-  final TextEditingController _productQuantity = TextEditingController();
+  late TextEditingController _productName;
+  late TextEditingController _productPrice;
+  late TextEditingController _productQuantity;
 
-  File? img;
-  String? imgUrl;
-  String? imgName;
-  bool isError = true;
-  final DateTime date = DateTime.now();
+  File? _img;
+  String? _imgUrl;
+  String? _imgName;
+  final DateTime _date = DateTime.now();
 
   Future<void> fromGallery() async {
     XFile? result = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (result != null) {
-      img = File(result.path);
-      imgName = result.name;
+      _img = File(result.path);
+      _imgName = result.name;
     }
     setState(() {});
   }
@@ -47,14 +46,15 @@ class _AddProductPageState extends State<AddProductPage> {
     XFile? result = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (result != null) {
-      img = File(result.path);
-      imgName = result.name;
+      _img = File(result.path);
+      _imgName = result.name;
     }
     setState(() {});
   }
 
   Future<void> getImgUrl({String? imgName}) async {
-    imgUrl = await MyCollection.storage.ref("products/$imgName").getDownloadURL();
+    _imgUrl =
+        await MyCollection.storage.ref("products/$imgName").getDownloadURL();
   }
 
   Future<void> uploadImg({String? imgName, File? imgFile}) async {
@@ -81,6 +81,14 @@ class _AddProductPageState extends State<AddProductPage> {
       default:
         return "1";
     }
+  }
+
+  @override
+  void initState() {
+    _productName = TextEditingController();
+    _productQuantity = TextEditingController();
+    _productPrice = TextEditingController();
+    super.initState();
   }
 
   @override
@@ -210,7 +218,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  (img == null)
+                  (_img == null)
                       ? Container(
                           height: _size.height * 0.25,
                           decoration: const BoxDecoration(
@@ -231,7 +239,7 @@ class _AddProductPageState extends State<AddProductPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             image: DecorationImage(
-                              image: FileImage(img!),
+                              image: FileImage(_img!),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -249,14 +257,14 @@ class _AddProductPageState extends State<AddProductPage> {
                           ? null
                           : (val.category == "Category")
                               ? null
-                              : (img == null)
+                              : (_img == null)
                                   ? null
                                   : () async {
                                       if (_productQuantity.text.isEmpty ||
                                           _productPrice.text.isEmpty ||
                                           _productName.text.isEmpty ||
                                           product.category == "Category" ||
-                                          img == null) {
+                                          _img == null) {
                                         showDialog(
                                           context: context,
                                           barrierDismissible: false,
@@ -280,12 +288,12 @@ class _AddProductPageState extends State<AddProductPage> {
                                         builder: (_) => const CustomLoading(),
                                       );
                                       await uploadImg(
-                                          imgFile: img,
+                                          imgFile: _img,
                                           imgName:
-                                              "$imgName${date.millisecond}");
+                                              "$_imgName${_date.millisecond}");
                                       await getImgUrl(
                                           imgName:
-                                              "$imgName${date.millisecond}");
+                                              "$_imgName${_date.millisecond}");
                                       product
                                           .insertData(
                                         productName: _productName.text,
@@ -295,8 +303,8 @@ class _AddProductPageState extends State<AddProductPage> {
                                         categoryId:
                                             categoryId(product.category),
                                         userId: user.getUser.id,
-                                        imgUrl: imgUrl,
-                                        date: date,
+                                        imgUrl: _imgUrl,
+                                        date: _date,
                                       )
                                           .then(
                                         (_) {

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/models/product_model.dart';
 import 'package:project/app/routes/route.dart';
@@ -13,7 +14,13 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -38,9 +45,13 @@ class _SearchPageState extends State<SearchPage> {
     final product = Provider.of<ProductProvider>(context, listen: false);
     if (pref.getStringList("history") != null) {
       for (String item in pref.getStringList("history")!.toList()) {
-        dataFilter.addAll(product.getAllProduct.where((e) {
-          return e.name.contains(item);
-        }));
+        dataFilter.addAll(
+          product.getAllProduct.where(
+            (e) {
+              return e.name.contains(item);
+            },
+          ),
+        );
       }
       dataSaved = dataFilter;
       setState(() {});
@@ -50,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<ProductProvider>(context);
+    final product = Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -65,8 +76,23 @@ class _SearchPageState extends State<SearchPage> {
           IconButton(
             onPressed: () async {
               _controller.clear();
-              dataFilter = dataSaved;
-              setState(() {});
+              dataFilter = [];
+              final pref = await SharedPreferences.getInstance();
+              final product =
+                  Provider.of<ProductProvider>(context, listen: false);
+              if (pref.getStringList("history") != null) {
+                for (String item in pref.getStringList("history")!.toList()) {
+                  dataFilter.addAll(
+                    product.getAllProduct.where(
+                      (e) {
+                        return e.name.contains(item);
+                      },
+                    ),
+                  );
+                }
+                dataSaved = dataFilter;
+                setState(() {});
+              }
             },
             icon: const Icon(Icons.clear_rounded),
             color: Colors.white,
@@ -77,12 +103,27 @@ class _SearchPageState extends State<SearchPage> {
           controller: _controller,
           autofocus: true,
           onChanged: (val) async {
-            setState(() {
-              filter(val, product.getAllProduct);
-              if (_controller.text.isEmpty) {
-                dataFilter = dataSaved;
+            filter(val, product.getAllProduct);
+            if (_controller.text.isEmpty) {
+              dataFilter = [];
+              final pref = await SharedPreferences.getInstance();
+              final product =
+                  Provider.of<ProductProvider>(context, listen: false);
+              if (pref.getStringList("history") != null) {
+                for (String item in pref.getStringList("history")!.toList()) {
+                  dataFilter.addAll(
+                    product.getAllProduct.where(
+                      (e) {
+                        return e.name.contains(item);
+                      },
+                    ),
+                  );
+                }
+                dataSaved = dataFilter;
+                setState(() {});
               }
-            });
+            }
+            setState(() {});
           },
           cursorColor: Colors.white,
           style: const TextStyle(color: Colors.white),
@@ -103,7 +144,15 @@ class _SearchPageState extends State<SearchPage> {
               dataFilter[index].name.substring(_controller.text.length);
           return ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(prod.image),
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: prod.image,
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  width: double.infinity,
+                  // fit: BoxFit.cover,
+                ),
+              ),
             ),
             trailing: _controller.text.isEmpty
                 ? const Icon(Icons.history)
@@ -143,9 +192,12 @@ class _SearchPageState extends State<SearchPage> {
                   i = 0;
                 }
               } else if (pref.getStringList("history") == null) {
-                pref.setStringList("history", [
-                  dataFilter[index].name,
-                ]);
+                pref.setStringList(
+                  "history",
+                  [
+                    dataFilter[index].name,
+                  ],
+                );
               }
               Navigator.pushNamed(
                 context,

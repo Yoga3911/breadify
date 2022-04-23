@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/product_provider.dart';
 import 'package:project/app/views/product/widgets/btm_sheet.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
@@ -27,9 +29,75 @@ class ProductPage extends StatelessWidget {
           child: Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: (args["seller_id"] == user.getUser.id)
-                ? null
-                : FloatingActionButton.extended(
+            floatingActionButton: 
+            // (args["seller_id"] == user.getUser.id)
+            //     ? Column(
+            //         crossAxisAlignment: CrossAxisAlignment.end,
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           FloatingActionButton(
+            //             onPressed: () async {
+            //               showDialog(
+            //                 context: context,
+            //                 builder: (_) => AlertDialog(
+            //                   title: const Text("Alert"),
+            //                   content: const Text(
+            //                       "Apakah anda yakin ingin menghapus produk ini?"),
+            //                   actions: [
+            //                     ElevatedButton(
+            //                         onPressed: () => Navigator.pop(context),
+            //                         child: const Text("Batal")),
+            //                     ElevatedButton(
+            //                       onPressed: () async {
+            //                         showDialog(
+            //                           context: context,
+            //                           builder: (_) => const CustomLoading(),
+            //                         );
+            //                         product.setDataProduct = [];
+            //                         await product.deleteById(args["id"]).then(
+            //                               (_) =>
+            //                                   Navigator.pushNamedAndRemoveUntil(
+            //                                 context,
+            //                                 Routes.main,
+            //                                 (route) => false,
+            //                               ),
+            //                             );
+            //                         ScaffoldMessenger.of(context).showSnackBar(
+            //                           const SnackBar(
+            //                             duration: Duration(seconds: 3),
+            //                             content: Text(
+            //                               "Product successfully deleted",
+            //                             ),
+            //                             backgroundColor: Color(0xFFF9595F),
+            //                           ),
+            //                         );
+            //                       },
+            //                       child: const Text("Ya"),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               );
+            //             },
+            //             heroTag: "delete",
+            //             backgroundColor: Colors.red,
+            //             child: const Icon(
+            //               Icons.delete_rounded,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //           const SizedBox(height: 10),
+            //           FloatingActionButton(
+            //             onPressed: () {},
+            //             heroTag: "edit",
+            //             child: const Icon(
+            //               Icons.edit_rounded,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //           const SizedBox(height: 10),
+            //         ],
+            //       )
+                FloatingActionButton.extended(
                     heroTag: "home",
                     onPressed: () {
                       showModalBottomSheet(
@@ -68,13 +136,9 @@ class ProductPage extends StatelessWidget {
                 return ChangeNotifierProvider(
                   create: (_) => snapshot.data,
                   child: ListView(
-                    children: [
-                      HeaderProduct(
-                        sellerId: args["seller_id"],
-                      ),
-                      ContentProduct(
-                        storeModel: args["store"],
-                      ),
+                    children: const [
+                      HeaderProduct(),
+                      ContentProduct(),
                     ],
                   ),
                 );

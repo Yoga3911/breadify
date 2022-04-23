@@ -26,7 +26,7 @@ class Product extends StatelessWidget {
             ? MasonryGridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 8,
+                itemCount: 6,
                 mainAxisSpacing: 20,
                 crossAxisSpacing: 20,
                 cacheExtent: 10000,
@@ -124,8 +124,6 @@ class Product extends StatelessWidget {
                                         .getDataFilter[index].quantity,
                                     "image": productProvider
                                         .getDataFilter[index].image,
-                                    "store": snapshot.data!,
-                                    "seller_id": snapshot.data!.userId,
                                   },
                                 );
                               },

@@ -18,10 +18,10 @@ class UserProvider with ChangeNotifier {
     return UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }
 
-  Future<UserModel> getByDocId() async {
+  Future<void> getByDocId() async {
     final pref = await SharedPreferences.getInstance();
     final data = await MyCollection.user.doc(pref.getString("id")).get();
-    return UserModel.fromJson(data.data() as Map<String, dynamic>);
+    setUser = UserModel.fromJson(data.data() as Map<String, dynamic>);
   }
 
   Future<void> getUserByEmail({String? email}) async {

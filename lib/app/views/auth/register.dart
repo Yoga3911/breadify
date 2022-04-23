@@ -16,16 +16,26 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController username = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password1 = TextEditingController();
-  TextEditingController password2 = TextEditingController();
+  late TextEditingController _username;
+  late TextEditingController _email;
+  late TextEditingController _password1;
+  late TextEditingController _password2;
+
+  @override
+  void initState() {
+    _username = TextEditingController();
+    _password1 = TextEditingController();
+    _password2 = TextEditingController();
+    _email = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    username.dispose();
-    email.dispose();
-    password1.dispose();
-    password2.dispose();
+    _username.dispose();
+    _email.dispose();
+    _password1.dispose();
+    _password2.dispose();
     super.dispose();
   }
 
@@ -99,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: username,
+                controller: _username,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.person),
@@ -117,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: email,
+                controller: _email,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.email_outlined),
@@ -135,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: password1,
+                controller: _password1,
                 obscureText: true,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
@@ -156,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   0),
               child: TextField(
                 obscureText: true,
-                controller: password2,
+                controller: _password2,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
@@ -190,9 +200,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                   auth.register(
                     context: context,
-                    email: email.text,
-                    name: username.text,
-                    password: password1.text,
+                    email: _email.text,
+                    name: _username.text,
+                    password: _password1.text,
                   );
                   
                 },
