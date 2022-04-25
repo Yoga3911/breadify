@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StoreModel {
-  StoreModel({
+  const StoreModel({
     required this.id,
     required this.address,
     required this.open,
@@ -39,7 +39,7 @@ class StoreModel {
         "close": close,
         "store_name": storeName,
         "user_id": userId,
-        "create_at": createAt.toIso8601String(),
-        "update_at": updateAt.toIso8601String(),
+        "create_at": createAt,
+        "update_at": updateAt,
       };
 }

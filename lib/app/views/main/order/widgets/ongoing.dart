@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:project/app/models/orders_models.dart';
 
-//memanggil kerangka orders :
-import '../order.dart';
 
 class OngoingPage extends StatelessWidget {
-  const OngoingPage({required this.index, Key? key}) : super(key: key);
+  const OngoingPage({required this.orderModel, Key? key}) : super(key: key);
 
-  final int index;
+  final OrderModel orderModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +45,7 @@ class OngoingPage extends StatelessWidget {
                     children: <Widget>[
                       //2a)address
                       Text(
-                        ordercontentongoing[index].address,
+                        orderModel.address,
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class OngoingPage extends StatelessWidget {
 
                       //2b)status
                       Text(
-                        ordercontentongoing[index].status,
+                        orderModel.message,
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class OngoingPage extends StatelessWidget {
 
                       //2c)date
                       Text(
-                        ordercontentongoing[index].date,
+                        DateFormat("dd MMM yyyy").format(orderModel.orderDate),
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                             // fontWeight: FontWeight.bold,

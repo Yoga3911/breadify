@@ -1,26 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/collection.dart';
-
 import '../../../../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    required this.size,
     required this.index,
     required this.product,
-    // required this.storeName,
+    required this.storeName,
   }) : super(key: key);
 
-  final Size size;
   final int index;
   final ProductModel product;
-  // final String storeName;
+  final String storeName;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Material(
       elevation: 5,
       color: Colors.white,
@@ -84,29 +80,12 @@ class ProductCard extends StatelessWidget {
                       ),
                       Align(
                         alignment: const Alignment(-1, 0.95),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FutureBuilder<DocumentSnapshot>(
-                              future:
-                                  MyCollection.store.doc(product.storeId).get(),
-                              builder: (_, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const SizedBox();
-                                }
-
-                                return Text(
-                                  snapshot.data!["store_name"],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 255, 204, 0),
-                                  ),
-                                );
-                              },
-                            ),
-                            Image.asset("assets/icons/fav1.png")
-                          ],
+                        child: Text(
+                          storeName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 255, 204, 0),
+                          ),
                         ),
                       )
                     ],

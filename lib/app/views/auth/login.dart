@@ -1,21 +1,46 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/view_model/login_provider.dart';
-import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/services/email.dart';
+import 'package:project/app/services/facebook.dart';
+import 'package:project/app/services/google.dart';
+import 'package:project/app/view_model/auth_provider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
+import '../../utils/hash.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late TextEditingController _email;
+  late TextEditingController _password;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final _login = Provider.of<LoginProvider>(context);
-    final _user = Provider.of<UserProvider>(context);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
@@ -30,8 +55,8 @@ class LoginPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.6,
                     width: MediaQuery.of(context).size.width * 1,
                     child: const Image(
-                      image:
-                          AssetImage("assets/images/login_register_reverse.jfif"),
+                      image: AssetImage(
+                          "assets/images/login_register_reverse.jfif"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -54,7 +79,8 @@ class LoginPage extends StatelessWidget {
                     child: const AutoSizeText(
                       "Welcome Back!",
                       maxLines: 1,
-                      style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
                     ),
                   ),
                   Container(
@@ -82,22 +108,25 @@ class LoginPage extends StatelessWidget {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
+                controller: _email,
                 decoration: InputDecoration(
-                    // icon: Icon(Icons.account_box),
-                    prefixIcon: const Icon(
-                      Icons.email_outlined,
+                  // icon: Icon(Icons.account_box),
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: MyColor.yellow,
+                  ),
+                  prefixStyle: const TextStyle(color: Colors.blue),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
                       color: MyColor.yellow,
                     ),
-                    prefixStyle: const TextStyle(color: Colors.blue),
-                    hintText: "Email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: MyColor.yellow,
-                        ))),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -107,6 +136,7 @@ class LoginPage extends StatelessWidget {
                   MediaQuery.of(context).size.height * 0.05,
                   30),
               child: TextField(
+                controller: _password,
                 obscureText: true,
                 decoration: InputDecoration(
                     // icon: Icon(Icons.account_box),
@@ -153,11 +183,27 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.main);
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => const CustomLoading(),
+                  );
+                  auth.login(
+                    context: context,
+                    email: _email.text,
+                    password: hashPass(_password.text),
+                    provider: "email",
+                    social: EmailService(),
+                  );
                 },
-                child: const Text("Log In",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                child: const Text(
+                  "Log In",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ),
             ),
             Column(
@@ -167,8 +213,8 @@ class LoginPage extends StatelessWidget {
                   children: <Widget>[
                     const Text("DON'T HAVE PASSWORD? ",
                         textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500)),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, Routes.register);
@@ -219,8 +265,15 @@ class LoginPage extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          showDialog(context: context, builder: (_) => const CustomLoading());
-                          _login.signIn(context, _user, Social.google);
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => const CustomLoading());
+                          auth.login(
+                            context: context,
+                            social: GoogleService(),
+                            provider: "google",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(
@@ -232,8 +285,16 @@ class LoginPage extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          showDialog(context: context, builder: (_) => const CustomLoading());
-                          _login.signIn(context, _user, Social.facebook);
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => const CustomLoading(),
+                          );
+                          auth.login(
+                            context: context,
+                            social: FacebookService(),
+                            provider: "facebook",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(

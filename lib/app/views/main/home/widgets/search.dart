@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/routes/route.dart';
 
 import '../../../../constant/color.dart';
 
@@ -7,10 +8,16 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: TextField(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          Navigator.pushNamed(
+            context,
+            Routes.search,
+          );
+        },
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

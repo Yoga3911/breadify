@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:project/app/constant/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes/route.dart';
-
 
 class IntroductionPage extends StatefulWidget {
   const IntroductionPage({Key? key}) : super(key: key);
@@ -58,10 +58,15 @@ class _IntroductionPageState extends State<IntroductionPage> {
           style: TextStyle(fontSize: 17),
         ),
         footer: ElevatedButton(
-          onPressed: () => Navigator.pushReplacementNamed(context, Routes.login),
+          onPressed: () async {
+            final pref = await SharedPreferences.getInstance();
+            pref.setBool("intro", false);
+            Navigator.pushReplacementNamed(context, Routes.login);
+          },
           child: const Text("Spend your money!"),
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.only(left: 50, right: 50, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 50, right: 50, top: 10, bottom: 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -102,7 +107,11 @@ class _IntroductionPageState extends State<IntroductionPage> {
           fontWeight: FontWeight.w600,
         ),
       ),
-      onDone: () => Navigator.pushReplacementNamed(context, Routes.login),
+      onDone: () async {
+        final pref = await SharedPreferences.getInstance();
+        pref.setBool("intro", false);
+        Navigator.pushReplacementNamed(context, Routes.login);
+      },
       showDoneButton: true,
     );
   }

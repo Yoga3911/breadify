@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import 'feed/feed.dart';
 import 'home/home.dart';
 import 'favorite/favorite.dart';
 import 'order/order.dart';
-import 'order/widgets/history.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -50,6 +51,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: const TextStyle(fontSize: 12),
@@ -57,23 +59,29 @@ class _MainPageState extends State<MainPage> {
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: MyColor.yellow,
         unselectedItemColor: MyColor.black,
-        // showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        items: _iconData
-            .map(
-              (e) => btmNavbar(e["label"]!, e["path"]!),
-            )
-            .toList(),
-      ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          HomePage(),
-          FeedPage(),
-          OrderPage(),
-          FavoritePage(),
+        items: [
+          for (Map<String, dynamic> e in _iconData)
+            btmNavbar(e["label"]!, e["path"]!)
         ],
+      ),
+      body: FutureBuilder<void>(
+        future: user.getByDocId(),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          }
+          return IndexedStack(
+            index: _selectedIndex,
+            children: const [
+              HomePage(),
+              FeedPage(),
+              OrderPage(),
+              FavoritePage(),
+            ],
+          );
+        },
       ),
     );
   }

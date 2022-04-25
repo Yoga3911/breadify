@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/view_model/product_provider.dart';
+import 'package:project/app/views/product/widgets/btm_sheet.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
 import '../../views/product/widgets/content.dart';
@@ -10,33 +13,10 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _args =
-        (ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>);
-    final ProductModel _product = _args["product"];
-    // final _todayCategory = _args["category"];
-    // final String _sellerId = _args["seller_id"];
-
-    final Size _size = MediaQuery.of(context).size;
-
-    final String _reversed =
-        _product.price.toString().split("").reversed.join();
-    String _reverseC = "";
-    int _step = 0;
-
-    for (int i = 0; i < _reversed.length; i++) {
-      _reverseC += _reversed[i];
-      if (_reversed.length > 3) {
-        if (_step == 2) {
-          _reverseC += ".";
-        }
-        _step += 1;
-        if (_step == 3) {
-          _step = 0;
-        }
-      }
-    }
-    final String _currency = _reverseC.split("").reversed.join();
-
+    final product = Provider.of<ProductProvider>(context, listen: false);
+    final size = MediaQuery.of(context).size;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -47,11 +27,23 @@ class ProductPage extends StatelessWidget {
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton.extended(
               heroTag: "home",
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => BtmSheet(
+                    name: args["name"],
+                    price: args["price"],
+                    quantity: args["quantity"],
+                    image: args["image"],
+                  ),
+                );
+              },
               label: Padding(
                 padding: EdgeInsets.only(
-                  left: _size.width * 0.2,
-                  right: _size.width * 0.2,
+                  left: size.width * 0.2,
+                  right: size.width * 0.2,
                 ),
                 child: const Text(
                   "Add to cart",
@@ -62,21 +54,22 @@ class ProductPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            body: ListView(
-              children: [
-                HeaderProduct(
-                  // todayCategory: _todayCategory,
-                  size: _size,
-                  product: _product,
-                ),
-                ContentProduct(
-                  // todayCategory: _todayCategory,
-                  size: _size,
-                  product: _product,
-                  currency: _currency,
-                  // sellerId: _product.userId,
-                )
-              ],
+            body: FutureBuilder<ProductModel>(
+              future: product.getById(args["id"]),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox();
+                }
+                return ChangeNotifierProvider(
+                  create: (_) => snapshot.data,
+                  child: ListView(
+                    children: const [
+                      HeaderProduct(),
+                      ContentProduct(),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),

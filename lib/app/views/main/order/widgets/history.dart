@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-//memanggil kerangka orders
-import '../order.dart';
+import 'package:intl/intl.dart';
+import 'package:project/app/models/orders_models.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({required this.index, Key? key}) : super(key: key);
+  const HistoryPage({required this.orderModel, Key? key}) : super(key: key);
 
-  final int index;
+  final OrderModel orderModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +39,7 @@ class HistoryPage extends StatelessWidget {
                 children: <Widget>[
                   //2a)address
                   Text(
-                    orderscontenthistory[index].address,
+                    orderModel.address,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -50,7 +49,7 @@ class HistoryPage extends StatelessWidget {
 
                   //2b)status
                   Text(
-                    orderscontenthistory[index].status,
+                    orderModel.message,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -65,7 +64,7 @@ class HistoryPage extends StatelessWidget {
 
                   //2c)date
                   Text(
-                    orderscontenthistory[index].date,
+                    DateFormat("dd MMM yyyy").format(orderModel.orderDate),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         // fontWeight: FontWeight.bold,

@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:project/app/services/service.dart';
 
-class FacebookService {
-  FacebookService._();
-
-  static Future<UserCredential> signIn() async {
+class FacebookService extends SocialService {
+  @override
+  Future<UserCredential> signIn() async {
     try {
       final LoginResult _user = await FacebookAuth.instance.login();
       final OAuthCredential _credential =
@@ -20,7 +20,8 @@ class FacebookService {
     }
   }
 
-  static Future<void> signOut() async {
+  @override
+  Future<void> signOut() async {
     await FacebookAuth.instance.logOut();
     await FirebaseAuth.instance.signOut();
     log("Success logout from facebook account!");

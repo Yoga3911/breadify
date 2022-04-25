@@ -21,7 +21,7 @@ class ProfilePage extends StatelessWidget {
                 child: const Image(image: AssetImage("assets/images/superman.png"),),
               ),
               Column(
-                children: [
+                children: const [
                   Text("Pakdhe"),
                   Text("Customer"),
                   Text("Saldo Rp 100.000"),

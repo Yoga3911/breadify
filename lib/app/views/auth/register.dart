@@ -2,14 +2,47 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
-import 'package:project/app/views/auth/login.dart';
+import 'package:project/app/utils/hash.dart';
+import 'package:project/app/view_model/auth_provider.dart';
+import 'package:project/app/widgets/custom_loading.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  late TextEditingController _username;
+  late TextEditingController _email;
+  late TextEditingController _password1;
+  late TextEditingController _password2;
+
+  @override
+  void initState() {
+    _username = TextEditingController();
+    _password1 = TextEditingController();
+    _password2 = TextEditingController();
+    _email = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _username.dispose();
+    _email.dispose();
+    _password1.dispose();
+    _password2.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
@@ -24,8 +57,8 @@ class RegisterPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.6,
                     width: MediaQuery.of(context).size.width * 1,
                     child: const Image(
-                      image:
-                          AssetImage("assets/images/login_register_reverse.jfif"),
+                      image: AssetImage(
+                          "assets/images/login_register_reverse.jfif"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -77,13 +110,14 @@ class RegisterPage extends StatelessWidget {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
+                controller: _username,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.person),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Username",
-                  border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
@@ -94,13 +128,14 @@ class RegisterPage extends StatelessWidget {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
+                controller: _email,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.email_outlined),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Email",
-                  border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
@@ -111,6 +146,7 @@ class RegisterPage extends StatelessWidget {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
+                controller: _password1,
                 obscureText: true,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
@@ -118,8 +154,8 @@ class RegisterPage extends StatelessWidget {
                   suffixIcon: const Icon(Icons.remove_red_eye_outlined),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Password",
-                  border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
@@ -131,14 +167,15 @@ class RegisterPage extends StatelessWidget {
                   0),
               child: TextField(
                 obscureText: true,
+                controller: _password2,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: const Icon(Icons.remove_red_eye_outlined),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Confirm Password",
-                  border:
-                      OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
@@ -156,10 +193,23 @@ class RegisterPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => const CustomLoading(),
+                  );
+                  auth.register(
+                    context: context,
+                    email: _email.text,
+                    name: _username.text,
+                    password: hashPass(_password1.text),
+                  );
+                },
                 child: const Text("Sign Up",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
               ),
             ),
             Column(
@@ -169,8 +219,8 @@ class RegisterPage extends StatelessWidget {
                   children: <Widget>[
                     const Text("ALREADY HAVE ACCOUNT? ",
                         textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500)),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, Routes.login);
