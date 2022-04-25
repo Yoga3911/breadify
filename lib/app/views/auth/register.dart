@@ -17,6 +17,19 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool _isHidden1 = true;
+  void _togglePasswordView1() {
+    setState(() {
+      _isHidden1 = !_isHidden1;
+    });
+  }
+  bool _isHidden2 = true;
+  void _togglePasswordView2() {
+    setState(() {
+      _isHidden2 = !_isHidden2;
+    });
+  }
+
   late TextEditingController _username;
   late TextEditingController _email;
   late TextEditingController _password1;
@@ -147,11 +160,19 @@ class _RegisterPageState extends State<RegisterPage> {
                   0),
               child: TextField(
                 controller: _password1,
-                obscureText: true,
+                obscureText: _isHidden1,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                  suffixIcon: InkWell(
+                      onTap: _togglePasswordView1,
+                      child: Icon(
+                        _isHidden1
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Password",
                   border: OutlineInputBorder(
@@ -166,12 +187,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                obscureText: true,
+                obscureText: _isHidden2,
                 controller: _password2,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                  suffixIcon: InkWell(
+                      onTap: _togglePasswordView2,
+                      child: Icon(
+                        _isHidden2
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Confirm Password",
                   border: OutlineInputBorder(
@@ -226,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.pushNamed(context, Routes.login);
                       },
                       child: const Text(
-                        "SIGN UP HERE!",
+                        "SIGN IN HERE!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,

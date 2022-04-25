@@ -38,16 +38,6 @@ class ProductProvider with ChangeNotifier {
     ];
   }
 
-  Stream<List<ProductModel>> getByStoreIdStream(String storeId) async* {
-    final data =
-        await MyCollection.product.where("store_id", isEqualTo: storeId).get();
-
-    yield <ProductModel>[
-      for (QueryDocumentSnapshot<Object?> item in data.docs)
-        ProductModel.fromJson(item.data() as Map<String, dynamic>)
-    ];
-  }
-
   List<ProductModel> _dataProduct = [];
   List<ProductModel> _dataFilter = [];
 
