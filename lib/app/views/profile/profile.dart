@@ -14,8 +14,8 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pushNamed(context, Routes.home),
-          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.pushNamed(context, Routes.main),
+          icon: const Icon(Icons.arrow_back_ios_new),
           color: Colors.white,
         ),
         title: const Text("Profile", style: TextStyle(color: Colors.white)),
@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 100,
-                decoration: BoxDecoration(color: MyColor.yellow),
+                decoration: const BoxDecoration(color: MyColor.yellow),
                 child: Row(
                   children: [
                     Container(
@@ -51,13 +51,13 @@ class ProfilePage extends StatelessWidget {
                       width: 20,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 15),
+                      margin: const EdgeInsets.only(top: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             user.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -68,8 +68,8 @@ class ProfilePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: Colors.white),
-                              child: Center(child: Text("Customer"))),
-                          Text("Saldo : Rp100.000",
+                              child: const Center(child: Text("Customer"))),
+                          const Text("Saldo : Rp100.000",
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -86,12 +86,12 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: ListTile(
                 leading: Icon(Icons.camera_alt_outlined, size: 30, color: Colors.yellow[600],),
-                title: Text("Set Photo Profile"),
+                title: const Text("Set Photo Profile"),
               ),
             ),
             Container(
               height: 5,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
             ),
             Container(
               height: 50,
@@ -99,18 +99,18 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: ListTile(
                 leading: Icon(Icons.request_page_outlined, size: 30, color: Colors.yellow[600],),
-                title: Text("Request To Be A Seller"),
+                title: const Text("Request To Be A Seller"),
               ),
             ),
             Container(
               height: 5,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
             ),
             Container(
               height: 50,
               width: double.infinity,
               decoration: BoxDecoration(color: Colors.grey[200]),
-              child: ListTile(
+              child: const ListTile(
                 title: Text("Settings"),
               ),
             ),
@@ -124,7 +124,7 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: ListTile(
                 leading: Icon(Icons.lock_outline_sharp, size: 30, color: Colors.yellow[600],),
-                title: Text("Privacy and Security"),
+                title: const Text("Privacy and Security"),
               ),
             ),
             Container(
@@ -137,7 +137,7 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: ListTile(
                 leading: Icon(Icons.logout_outlined, size: 30, color: Colors.yellow[600],),
-                title: Text("Logout"),
+                title: const Text("Logout"),
               ),
             ),
             Container(
@@ -150,7 +150,7 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.grey[200]),
               child: ListTile(
                 leading: Icon(Icons.help_outline, size: 30, color: Colors.yellow[600],),
-                title: Text("Help Center"),
+                title: const Text("Help Center"),
               ),
             ),
             Container(
