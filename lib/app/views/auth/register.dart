@@ -226,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.pushNamed(context, Routes.login);
                       },
                       child: const Text(
-                        "SIGN UP HERE!",
+                        "SIGN IN HERE!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,
