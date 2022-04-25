@@ -20,6 +20,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isHidden = true;
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
+
   late TextEditingController _email;
   late TextEditingController _password;
 
@@ -137,16 +144,21 @@ class _LoginPageState extends State<LoginPage> {
                   30),
               child: TextField(
                 controller: _password,
-                obscureText: true,
+                obscureText: _isHidden,
                 decoration: InputDecoration(
                     // icon: Icon(Icons.account_box),
                     prefixIcon: const Icon(
                       Icons.lock_outline,
                       color: MyColor.yellow,
                     ),
-                    suffixIcon: const Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: MyColor.yellow,
+                    suffixIcon: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(
+                        _isHidden
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
                     ),
                     prefixStyle: const TextStyle(color: Colors.blue),
                     hintText: "Password",
