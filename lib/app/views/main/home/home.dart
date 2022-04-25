@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.white,
             leading: IconButton(
               splashRadius: 1,
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, Routes.profile),
               icon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: CachedNetworkImage(

@@ -12,7 +12,7 @@ class FavoritePage extends StatelessWidget {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Favorite"),
+          title: const Text("Favorite", style: TextStyle(color: Colors.white),),
           actions: [
             IconButton(
               onPressed: () {},
