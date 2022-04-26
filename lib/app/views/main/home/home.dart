@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/routes/route.dart';
@@ -31,26 +33,9 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(seconds: 2));
     final product = Provider.of<ProductProvider>(context, listen: false);
     final category = Provider.of<CategoryProvider>(context, listen: false);
-    switch (category.getCategory) {
-      case "Popular":
-        await product.getByCategory("Popular");
-        break;
-      case "Bread":
-        await product.getByCategory("Bread");
-        break;
-      case "Cookies":
-        await product.getByCategory("Cookies");
-        break;
-      case "Cakes":
-        await product.getByCategory("Cakes");
-        break;
-      case "Pastry":
-        await product.getByCategory("Pastry");
-        break;
-      case "Brownies":
-        await product.getByCategory("Brownies");
-        break;
-    }
+    await product.getByCategory("Popular");
+    product.setStatus = state.loading;
+    category.setCategory = "Popular";
     if (product.getDataFilter.isNotEmpty) {
       product.setStatus = state.done;
     } else if (product.getDataFilter.isEmpty) {
