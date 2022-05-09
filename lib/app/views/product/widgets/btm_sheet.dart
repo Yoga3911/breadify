@@ -1,14 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/utils/currency.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class BtmSheet extends StatelessWidget {
-  const BtmSheet({Key? key, required this.image, required this.name, required this.price, required this.quantity}) : super(key: key);
+  const BtmSheet({
+    Key? key,
+    required this.image,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    required this.productId,
+  }) : super(key: key);
   final String image;
   final String name;
   final int price;
   final int quantity;
+  final String productId;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +72,7 @@ class BtmSheet extends StatelessWidget {
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
-                                        color:
-                                            Color.fromARGB(255, 43, 43, 43),
+                                        color: Color.fromARGB(255, 43, 43, 43),
                                       ),
                                     ),
                                   ),
@@ -91,13 +100,24 @@ class BtmSheet extends StatelessWidget {
                                   color: Color.fromARGB(255, 78, 78, 78),
                                 ),
                               ),
-                              Text(
-                                "Stock: " + currency(quantity),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                  color: Color.fromARGB(255, 118, 118, 118),
-                                ),
+                              StreamBuilder<DocumentSnapshot>(
+                                stream: MyCollection.product
+                                    .doc(productId)
+                                    .snapshots(),
+                                builder: (_, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const SizedBox();
+                                  }
+                                  return Text(
+                                    "Stock: ${snapshot.data!["quantity"]}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -106,29 +126,40 @@ class BtmSheet extends StatelessWidget {
                             children: [
                               Container(
                                 height: 35,
-                                width: 100,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 5, right: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: const Icon(Icons.remove_rounded),
-                                      ),
-                                      const Text("1"),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: const Icon(Icons.add_rounded),
-                                      ),
-                                    ],
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 5),
+                                  child: FutureBuilder(
+                                    future: MyCollection.product.get(),
+                                    builder: (_, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const SizedBox();
+                                      }
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: const Icon(
+                                                Icons.remove_rounded),
+                                          ),
+                                          const Text(""),
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child:
+                                                const Icon(Icons.add_rounded),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

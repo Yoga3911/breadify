@@ -167,6 +167,13 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // * >>>>>>>>>>> GET PRODUCT QUANTITY <<<<<<<<<<
+  Stream<DocumentSnapshot<Object?>>? dataQuantity;
+  Stream getQuantity(String productId) async* {
+    final data = MyCollection.product.doc(productId).snapshots();
+    dataQuantity = data;
+  }
+
   // * >>>>>>>>>>> ADD PRODUCT <<<<<<<<<<<<
 
   bool isError = true;

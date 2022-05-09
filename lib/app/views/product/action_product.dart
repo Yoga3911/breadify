@@ -151,7 +151,8 @@ class _AddProductPageState extends State<AddProductPage> {
                                         content: Text(
                                           "Produk berhasil dihapus",
                                         ),
-                                        backgroundColor: Color.fromARGB(255, 255, 74, 80),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 255, 74, 80),
                                       ),
                                     );
                                     Navigator.pushNamedAndRemoveUntil(
@@ -410,15 +411,13 @@ class _AddProductPageState extends State<AddProductPage> {
                                                       "Produk berhasil ditambahkan",
                                                     ),
                                                     backgroundColor:
-                                                        Color.fromARGB(255, 91, 195, 46),
+                                                        Color.fromARGB(
+                                                            255, 91, 195, 46),
                                                   ),
                                                 );
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                  context,
-                                                  Routes.main,
-                                                  (route) => false,
-                                                );
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                                setState(() {});
                                               },
                                             )
                                           : product
@@ -451,15 +450,13 @@ class _AddProductPageState extends State<AddProductPage> {
                                                       "Produk berhasil diubah",
                                                     ),
                                                     backgroundColor:
-                                                        Color.fromARGB(255, 59, 147, 255),
+                                                        Color.fromARGB(
+                                                            255, 59, 147, 255),
                                                   ),
                                                 );
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                  context,
-                                                  Routes.main,
-                                                  (route) => false,
-                                                );
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                                setState(() {});
                                               },
                                             );
                                     },

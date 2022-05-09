@@ -65,4 +65,10 @@ class ProductModel with ChangeNotifier {
     isChecked = value;
     notifyListeners();
   }
+
+  int _countItem = 0;
+
+  set setCount(int val) => _countItem = val;
+
+  int get getCount => _countItem;
 }

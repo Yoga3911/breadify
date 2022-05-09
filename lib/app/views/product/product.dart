@@ -33,6 +33,7 @@ class ProductPage extends StatelessWidget {
                   isDismissible: false,
                   backgroundColor: Colors.transparent,
                   builder: (_) => BtmSheet(
+                    productId: args["id"],
                     name: args["name"],
                     price: args["price"],
                     quantity: args["quantity"],
