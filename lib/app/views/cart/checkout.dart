@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
+import 'package:project/app/routes/route.dart';
 
 //pemanggilan class
 import '../../models/checkout_models.dart';
@@ -187,13 +188,14 @@ class CheckoutPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  //b) konten 2 : button ">" utk ganti alamat
+                  //b) konten 2 : button ">" utk ke MAPS
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Transform.scale(
                       scale: 1,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                            Navigator.pushNamed(context, Routes.maps),
                         icon: const Icon(Icons.arrow_forward_ios),
                         color: const Color(0xFF727272),
                       ),
