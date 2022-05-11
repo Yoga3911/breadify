@@ -240,4 +240,13 @@ class ProductProvider with ChangeNotifier {
   Future<void> deleteById(String productId) async {
     await MyCollection.product.doc(productId).delete();
   }
+
+  int _countItem = 0;
+
+  set setCountItem(int val) {
+    _countItem += val;
+    notifyListeners();
+  }
+
+  int get getCountItem => _countItem;
 }
