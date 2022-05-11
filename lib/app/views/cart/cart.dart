@@ -14,6 +14,7 @@ import 'package:project/app/views/cart/widgets/item.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/currency.dart';
+import '../../view_model/maps_provider.dart';
 import 'widgets/cart_shimmer.dart';
 
 class CartPage extends StatelessWidget {
@@ -21,6 +22,8 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = Provider.of<MyLocation>(context, listen: false);
+
     final product = Provider.of<ProductProvider>(context, listen: false);
     final user = Provider.of<UserProvider>(context, listen: false);
     final cart = Provider.of<CartProvider>(context, listen: false);
@@ -83,6 +86,11 @@ class CartPage extends StatelessWidget {
                       const SizedBox(width: 15),
                       ElevatedButton(
                         onPressed: () {
+                          location.getAddress().then((value) {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, Routes.maps);
+                          });
+
                           Navigator.pushNamed(context, Routes.checkout);
                         },
                         child: const Text(
@@ -142,35 +150,33 @@ class CartPage extends StatelessWidget {
                         return const SizedBox();
                       }
                       return Column(
-                            children: [
-                              for (CartModel item in cart.getCartData)
-                                FutureBuilder<ProductModel>(
-                                  future: product.getById(item.productId),
-                                  builder: (_, snapshot2) {
-                                    if (snapshot2.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const ShimmerCart();
-                                    }
-                                    final prod = snapshot2.data!;
-                                    return ChangeNotifierProvider(
-                                      create: (_) => item,
-                                      child: CartItem(
-                                        productId: prod.id,
-                                        productName: prod.name,
-                                        productImage: prod.image,
-                                        productPrice: prod.price,
-                                        productQuantity: prod.quantity,
-                                        storeId: prod.storeId,
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
-                          );
-                        },
-                      )
-                    
-                  
+                        children: [
+                          for (CartModel item in cart.getCartData)
+                            FutureBuilder<ProductModel>(
+                              future: product.getById(item.productId),
+                              builder: (_, snapshot2) {
+                                if (snapshot2.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const ShimmerCart();
+                                }
+                                final prod = snapshot2.data!;
+                                return ChangeNotifierProvider(
+                                  create: (_) => item,
+                                  child: CartItem(
+                                    productId: prod.id,
+                                    productName: prod.name,
+                                    productImage: prod.image,
+                                    productPrice: prod.price,
+                                    productQuantity: prod.quantity,
+                                    storeId: prod.storeId,
+                                  ),
+                                );
+                              },
+                            ),
+                        ],
+                      );
+                    },
+                  )
                 ],
               ),
             ],
