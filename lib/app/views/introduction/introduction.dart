@@ -22,7 +22,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
       PageViewModel(
         title: "What is Bredify?",
         bodyWidget: const AutoSizeText(
-          "Breadify adalah aplikasi e-commerce yang berfokus pada penjualan Roti",
+          "Breadify adalah aplikasi marketplace yang berfokus pada penjualan Roti",
           maxLines: 2,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 17),

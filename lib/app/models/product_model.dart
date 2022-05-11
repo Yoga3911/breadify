@@ -45,6 +45,7 @@ class ProductModel with ChangeNotifier {
         "price": price,
         "quantity": quantity,
         "category_id": categoryId,
+        "image": image,
         "store_id": storeId,
         "create_at": createAt,
         "update_at": updateAt,
@@ -64,4 +65,10 @@ class ProductModel with ChangeNotifier {
     isChecked = value;
     notifyListeners();
   }
+
+  int _countItem = 0;
+
+  set setCount(int val) => _countItem = val;
+
+  int get getCount => _countItem;
 }

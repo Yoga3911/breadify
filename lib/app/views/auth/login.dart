@@ -5,12 +5,12 @@ import 'package:project/app/services/email.dart';
 import 'package:project/app/services/facebook.dart';
 import 'package:project/app/services/google.dart';
 import 'package:project/app/view_model/auth_provider.dart';
-import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
+import '../../utils/hash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,19 +20,33 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  bool _isHidden = true;
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
+
+  late TextEditingController _email;
+  late TextEditingController _password;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    email.dispose();
-    password.dispose();
+    _email.dispose();
+    _password.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
-    final user = Provider.of<UserProvider>(context);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
 
     return ScrollConfiguration(
       behavior: NoGlow(),
@@ -101,23 +115,25 @@ class _LoginPageState extends State<LoginPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: email,
+                controller: _email,
                 decoration: InputDecoration(
-                    // icon: Icon(Icons.account_box),
-                    prefixIcon: const Icon(
-                      Icons.email_outlined,
+                  // icon: Icon(Icons.account_box),
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: MyColor.yellow,
+                  ),
+                  prefixStyle: const TextStyle(color: Colors.blue),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
                       color: MyColor.yellow,
                     ),
-                    prefixStyle: const TextStyle(color: Colors.blue),
-                    hintText: "Email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: MyColor.yellow,
-                        ))),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -127,17 +143,22 @@ class _LoginPageState extends State<LoginPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   30),
               child: TextField(
-                controller: password,
-                obscureText: true,
+                controller: _password,
+                obscureText: _isHidden,
                 decoration: InputDecoration(
                     // icon: Icon(Icons.account_box),
                     prefixIcon: const Icon(
                       Icons.lock_outline,
                       color: MyColor.yellow,
                     ),
-                    suffixIcon: const Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: MyColor.yellow,
+                    suffixIcon: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(
+                        _isHidden
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
                     ),
                     prefixStyle: const TextStyle(color: Colors.blue),
                     hintText: "Password",
@@ -175,21 +196,26 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (_) => const CustomLoading(),
                   );
                   auth.login(
                     context: context,
-                    email: email.text,
-                    password: password.text,
+                    email: _email.text,
+                    password: hashPass(_password.text),
                     provider: "email",
                     social: EmailService(),
                   );
                 },
-                child: const Text("Log In",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                child: const Text(
+                  "Log In",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ),
             ),
             Column(
@@ -252,12 +278,14 @@ class _LoginPageState extends State<LoginPage> {
                       IconButton(
                         onPressed: () {
                           showDialog(
+                              barrierDismissible: false,
                               context: context,
                               builder: (_) => const CustomLoading());
                           auth.login(
-                              context: context,
-                              social: GoogleService(),
-                              provider: "google");
+                            context: context,
+                            social: GoogleService(),
+                            provider: "google",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(
@@ -270,12 +298,15 @@ class _LoginPageState extends State<LoginPage> {
                       IconButton(
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (_) => const CustomLoading());
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => const CustomLoading(),
+                          );
                           auth.login(
-                              context: context,
-                              social: FacebookService(),
-                              provider: "facebook");
+                            context: context,
+                            social: FacebookService(),
+                            provider: "facebook",
+                          );
                         },
                         iconSize: 40,
                         icon: const Image(

@@ -1,22 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../view_model/store_provider.dart';
-import '../../../../widgets/shimmer.dart';
 import '../../../../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key, required this.index, required this.product})
-      : super(key: key);
+  const ProductCard({
+    Key? key,
+    required this.index,
+    required this.product,
+    required this.storeName,
+  }) : super(key: key);
 
   final int index;
   final ProductModel product;
+  final String storeName;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
     return Material(
       elevation: 5,
       color: Colors.white,
@@ -80,35 +80,12 @@ class ProductCard extends StatelessWidget {
                       ),
                       Align(
                         alignment: const Alignment(-1, 0.95),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FutureBuilder(
-                              future: storeProvider.getById(product.storeId),
-                              builder: (_, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return CustomShimmer(
-                                    widget: Container(
-                                      width: 50,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return Text(
-                                  storeProvider.getStore.storeName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 255, 204, 0),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                        child: Text(
+                          storeName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 255, 204, 0),
+                          ),
                         ),
                       )
                     ],

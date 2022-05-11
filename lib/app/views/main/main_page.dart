@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/models/user_model.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
@@ -60,22 +59,19 @@ class _MainPageState extends State<MainPage> {
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: MyColor.yellow,
         unselectedItemColor: MyColor.black,
-        // showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        items: _iconData
-            .map(
-              (e) => btmNavbar(e["label"]!, e["path"]!),
-            )
-            .toList(),
+        items: [
+          for (Map<String, dynamic> e in _iconData)
+            btmNavbar(e["label"]!, e["path"]!)
+        ],
       ),
-      body: FutureBuilder<UserModel>(
+      body: FutureBuilder<void>(
         future: user.getByDocId(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox();
           }
-          user.setUser = snapshot.data!;
           return IndexedStack(
             index: _selectedIndex,
             children: const [

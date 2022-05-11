@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:project/app/utils/hash.dart';
 import 'package:project/app/view_model/auth_provider.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
@@ -15,18 +17,42 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController username = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password1 = TextEditingController();
-  TextEditingController password2 = TextEditingController();
+  bool _isHidden1 = true;
+  void _togglePasswordView1() {
+    setState(() {
+      _isHidden1 = !_isHidden1;
+    });
+  }
+  bool _isHidden2 = true;
+  void _togglePasswordView2() {
+    setState(() {
+      _isHidden2 = !_isHidden2;
+    });
+  }
+
+  late TextEditingController _username;
+  late TextEditingController _email;
+  late TextEditingController _password1;
+  late TextEditingController _password2;
+
+  @override
+  void initState() {
+    _username = TextEditingController();
+    _password1 = TextEditingController();
+    _password2 = TextEditingController();
+    _email = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
-    username.dispose();
-    email.dispose();
-    password1.dispose();
-    password2.dispose();
+    _username.dispose();
+    _email.dispose();
+    _password1.dispose();
+    _password2.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -97,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: username,
+                controller: _username,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.person),
@@ -115,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: email,
+                controller: _email,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.email_outlined),
@@ -133,12 +159,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                controller: password1,
-                obscureText: true,
+                controller: _password1,
+                obscureText: _isHidden1,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                  suffixIcon: InkWell(
+                      onTap: _togglePasswordView1,
+                      child: Icon(
+                        _isHidden1
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Password",
                   border: OutlineInputBorder(
@@ -153,12 +187,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   MediaQuery.of(context).size.height * 0.05,
                   0),
               child: TextField(
-                obscureText: true,
-                controller: password2,
+                obscureText: _isHidden2,
+                controller: _password2,
                 decoration: InputDecoration(
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: const Icon(Icons.remove_red_eye_outlined),
+                  suffixIcon: InkWell(
+                      onTap: _togglePasswordView2,
+                      child: Icon(
+                        _isHidden2
+                            ?
+                            Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Confirm Password",
                   border: OutlineInputBorder(
@@ -181,13 +223,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 onPressed: () async {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => const CustomLoading(),
+                  );
                   auth.register(
                     context: context,
-                    email: email.text,
-                    name: username.text,
-                    password: password1.text,
+                    email: _email.text,
+                    name: _username.text,
+                    password: hashPass(_password1.text),
                   );
-                  Navigator.pop(context);
                 },
                 child: const Text("Sign Up",
                     textAlign: TextAlign.center,
@@ -209,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.pushNamed(context, Routes.login);
                       },
                       child: const Text(
-                        "SIGN UP HERE!",
+                        "SIGN IN HERE!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,

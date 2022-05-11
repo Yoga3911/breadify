@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/collection.dart';
 import '../models/user_model.dart';
-import '../services/storage_service.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? _user;
@@ -18,18 +17,16 @@ class UserProvider with ChangeNotifier {
     return UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }
 
-  Future<UserModel> getByDocId() async {
+  Future<void> getByDocId() async {
     final pref = await SharedPreferences.getInstance();
     final data = await MyCollection.user.doc(pref.getString("id")).get();
-    return UserModel.fromJson(data.data() as Map<String, dynamic>);
+    setUser = UserModel.fromJson(data.data() as Map<String, dynamic>);
   }
 
   Future<void> getUserByEmail({String? email}) async {
     final data = await MyCollection.user.where("email", isEqualTo: email).get();
-    await StorageService()
-        .saveUser(data.docs.first.data() as Map<String, dynamic>);
-
-    await StorageService().saveId(data.docs.first["id"]);
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString("id", data.docs.first["id"]);
     setUser =
         UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }

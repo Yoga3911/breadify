@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/models/cart_model.dart';
+import 'package:project/app/models/store_model.dart';
 import 'package:project/app/view_model/store_provider.dart';
 import 'package:project/app/views/cart/widgets/inc_dec_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/cart_provider.dart';
-import '../../../widgets/currency.dart';
+import '../../../utils/currency.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({
@@ -77,15 +78,15 @@ class CartItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    FutureBuilder(
-                      future: store.getById(storeId),
+                    FutureBuilder<StoreModel>(
+                      future: store.getStoreById(storeId),
                       builder: (_, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Text("Loading ...");
                         }
                         return Text(
-                          store.getStore.storeName,
+                          snapshot.data!.storeName,
                           style: const TextStyle(color: MyColor.grey),
                         );
                       },

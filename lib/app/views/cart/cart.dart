@@ -13,7 +13,7 @@ import 'package:project/app/views/cart/widgets/choose_all.dart';
 import 'package:project/app/views/cart/widgets/item.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/currency.dart';
+import '../../utils/currency.dart';
 import 'widgets/cart_shimmer.dart';
 
 class CartPage extends StatelessWidget {
@@ -141,16 +141,9 @@ class CartPage extends StatelessWidget {
                       if (init.connectionState == ConnectionState.waiting) {
                         return const SizedBox();
                       }
-                      return FutureBuilder<List<CartModel>>(
-                        future: cart.getCartData,
-                        builder: (_, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const ShimmerCart();
-                          }
-                          return Column(
+                      return Column(
                             children: [
-                              for (CartModel item in snapshot.data!)
+                              for (CartModel item in cart.getCartData)
                                 FutureBuilder<ProductModel>(
                                   future: product.getById(item.productId),
                                   builder: (_, snapshot2) {
@@ -175,9 +168,9 @@ class CartPage extends StatelessWidget {
                             ],
                           );
                         },
-                      );
-                    },
-                  )
+                      )
+                    
+                  
                 ],
               ),
             ],

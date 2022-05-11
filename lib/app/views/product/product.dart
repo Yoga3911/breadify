@@ -15,8 +15,8 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<ProductProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
-    final prod = (ModalRoute.of(context)!.settings.arguments
-        as Map<String, dynamic>)["product"] as ProductModel;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -33,10 +33,11 @@ class ProductPage extends StatelessWidget {
                   isDismissible: false,
                   backgroundColor: Colors.transparent,
                   builder: (_) => BtmSheet(
-                    image: prod.image,
-                    name: prod.name,
-                    price: prod.price,
-                    quantity: prod.quantity,
+                    productId: args["id"],
+                    name: args["name"],
+                    price: args["price"],
+                    quantity: args["quantity"],
+                    image: args["image"],
                   ),
                 );
               },
@@ -55,7 +56,7 @@ class ProductPage extends StatelessWidget {
               ),
             ),
             body: FutureBuilder<ProductModel>(
-              future: product.getById(prod.id),
+              future: product.getById(args["id"]),
               builder: (_, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox();

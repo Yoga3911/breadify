@@ -1,14 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/views/product/widgets/store_header.dart';
+import 'package:project/app/views/product/widgets/store_product.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../constant/glow.dart';
 import '../../models/product_model.dart';
-import '../../models/user_model.dart';
 import '../../routes/route.dart';
 import '../../constant/color.dart';
-import '../../models/store_model.dart';
 import '../../../app/view_model/product_provider.dart';
 
 class StorePage extends StatelessWidget {
@@ -19,316 +20,142 @@ class StorePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final UserModel seller = args["seller"];
-    final StoreModel store = args["store"];
-    final productProvider = Provider.of<ProductProvider>(context);
-
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    final user = Provider.of<UserProvider>(context);
     return Container(
       color: Colors.white,
       child: SafeArea(
         child: ScrollConfiguration(
           behavior: NoGlow(),
           child: Scaffold(
-            floatingActionButton: FloatingActionButton(
-              heroTag: "home",
-              onPressed: () => Navigator.pushNamed(context, Routes.addProduct),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              backgroundColor: MyColor.red2,
-            ),
+            floatingActionButton: (args["seller_id"] == user.getUser.id)
+                ? FloatingActionButton(
+                    heroTag: "home",
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Routes.addProduct,
+                      arguments: {
+                        "action": "add",
+                        "store_id": args["id"],
+                      },
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    backgroundColor: MyColor.yellow,
+                  )
+                : null,
             body: ListView(
               children: [
-                Column(
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            bottom: size.height * 0.08,
-                          ),
-                          height: size.height * 0.3,
-                          width: size.width,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/sampul.jpg"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 15,
-                          left: 15,
-                          child: Container(
-                            height: size.height * 0.05,
-                            width: size.height * 0.05,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(50),
-                                onTap: () => Navigator.pop(context),
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  size: size.height * 0.025,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 15,
-                          right: 15,
-                          child: Container(
-                            height: size.height * 0.05,
-                            width: size.height * 0.05,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(50),
-                                onTap: () => Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  Routes.main,
-                                  (route) => false,
-                                ),
-                                child: Icon(
-                                  Icons.home_rounded,
-                                  size: size.height * 0.025,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: size.height * 0.22,
-                          child: Hero(
-                            tag: "profile",
-                            child: CircleAvatar(
-                              radius: size.height * 0.08,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(seller.imageUrl),
-                                radius: size.height * 0.075,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(
-                      store.storeName,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(
-                        "Alamat: " + store.address,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(
-                        "Open: " + store.open + " - " + store.close,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
+                StoreHeader(
+                  address: args["address"],
+                  close: args["close"],
+                  open: args["open"],
+                  storeName: args["name"],
+                  sellerImg: args["seller_image"],
                 ),
                 const SizedBox(height: 10),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
                     "All products",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
                 const SizedBox(height: 10),
-                FutureBuilder<List<ProductModel>>(
-                  future: productProvider.getByStoreId(store.id),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
-                        child: MasonryGridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          itemCount: 6,
-                          gridDelegate:
-                              const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                          ),
-                          itemBuilder: (_, index) {
-                            return Material(
-                              elevation: 5,
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                height: (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                    ? size.height * 0.3
-                                    : size.height * 0.4,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                (args["seller_id"] == user.getUser.id)
+                    ? FutureBuilder<List<ProductModel>>(
+                        future: productProvider.getByStoreId(args["id"]),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                bottom: 10,
+                              ),
+                              child: ListView.builder(
+                                itemCount: 4,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (_, index) => Shimmer.fromColors(
+                                  baseColor: MyColor.grey2,
+                                  highlightColor: MyColor.grey3,
+                                  direction: ShimmerDirection.ltr,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    height: 55,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
-                          },
-                        ),
-                      );
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        bottom: 10,
-                      ),
-                      child: MasonryGridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        mainAxisSpacing: 20,
-                        crossAxisSpacing: 20,
-                        itemCount: snapshot.data!.length,
-                        gridDelegate:
-                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                        itemBuilder: (_, index) {
-                          final _product = snapshot.data![index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.product,
-                                arguments: {
-                                  "product": _product,
-                                },
-                              );
-                            },
-                            child: Material(
-                              elevation: 5,
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              child: Container(
-                                height: (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                    ? size.height * 0.3
-                                    : size.height * 0.4,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                          }
+                          return StoreProduct(
+                            productModel: snapshot.data ?? [],
+                            storeName: args["name"],
+                            sellerId: args["seller_id"],
+                            storeId: args["id"],
+                          );
+                        },
+                      )
+                    : FutureBuilder<List<ProductModel>>(
+                        future: productProvider.getByStoreId(args["id"]),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                bottom: 10,
+                              ),
+                              child: MasonryGridView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                mainAxisSpacing: 20,
+                                crossAxisSpacing: 20,
+                                itemCount: 4,
+                                gridDelegate:
+                                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
                                 ),
-                                child: Stack(
-                                  children: [
-                                    Hero(
-                                      tag: _product.id + "hero",
-                                      child: ClipRRect(
-                                        child: CachedNetworkImage(
-                                          imageUrl: _product.image,
-                                          fit: BoxFit.cover,
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                        ),
+                                itemBuilder: (_, index) {
+                                  return Shimmer.fromColors(
+                                    baseColor: MyColor.grey2,
+                                    highlightColor: MyColor.grey3,
+                                    direction: ShimmerDirection.ltr,
+                                    child: Container(
+                                      height:
+                                          (MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait)
+                                              ? size.height * 0.3
+                                              : size.height * 0.4,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                     ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                        height: (MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait)
-                                            ? size.height * 0.21
-                                            : size.height * 0.4,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          gradient: const LinearGradient(
-                                            colors: [
-                                              Color.fromARGB(0, 255, 255, 255),
-                                              Colors.white,
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          child: Stack(
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    const Alignment(-1, 0.55),
-                                                child: Text(
-                                                  _product.name,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w900,
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    const Alignment(-1, 0.95),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      store.storeName,
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Color.fromARGB(
-                                                            255, 255, 204, 0),
-                                                      ),
-                                                    ),
-                                                    Image.asset(
-                                                      "assets/icons/fav1.png",
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
-                            ),
+                            );
+                          }
+                          return StoreProduct(
+                            productModel: snapshot.data ?? [],
+                            storeName: args["name"],
+                            sellerId: args["seller_id"],
+                            storeId: args["id"],
                           );
                         },
                       ),
-                    );
-                  },
-                ),
               ],
             ),
           ),
