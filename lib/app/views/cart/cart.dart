@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../utils/currency.dart';
 import '../../view_model/maps_provider.dart';
+import '../../widgets/custom_loading.dart';
 import 'widgets/cart_shimmer.dart';
 
 class CartPage extends StatelessWidget {
@@ -86,12 +87,16 @@ class CartPage extends StatelessWidget {
                       const SizedBox(width: 15),
                       ElevatedButton(
                         onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => const CustomLoading(),
+                          );
+
                           location.getAddress().then((value) {
                             Navigator.pop(context);
-                            Navigator.pushNamed(context, Routes.maps);
+                          Navigator.pushNamed(context, Routes.checkout);
                           });
 
-                          Navigator.pushNamed(context, Routes.checkout);
                         },
                         child: const Text(
                           "Checkout",

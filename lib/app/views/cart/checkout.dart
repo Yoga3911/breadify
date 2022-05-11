@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:provider/provider.dart';
 
 //pemanggilan class
 import '../../models/checkout_models.dart';
 
 //utk konten Checkout :
 import 'package:project/app/views/cart/widgets_checkout/konten_checkout.dart';
+
+import '../../view_model/maps_provider.dart';
+import '../../view_model/user_prodvider.dart';
 
 final List<CheckoutContent> checkoutcontent = [
   CheckoutContent(
@@ -46,6 +50,9 @@ class CheckoutPage extends StatelessWidget {
   // final int i;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: false);
+    final location = Provider.of<MyLocation>(context);
+
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
@@ -125,68 +132,64 @@ class CheckoutPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   //a) konten 1 : ROW() yg berisi icon gps & column for text
-                  Row(
-                    children: <Widget>[
-                      //a1) icon GPS
-                      SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Image.asset("assets/icons/map2.png"),
-                      ),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        //a1) icon GPS
+                        SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: Image.asset("assets/icons/map2.png"),
+                        ),
 
-                      //jarak
-                      const SizedBox(
-                        width: 10,
-                      ),
+                        //jarak
+                        const SizedBox(
+                          width: 10,
+                        ),
 
-                      //a2) column for text
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>[
-                          //judul : address
-                          Text(
-                            "Address",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 15),
+                        //a2) column for text
+                        Flexible(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              //judul : address
+                              const Text(
+                                "Address",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 15),
+                              ),
+                              //nama
+                              Text(
+                                user.getUser.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF8B8B8B),
+                                    fontSize: 12),
+                              ),
+                              //alamat
+                               Text(
+                                location.getLocation,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF8B8B8B),
+                                    fontSize: 12),
+                              ),
+                              //kabupaten
+                              Text(
+                                location.getPostCode,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF8B8B8B),
+                                    fontSize: 12),
+                              ),
+                            ],
                           ),
-                          //nama
-                          Text(
-                            "Beatric Stevany Zebua",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF8B8B8B),
-                                fontSize: 12),
-                          ),
-                          //telpon
-                          Text(
-                            "(+62)1331435366",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF8B8B8B),
-                                fontSize: 12),
-                          ),
-                          //alamat
-                          Text(
-                            "Perum. Pondok Permata Suci, Jl. Permata No. 90",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF8B8B8B),
-                                fontSize: 12),
-                          ),
-                          //kabupaten
-                          Text(
-                            "KAB. JEMBER, JAWA TIMUR, ID 66666",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF8B8B8B),
-                                fontSize: 12),
-                          ),
-                        ],
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                   //b) konten 2 : button ">" utk ke MAPS
                   Align(
