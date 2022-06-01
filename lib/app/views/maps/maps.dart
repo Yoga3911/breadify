@@ -133,7 +133,7 @@ class MapsPageState extends State<MapsPage> {
                 ),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Text(
-                    _address ?? location.getLocation,
+                    _address ?? _address.toString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(_kodePos ?? "Kode Pos: " + location.getPostCode),

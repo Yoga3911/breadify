@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             elevation: 0,
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, Routes.homeChat),
             heroTag: "home",
             backgroundColor: MyColor.red2,
             child: Image.asset(
