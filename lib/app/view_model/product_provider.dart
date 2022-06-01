@@ -167,6 +167,13 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // * >>>>>>>>>>> GET PRODUCT QUANTITY <<<<<<<<<<
+  Stream<DocumentSnapshot<Object?>>? dataQuantity;
+  Stream getQuantity(String productId) async* {
+    final data = MyCollection.product.doc(productId).snapshots();
+    dataQuantity = data;
+  }
+
   // * >>>>>>>>>>> ADD PRODUCT <<<<<<<<<<<<
 
   bool isError = true;
@@ -233,4 +240,13 @@ class ProductProvider with ChangeNotifier {
   Future<void> deleteById(String productId) async {
     await MyCollection.product.doc(productId).delete();
   }
+
+  int _countItem = 0;
+
+  set setCountItem(int val) {
+    _countItem += val;
+    notifyListeners();
+  }
+
+  int get getCountItem => _countItem;
 }

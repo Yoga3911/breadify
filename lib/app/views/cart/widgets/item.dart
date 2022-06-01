@@ -109,17 +109,9 @@ class CartItem extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          StreamBuilder<DocumentSnapshot>(
-                            stream: MyCollection.product.doc(productId).snapshots(),
-                            builder: (_, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const SizedBox();
-                              }
-                              return Text(
-                                "Stock: ${(snapshot.data!.data() as Map<String, dynamic>)["quantity"]}",
-                                style: const TextStyle(color: MyColor.grey),
-                              );
-                            },
+                          Text(
+                            "Stock: $productQuantity",
+                            style: const TextStyle(color: MyColor.grey),
                           ),
                           Row(
                             children: [
@@ -130,7 +122,8 @@ class CartItem extends StatelessWidget {
                                 productId: productId,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
                                 child: Consumer<CartModel>(
                                   builder: (_, value, __) => Text(
                                     value.getTotalItem.toString(),

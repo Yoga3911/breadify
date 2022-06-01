@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/collection.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/color.dart';
 import 'feed/feed.dart';
@@ -15,7 +17,36 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    final pref = await SharedPreferences.getInstance();
+    final user = MyCollection.user.doc(pref.getString("id"));
+
+    if (state == AppLifecycleState.resumed) {
+      user.update({
+        "isActive": true,
+      });
+    } else if (state == AppLifecycleState.paused) {
+      user.update({
+        "isActive": false,
+      });
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
   int _selectedIndex = 0;
 
   final List<Map<String, String>> _iconData = [
@@ -72,6 +103,7 @@ class _MainPageState extends State<MainPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox();
           }
+
           return IndexedStack(
             index: _selectedIndex,
             children: const [

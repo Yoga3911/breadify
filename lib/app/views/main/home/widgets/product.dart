@@ -124,6 +124,8 @@ class Product extends StatelessWidget {
                                         .getDataFilter[index].quantity,
                                     "image": productProvider
                                         .getDataFilter[index].image,
+                                    "store_id": productProvider
+                                        .getDataFilter[index].storeId,
                                   },
                                 );
                               },
