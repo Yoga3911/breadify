@@ -82,6 +82,22 @@ class MapsPageState extends State<MapsPage> {
     final location = Provider.of<MyLocation>(context, listen: false);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Maps", style: TextStyle(color: Colors.white),),
+          leading: GestureDetector(
+            onTap: () {
+              return Navigator.pop(context);
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
+          ),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: FloatingActionButton(
           heroTag: "current",
@@ -133,7 +149,7 @@ class MapsPageState extends State<MapsPage> {
                 ),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Text(
-                    _address ?? location.getLocation,
+                    _address ?? _address.toString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(_kodePos ?? "Kode Pos: " + location.getPostCode),
