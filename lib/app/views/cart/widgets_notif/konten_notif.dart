@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/models/notif_models.dart';
+import 'package:project/app/utils/currency.dart';
 
 //memanggil kerangka notif :
 
@@ -59,7 +60,7 @@ class Notif extends StatelessWidget {
                                 fontSize: 15),
                           ),
                           Text(
-                            notifModel.price,
+                            "Rp " + currency(notifModel.price).toString(),
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
