@@ -114,11 +114,6 @@ class _HomePageState extends State<HomePage> {
                 splashRadius: 25,
                 icon: Image.asset("assets/icons/cart.png"),
               ),
-              IconButton(
-                onPressed: () => showDialog(
-                    context: context, builder: (_) => const LogOutDialog()),
-                icon: const Icon(Icons.logout_rounded),
-              )
             ],
             elevation: 0,
           ),

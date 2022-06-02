@@ -6,6 +6,8 @@ import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
+import '../main/home/widgets/alert.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -96,13 +98,15 @@ class ProfilePage extends StatelessWidget {
                 height: 5,
                 decoration: const BoxDecoration(color: Colors.white),
               ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.request_page_outlined, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Request To Be A Seller"),
+              GestureDetector(
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(Icons.request_page_outlined, size: 30, color: Colors.yellow[600],),
+                    title: const Text("Request To Be A Seller"),
+                  ),
                 ),
               ),
               Container(
@@ -134,13 +138,17 @@ class ProfilePage extends StatelessWidget {
                 height: 1,
                 decoration: BoxDecoration(color: Colors.grey[800]),
               ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.logout_outlined, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Logout"),
+              GestureDetector(
+                onTap: () => showDialog(
+                    context: context, builder: (_) => const LogOutDialog()),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(Icons.logout_outlined, size: 30, color: Colors.yellow[600],),
+                    title: const Text("Logout"),
+                  ),
                 ),
               ),
               Container(
