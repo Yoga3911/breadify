@@ -10,9 +10,14 @@ import 'card.dart';
 import '../../../../view_model/product_provider.dart';
 import '../../../../routes/route.dart';
 
-class Product extends StatelessWidget {
+class Product extends StatefulWidget {
   const Product({Key? key}) : super(key: key);
 
+  @override
+  State<Product> createState() => _ProductState();
+}
+
+class _ProductState extends State<Product> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -126,6 +131,8 @@ class Product extends StatelessWidget {
                                         .getDataFilter[index].image,
                                     "store_id": productProvider
                                         .getDataFilter[index].storeId,
+                                    "product":
+                                        productProvider.getDataFilter[index]
                                   },
                                 );
                               },

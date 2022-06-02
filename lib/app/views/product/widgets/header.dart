@@ -98,19 +98,20 @@ class HeaderProduct extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 10,
-          right: 15,
-          child: product?.isChecked ?? false
-              ? const Icon(
-                  Icons.favorite_rounded,
-                  color: Color(0xFFF9595F),
-                  size: 40,
-                )
-              : const Icon(
-                  Icons.favorite_border_rounded,
-                  size: 40,
-                ),
-        ),
+            bottom: 10,
+            right: 15,
+            child: Consumer<ProductModel>(
+              builder: (_, val, __) => val.isChecked
+                  ? const Icon(
+                      Icons.favorite_rounded,
+                      color: Color(0xFFF9595F),
+                      size: 40,
+                    )
+                  : const Icon(
+                      Icons.favorite_border_rounded,
+                      size: 40,
+                    ),
+            )),
       ],
     );
   }
