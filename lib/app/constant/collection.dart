@@ -12,5 +12,6 @@ class MyCollection {
   static final CollectionReference feed = FirebaseFirestore.instance.collection("feed");
   static final CollectionReference order = FirebaseFirestore.instance.collection("order");
   static final CollectionReference notif = FirebaseFirestore.instance.collection("notif");
+  static final CollectionReference chat = FirebaseFirestore.instance.collection("chat");
   static final FirebaseStorage storage = FirebaseStorage.instance;
 }

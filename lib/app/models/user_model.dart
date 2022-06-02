@@ -11,6 +11,7 @@ class UserModel {
         required this.provider,
         required this.createAt,
         required this.updateAt,
+        required this.isActive,
     });
 
     final String id;
@@ -22,6 +23,7 @@ class UserModel {
     final String provider;
     final DateTime createAt;
     final DateTime updateAt;
+    final bool isActive;
 
     factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
@@ -31,6 +33,7 @@ class UserModel {
         name: json["name"],
         roleId: json["role_id"],
         provider: json["provider"],
+        isActive: json["isActive"],
         createAt: (json["create_at"] as Timestamp).toDate(),
         updateAt: (json["update_at"] as Timestamp).toDate(),
     );
@@ -43,6 +46,7 @@ class UserModel {
         "name": name,
         "role_id": roleId,
         "provider": provider,
+        "isActive": isActive,
         "create_at": createAt,
         "update_at": updateAt,
     };

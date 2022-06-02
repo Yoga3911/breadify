@@ -31,26 +31,9 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(seconds: 2));
     final product = Provider.of<ProductProvider>(context, listen: false);
     final category = Provider.of<CategoryProvider>(context, listen: false);
-    switch (category.getCategory) {
-      case "Popular":
-        await product.getByCategory("Popular");
-        break;
-      case "Bread":
-        await product.getByCategory("Bread");
-        break;
-      case "Cookies":
-        await product.getByCategory("Cookies");
-        break;
-      case "Cakes":
-        await product.getByCategory("Cakes");
-        break;
-      case "Pastry":
-        await product.getByCategory("Pastry");
-        break;
-      case "Brownies":
-        await product.getByCategory("Brownies");
-        break;
-    }
+    await product.getByCategory("Popular");
+    product.setStatus = state.loading;
+    category.setCategory = "Popular";
     if (product.getDataFilter.isNotEmpty) {
       product.setStatus = state.done;
     } else if (product.getDataFilter.isEmpty) {
@@ -131,16 +114,11 @@ class _HomePageState extends State<HomePage> {
                 splashRadius: 25,
                 icon: Image.asset("assets/icons/cart.png"),
               ),
-              IconButton(
-                onPressed: () => showDialog(
-                    context: context, builder: (_) => const LogOutDialog()),
-                icon: const Icon(Icons.logout_rounded),
-              )
             ],
             elevation: 0,
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, Routes.homeChat),
             heroTag: "home",
             backgroundColor: MyColor.red2,
             child: Image.asset(
