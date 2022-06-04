@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/models/store_model.dart';
@@ -109,17 +107,9 @@ class CartItem extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          StreamBuilder<DocumentSnapshot>(
-                            stream: MyCollection.product.doc(productId).snapshots(),
-                            builder: (_, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const SizedBox();
-                              }
-                              return Text(
-                                "Stock: ${(snapshot.data!.data() as Map<String, dynamic>)["quantity"]}",
-                                style: const TextStyle(color: MyColor.grey),
-                              );
-                            },
+                          Text(
+                            "Stock: $productQuantity",
+                            style: const TextStyle(color: MyColor.grey),
                           ),
                           Row(
                             children: [
@@ -130,7 +120,8 @@ class CartItem extends StatelessWidget {
                                 productId: productId,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
                                 child: Consumer<CartModel>(
                                   builder: (_, value, __) => Text(
                                     value.getTotalItem.toString(),

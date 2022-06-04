@@ -208,6 +208,8 @@ class _SearchPageState extends State<SearchPage> {
                   "price": dataFilter[index].price,
                   "quantity": dataFilter[index].quantity,
                   "image": dataFilter[index].image,
+                  "product": dataFilter[index],
+                  "store_id": dataFilter[index].storeId
                 },
               );
             },

@@ -6,6 +6,12 @@ import '../constant/collection.dart';
 import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
+  String? _userId;
+
+  set setId(String val) => _userId = val;
+
+  String? get getId => _userId;
+
   UserModel? _user;
 
   UserModel get getUser => _user!;
@@ -20,6 +26,10 @@ class UserProvider with ChangeNotifier {
   Future<void> getByDocId() async {
     final pref = await SharedPreferences.getInstance();
     final data = await MyCollection.user.doc(pref.getString("id")).get();
+    final userD = MyCollection.user.doc(pref.getString("id"));
+    userD.update({
+      "isActive": true,
+    });
     setUser = UserModel.fromJson(data.data() as Map<String, dynamic>);
   }
 
@@ -49,6 +59,7 @@ class UserProvider with ChangeNotifier {
           imageUrl: img!,
           name: name!,
           roleId: "1",
+          isActive: false,
           provider: provider!,
           createAt: DateTime.now(),
           updateAt: DateTime.now(),

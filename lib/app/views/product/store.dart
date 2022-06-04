@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:project/app/constant/collection.dart';
+import 'package:project/app/models/user_model.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/views/product/widgets/store_header.dart';
 import 'package:project/app/views/product/widgets/store_product.dart';
@@ -11,6 +14,7 @@ import '../../models/product_model.dart';
 import '../../routes/route.dart';
 import '../../constant/color.dart';
 import '../../../app/view_model/product_provider.dart';
+import '../chat/room.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -46,7 +50,99 @@ class StorePage extends StatelessWidget {
                     ),
                     backgroundColor: MyColor.yellow,
                   )
-                : null,
+                : FutureBuilder<QuerySnapshot>(
+                    future: MyCollection.user
+                        .doc(user.getUser.id)
+                        .collection("chats")
+                        .get(),
+                    builder: (_, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      }
+                      return FutureBuilder<DocumentSnapshot>(
+                          future:
+                              MyCollection.user.doc(args["seller_id"]).get(),
+                          builder: (_, snapshot2) {
+                            if (snapshot2.connectionState ==
+                                ConnectionState.waiting) {
+                              return const SizedBox();
+                            }
+                            final userModel = UserModel.fromJson(
+                              snapshot2.data!.data() as Map<String, dynamic>,
+                            );
+                            return FloatingActionButton(
+                              heroTag: "home",
+                              onPressed: () {
+                                for (var i in snapshot.data!.docs) {
+                                  if ((i.data()
+                                          as Map<String, dynamic>)["user_id"] ==
+                                      userModel.id) {
+                                    MyCollection.user
+                                        .doc(userModel.id)
+                                        .collection("chats")
+                                        .doc(i.id)
+                                        .update({
+                                      "unread": 0,
+                                      "onRoom": true,
+                                    });
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => RoomChat(
+                                          userModel: userModel,
+                                          docId: i.id,
+                                          onRoom: true,
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                }
+                                final doc = MyCollection.chat.doc();
+                                doc.set({
+                                  "members": [user.getUser.id, userModel.id]
+                                });
+                                MyCollection.user
+                                    .doc(user.getUser.id)
+                                    .collection("chats")
+                                    .doc(doc.id)
+                                    .set({
+                                  "user_id": userModel.id,
+                                  "unread": 0,
+                                  "onRoom": false,
+                                  "isTyping": false,
+                                  "date": DateTime.now(),
+                                });
+                                MyCollection.user
+                                    .doc(userModel.id)
+                                    .collection("chats")
+                                    .doc(doc.id)
+                                    .set({
+                                  "user_id": user.getUser.id,
+                                  "unread": 0,
+                                  "isTyping": false,
+                                  "onRoom": true,
+                                  "date": DateTime.now(),
+                                });
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => RoomChat(
+                                      userModel: userModel,
+                                      docId: doc.id,
+                                      onRoom: true,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.chat_rounded,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: MyColor.red2,
+                            );
+                          });
+                    }),
             body: ListView(
               children: [
                 StoreHeader(

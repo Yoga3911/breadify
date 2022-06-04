@@ -7,7 +7,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../view_model/category_provider.dart';
 import '../../../view_model/user_prodvider.dart';
-import '../home/widgets/alert.dart';
 import '../../main/home/widgets/title.dart';
 import '../../../views/main/home/widgets/category.dart';
 import '../../../views/main/home/widgets/header.dart';
@@ -114,16 +113,11 @@ class _HomePageState extends State<HomePage> {
                 splashRadius: 25,
                 icon: Image.asset("assets/icons/cart.png"),
               ),
-              IconButton(
-                onPressed: () => showDialog(
-                    context: context, builder: (_) => const LogOutDialog()),
-                icon: const Icon(Icons.logout_rounded),
-              )
             ],
             elevation: 0,
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, Routes.homeChat),
             heroTag: "home",
             backgroundColor: MyColor.red2,
             child: Image.asset(
