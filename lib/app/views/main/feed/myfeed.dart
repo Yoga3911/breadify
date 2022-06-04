@@ -1,4 +1,4 @@
-//**feed.dart = secara GLOBAL 
+//** myfeed.dart = khusus sbg SELLER utk fitur feeds
 
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 //utk konten feed
 import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
+
+import '../../../view_model/user_prodvider.dart';
 
 // final List<FeedsContent> feedscontent = [
 //   FeedsContent(
@@ -40,62 +42,66 @@ import 'package:project/app/views/main/feed/widgets/konten_feed.dart';
 //   ),
 // ];
 
-class FeedPage extends StatefulWidget {
-  const FeedPage({Key? key}) : super(key: key);
+class MyFeedPage extends StatefulWidget {
+  const MyFeedPage({Key? key}) : super(key: key);
 
   @override
-  State<FeedPage> createState() => _FeedPageState();
+  State<MyFeedPage> createState() => _MyFeedPageState();
 }
 
-class _FeedPageState extends State<FeedPage> {
+class _MyFeedPageState extends State<MyFeedPage> {
   @override
   Widget build(BuildContext context) {
-    final feed = Provider.of<FeedProvider>(context, listen: false);
+    final feed = Provider.of<FeedProvider>(context);
+    final user = Provider.of<UserProvider>(context, listen: false);
 
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red,
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.addfeed).then((value) {
+              setState(() {});
+            });
+          },
+          tooltip: 'add feed',
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 40,
+          ),
+        ),
         appBar: AppBar(
           backgroundColor: const Color(0xffFFD635),
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
+          leading: GestureDetector(
+            onTap: () {
+              return Navigator.pop(context);
+            },
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.arrow_back_ios_new_rounded),
             ),
-            tooltip: 'search',
           ),
           title: const Text(
-            "Feed",
+            "My Feed",
             style: TextStyle(color: Colors.white),
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.myfeed).then((value) {
-                  setState(() {});
-                });
-              },
-              icon: const Icon(Icons.feed_rounded),
-              color: Colors.white,
-              tooltip: 'Cart',
-            )
-          ],
         ),
-
         body: FutureBuilder(
-          //berisi function 'getAll' yg berhubungan dg DB
-            future: feed.getAll(),
+            future: feed.getAllById(userId: user.getUser.id),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
-                  itemCount: feed.getData.length,
+                  itemCount: feed.getMyData.length,
                   itemBuilder: (context, index) => Feed(
-                    //bernilai false krn halaman ini utk feed global (bukan ke myFeed)
-                      isMyFeed: false,
-                      //diambil per index
-                      feedModel: feed.getData[
-                          index]), 
+                      isMyFeed: true,
+                      feedModel: feed.getMyData[
+                          index]), //manggil konten class Feed() utk isi kontem dr folder widgets
                 );
               }
               return const SizedBox();

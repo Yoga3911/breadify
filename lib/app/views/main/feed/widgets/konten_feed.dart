@@ -1,19 +1,31 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:project/app/models/feeds_models.dart';
 
 import 'package:intl/intl.dart';
 import 'package:project/app/models/user_model.dart';
+import 'package:project/app/view_model/feed_provider.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../routes/route.dart';
+import '../../../../widgets/custom_loading.dart';
 
 //memanggil kerangka feed
 
 class Feed extends StatelessWidget {
-  const Feed({required this.feedModel, Key? key}) : super(key: key);
+  const Feed({
+    required this.feedModel,
+    required this.isMyFeed,
+    Key? key,
+  }) : super(key: key);
 
   final FeedModel feedModel;
+  final bool isMyFeed;
   @override
   Widget build(BuildContext context) {
+    final feed = Provider.of<FeedProvider>(context, listen: false);
     final user = Provider.of<UserProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(
@@ -23,6 +35,7 @@ class Feed extends StatelessWidget {
           bottom: 10), //pengganti container universal (pemisah antar konten)
       // color: Colors.blue.shade100,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           //1) profile & username
           Container(
@@ -33,15 +46,15 @@ class Feed extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 //a1) porfile & username
-                FutureBuilder <UserModel>(
+                FutureBuilder<UserModel>(
                     future: user.getUserById(feedModel.userId),
                     builder: (_, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return Row(
                           children: <Widget>[
                             Container(
-                              width: 50,
-                              height: 50,
+                              width: 40,
+                              height: 40,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -73,10 +86,96 @@ class Feed extends StatelessWidget {
                       return const SizedBox();
                     }),
                 //b) icon more
-                const Icon(
-                  Icons.more_horiz,
-                  color: Colors.black,
-                )
+                (isMyFeed)
+                    ? PopupMenuButton(
+                        onSelected: (val) {
+                          if (val == 1) {
+                            Navigator.pushNamed(context, Routes.editFeed, arguments: {
+                              "feed": feedModel
+                            });
+                          } else if (val == 2) {
+                            showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text("Perhatian"),
+                                content: Text(
+                                    "Apakah anda yakin ingin menghapus feed ini?"),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("Batal")),
+                                  ElevatedButton(
+                                      child: Text("Ya"),
+                                      onPressed: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => const CustomLoading(),
+                                        );
+                                        await feed
+                                            .deleteData(
+                                                feedId: feedModel.idFeed)
+                                            .then(
+                                          (_) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                duration: Duration(seconds: 3),
+                                                content: Text(
+                                                  "Feed berhasil dihapus",
+                                                ),
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 255, 74, 80),
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      })
+                                ],
+                              ),
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.more_horiz_rounded),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                Icon(
+                                  Icons.edit_rounded,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text("Edit"),
+                              ],
+                            ),
+                            value: 1,
+                          ),
+                          PopupMenuItem(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                Icon(
+                                  Icons.delete_rounded,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text("Delete"),
+                              ],
+                            ),
+                            value: 2,
+                          )
+                        ],
+                      )
+                    : const SizedBox()
               ],
             ),
           ),
@@ -96,6 +195,7 @@ class Feed extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(10, 2, 5, 0),
             // color: Colors.green,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   feedModel.caption,

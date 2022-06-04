@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/views/cart/notif.dart';
 import 'package:project/app/views/chat/home_chat.dart';
+import 'package:project/app/views/main/feed/widgets/edit_feed.dart';
 import 'package:project/app/views/main/home/search_page.dart';
 import 'package:project/app/views/maps/maps.dart';
 import 'package:project/app/views/product/action_product.dart';
@@ -11,6 +12,7 @@ import '../views/auth/login.dart';
 import '../views/auth/register.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
+import '../views/main/feed/myfeed.dart';
 import '../views/main/feed/widgets/add_feed.dart';
 import '../views/main/main_page.dart';
 import '../views/profile/profile.dart';
@@ -29,7 +31,9 @@ class Routes {
   static const String home = "/home";
   static const String homeChat = "/home/chat";
   static const String feed = "/feed";
+  static const String myfeed = "/myfeed";
   static const String addfeed = "/addfeed";
+  static const String editFeed = "/editfeed";
   static const String favorite = "/favorite";
   static const String profile = "/profile";
   static const String store = "/store";
@@ -49,7 +53,9 @@ class Routes {
     home: (_) => const HomePage(),
     homeChat: (_) => const HomeChat(),
     feed: (_) => const FeedPage(),
+    myfeed: (_) => const MyFeedPage(),
     addfeed: (_) => const AddFeedPage(),
+    editFeed: (_) => const EditFeedPage(),
     favorite: (_) => const FavoritePage(),
     profile: (_) => const ProfilePage(),
     store: (_) => const StorePage(),
