@@ -37,14 +37,17 @@ class NotifPage extends StatelessWidget {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
+          leading: GestureDetector(
+            onTap: () {
+              return Navigator.pop(context);
             },
-            tooltip: "Back",
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.arrow_back_ios_new_rounded),
             ),
           ),
           title: const Text(

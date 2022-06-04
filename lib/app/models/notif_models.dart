@@ -14,7 +14,7 @@ class NotifModel {
     final String id;
     final String message;
     final String note;
-    final String price;
+    final int price;
     final String product;
     final DateTime date;
     final String status;
