@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/views/cart/notif.dart';
-// import 'package:project/app/views/chat/home_chat.dart';
+import 'package:project/app/views/chat/home_chat.dart';
 import 'package:project/app/views/main/feed/widgets/edit_feed.dart';
 import 'package:project/app/views/main/home/search_page.dart';
 import 'package:project/app/views/maps/maps.dart';
@@ -51,7 +51,7 @@ class Routes {
     register: (_) => const RegisterPage(), 
     main: (_) => const MainPage(), 
     home: (_) => const HomePage(),
-    // homeChat: (_) => const HomeChat(),
+    homeChat: (_) => const HomeChat(),
     feed: (_) => const FeedPage(),
     myfeed: (_) => const MyFeedPage(),
     addfeed: (_) => const AddFeedPage(),

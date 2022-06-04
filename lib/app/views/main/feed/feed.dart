@@ -82,16 +82,20 @@ class _FeedPageState extends State<FeedPage> {
             )
           ],
         ),
+
         body: FutureBuilder(
+          //berisi function 'getAll' yg berhubungan dg DB
             future: feed.getAll(),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
                   itemCount: feed.getData.length,
                   itemBuilder: (context, index) => Feed(
+                    //bernilai false krn halaman ini utk feed global (bukan ke myFeed)
                       isMyFeed: false,
+                      //diambil per index
                       feedModel: feed.getData[
-                          index]), //manggil konten class Feed() utk isi kontem dr folder widgets
+                          index]), 
                 );
               }
               return const SizedBox();
