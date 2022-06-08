@@ -4,6 +4,7 @@ import 'package:project/app/constant/color.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/views/profile/change_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../main/home/widgets/alert.dart';
@@ -93,17 +94,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.camera_alt_outlined,
-                      size: 30,
-                      color: Colors.yellow[600],
+                GestureDetector(
+                  onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return changeProfile();}));},
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.camera_alt_outlined,
+                        size: 30,
+                        color: Colors.yellow[600],
+                      ),
+                      title: const Text("Change Profile"),
                     ),
-                    title: const Text("Set Photo Profile"),
                   ),
                 ),
                 Container(
