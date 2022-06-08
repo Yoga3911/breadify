@@ -17,7 +17,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   bool isChecked = false;
 
   @override
@@ -56,9 +55,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       CircleAvatar(
                         radius: 40,
-                        child: CachedNetworkImage(
-                          imageUrl: user.imageUrl,
-                          fit: BoxFit.cover,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: user.imageUrl,
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                          ),
                         ),
                       ),
                       Container(
@@ -95,7 +98,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return changeProfile();}));},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return changeProfile(
+                        name: user.name,
+                        id: user.id,
+                      );
+                    })).then((value) {setState(() {
+                      
+                    });});
+                  },
                   child: Container(
                     height: 50,
                     width: double.infinity,
@@ -118,89 +131,138 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () => showDialog(
                       context: context,
                       builder: (context) => StatefulBuilder(
-                        builder: (context, setState) => AlertDialog(
-                          scrollable: true,
-                              content: Column( children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('1. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Produknya berkualitas dan selalu up to date.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('2. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Varian produknya banyak dan stok terjamin.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('3. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Harga jual yang ditentukan sesuai dengan kualitas dan sangat bersaing.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('4. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Minimal sudah menjalankan bisnis selama 1 tahun dan sudah memiliki banyak reseller.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('5. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Memberikan banyak kemudahan dalam menjalankan bisnis sebagai reseller, seperti menyediakan katalog online, program diskon khusus, bersedia menangani komplain pelanggan.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('6. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Memberikan informasi yang jujur mengenai kondisi produk, termasuk kelemahan dan kelebihannya.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('7. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Menjalin hubungan dengan pelanggan di luar urusan jual beli dan jalin komunikasi sebagai teman.'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text('8. '),
-                                    SizedBox(width: 5,),
-                                    Flexible(child: Text('Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.Log Out'))
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Checkbox(value: isChecked, onChanged: (val) {
-                                      isChecked = !val!;
-                                      setState(() {
-                                        isChecked = !isChecked;
-                                      });
-                                    }),
-                                    Text('I Agree to the Terms Above')
-                                  ],
-                                ),
-                                ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('Request'))
-                              ],),
+                            builder: (context, setState) => AlertDialog(
+                              scrollable: true,
+                              content: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('1. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Produknya berkualitas dan selalu up to date.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('2. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Varian produknya banyak dan stok terjamin.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('3. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Harga jual yang ditentukan sesuai dengan kualitas dan sangat bersaing.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('4. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Minimal sudah menjalankan bisnis selama 1 tahun dan sudah memiliki banyak reseller.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('5. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Memberikan banyak kemudahan dalam menjalankan bisnis sebagai reseller, seperti menyediakan katalog online, program diskon khusus, bersedia menangani komplain pelanggan.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('6. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Memberikan informasi yang jujur mengenai kondisi produk, termasuk kelemahan dan kelebihannya.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('7. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Menjalin hubungan dengan pelanggan di luar urusan jual beli dan jalin komunikasi sebagai teman.'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('8. '),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                              'Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.Log Out'))
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Checkbox(
+                                          value: isChecked,
+                                          onChanged: (val) {
+                                            isChecked = !val!;
+                                            setState(() {
+                                              isChecked = !isChecked;
+                                            });
+                                          }),
+                                      Text('I Agree to the Terms Above')
+                                    ],
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Request'))
+                                ],
+                              ),
                             ),
-                      )),
+                          )),
                   child: Container(
                     height: 50,
                     width: double.infinity,
@@ -241,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       size: 30,
                       color: Colors.yellow[600],
                     ),
-                    title: const Text("Privacy and Security"),
+                    title: const Text("Change Password"),
                   ),
                 ),
                 Container(
@@ -268,27 +330,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   height: 1,
                   decoration: BoxDecoration(color: Colors.grey[800]),
-                ),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.help_outline,
-                      size: 30,
-                      color: Colors.yellow[600],
-                    ),
-                    title: const Text("Help Center"),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(color: Colors.grey[800]),
-                ),
-                Container(
-                  height: 100,
-                  decoration: BoxDecoration(color: Colors.grey[200]),
                 ),
               ],
             )

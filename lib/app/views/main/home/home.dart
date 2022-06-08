@@ -74,9 +74,13 @@ class _HomePageState extends State<HomePage> {
               onPressed: () => Navigator.pushNamed(context, Routes.profile),
               icon: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: CachedNetworkImage(
-                  imageUrl: user.imageUrl,
-                  fit: BoxFit.cover,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: user.imageUrl,
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
                 ),
               ),
             ),
