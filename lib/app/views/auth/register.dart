@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _isHidden1 = !_isHidden1;
     });
   }
+
   bool _isHidden2 = true;
   void _togglePasswordView2() {
     setState(() {
@@ -165,14 +166,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: InkWell(
-                      onTap: _togglePasswordView1,
-                      child: Icon(
-                        _isHidden1
-                            ?
-                            Icons.visibility_off
-                            : Icons.visibility,
-                      ),
+                    onTap: _togglePasswordView1,
+                    child: Icon(
+                      _isHidden1 ? Icons.visibility_off : Icons.visibility,
                     ),
+                  ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Password",
                   border: OutlineInputBorder(
@@ -193,14 +191,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   // icon: Icon(Icons.account_box),
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: InkWell(
-                      onTap: _togglePasswordView2,
-                      child: Icon(
-                        _isHidden2
-                            ?
-                            Icons.visibility_off
-                            : Icons.visibility,
-                      ),
+                    onTap: _togglePasswordView2,
+                    child: Icon(
+                      _isHidden2 ? Icons.visibility_off : Icons.visibility,
                     ),
+                  ),
                   prefixStyle: const TextStyle(color: Colors.blue),
                   hintText: "Confirm Password",
                   border: OutlineInputBorder(
@@ -223,17 +218,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 onPressed: () async {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => const CustomLoading(),
-                  );
-                  auth.register(
-                    context: context,
-                    email: _email.text,
-                    name: _username.text,
-                    password: hashPass(_password1.text),
-                  );
+                  final isValid = validator(context);
+                  if (isValid) {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => const CustomLoading(),
+                    );
+                    auth.register(
+                      context: context,
+                      email: _email.text,
+                      name: _username.text,
+                      password: hashPass(_password1.text),
+                    );
+                  }
                 },
                 child: const Text("Sign Up",
                     textAlign: TextAlign.center,
@@ -323,6 +321,35 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  bool validator(BuildContext context) {
+    if (_username.text.isEmpty) {
+      snackBar(context, 'Username Tidak Boleh Kosong');
+      return false;
+    } else if (_email.text.isEmpty) {
+      snackBar(context, 'Email Tidak Boleh Kosong');
+      return false;
+    } else if (_password1.text.isEmpty) {
+      snackBar(context, 'Password Tidak Boleh Kosong');
+      return false;
+    } else if (_password2.text.isEmpty) {
+      snackBar(context, 'Konfirmasi Password Tidak Boleh Kosong');
+      return false;
+    } else if (_password1.text != _password2.text) {
+      snackBar(context, 'Password dan Konfirmasi Password Tidak Sama');
+      return false;
+    }
+    return true;
+  }
+
+  void snackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }

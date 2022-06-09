@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
-import 'package:project/app/services/email.dart';
 import 'package:project/app/services/facebook.dart';
 import 'package:project/app/services/google.dart';
 import 'package:project/app/view_model/auth_provider.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
 import '../../routes/route.dart';
+import '../../services/email.dart';
 import '../../utils/hash.dart';
 
 class LoginPage extends StatefulWidget {
@@ -154,10 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                     suffixIcon: InkWell(
                       onTap: _togglePasswordView,
                       child: Icon(
-                        _isHidden
-                            ?
-                            Icons.visibility_off
-                            : Icons.visibility,
+                        _isHidden ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
                     prefixStyle: const TextStyle(color: Colors.blue),
@@ -194,8 +191,10 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {
-                  showDialog(
+                onPressed: () async {
+                  final isValid =  validator(context);
+                  if (isValid){
+                    showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => const CustomLoading(),
@@ -207,6 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                     provider: "email",
                     social: EmailService(),
                   );
+                  }
                 },
                 child: const Text(
                   "Log In",
@@ -325,5 +325,23 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  bool validator(BuildContext context) {
+    if (_email.text.isEmpty) {
+      snackBar(context, 'Email Tidak Boleh Kosong');
+      return false;
+    } else if (_password.text.isEmpty) {
+      snackBar(context, 'Password Tidak Boleh Kosong');
+      return false;
+    }
+    return true;
+  }
+
+  void snackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ));
   }
 }

@@ -9,6 +9,9 @@ class CartProvider with ChangeNotifier {
   bool _isSelectAll = false;
   int _totalMoney = 0;
 
+  List<CartModel> cartData = [];
+  List<CartModel> cartDataCheckout = [];
+
   set setTotal(int val) {
     _total += val;
     notifyListeners();

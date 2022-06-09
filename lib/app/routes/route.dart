@@ -10,6 +10,7 @@ import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';
 import '../views/auth/login.dart';
 import '../views/auth/register.dart';
+import '../views/chat/home_chat.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
 import '../views/main/feed/myfeed.dart';

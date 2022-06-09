@@ -6,8 +6,18 @@ import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+import '../main/home/widgets/alert.dart';
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,86 +94,198 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.camera_alt_outlined, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Set Photo Profile"),
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.camera_alt_outlined,
+                      size: 30,
+                      color: Colors.yellow[600],
+                    ),
+                    title: const Text("Set Photo Profile"),
+                  ),
                 ),
-              ),
-              Container(
-                height: 5,
-                decoration: const BoxDecoration(color: Colors.white),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.request_page_outlined, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Request To Be A Seller"),
+                Container(
+                  height: 5,
+                  decoration: const BoxDecoration(color: Colors.white),
                 ),
-              ),
-              Container(
-                height: 5,
-                decoration: const BoxDecoration(color: Colors.white),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: const ListTile(
-                  title: Text("Settings"),
+                GestureDetector(
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => StatefulBuilder(
+                        builder: (context, setState) => AlertDialog(
+                          scrollable: true,
+                              content: Column( children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('1. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Produknya berkualitas dan selalu up to date.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('2. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Varian produknya banyak dan stok terjamin.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('3. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Harga jual yang ditentukan sesuai dengan kualitas dan sangat bersaing.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('4. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Minimal sudah menjalankan bisnis selama 1 tahun dan sudah memiliki banyak reseller.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('5. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Memberikan banyak kemudahan dalam menjalankan bisnis sebagai reseller, seperti menyediakan katalog online, program diskon khusus, bersedia menangani komplain pelanggan.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('6. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Memberikan informasi yang jujur mengenai kondisi produk, termasuk kelemahan dan kelebihannya.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('7. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Menjalin hubungan dengan pelanggan di luar urusan jual beli dan jalin komunikasi sebagai teman.'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('8. '),
+                                    SizedBox(width: 5,),
+                                    Flexible(child: Text('Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.Log Out'))
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Checkbox(value: isChecked, onChanged: (val) {
+                                      isChecked = !val!;
+                                      setState(() {
+                                        isChecked = !isChecked;
+                                      });
+                                    }),
+                                    Text('I Agree to the Terms Above')
+                                  ],
+                                ),
+                                ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('Request'))
+                              ],),
+                            ),
+                      )),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.request_page_outlined,
+                        size: 30,
+                        color: Colors.yellow[600],
+                      ),
+                      title: const Text("Request To Be A Seller"),
+                    ),
+                  ),
                 ),
-              ),
-              Container(
-                height: 1,
-                decoration: BoxDecoration(color: Colors.grey[800]),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.lock_outline_sharp, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Privacy and Security"),
+                Container(
+                  height: 5,
+                  decoration: const BoxDecoration(color: Colors.white),
                 ),
-              ),
-              Container(
-                height: 1,
-                decoration: BoxDecoration(color: Colors.grey[800]),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.logout_outlined, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Logout"),
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: const ListTile(
+                    title: Text("Settings"),
+                  ),
                 ),
-              ),
-              Container(
-                height: 1,
-                decoration: BoxDecoration(color: Colors.grey[800]),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: ListTile(
-                  leading: Icon(Icons.help_outline, size: 30, color: Colors.yellow[600],),
-                  title: const Text("Help Center"),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[800]),
                 ),
-              ),
-              Container(
-                height: 1,
-                decoration: BoxDecoration(color: Colors.grey[800]),
-              ),
-              Container(
-                height: 100,
-                decoration: BoxDecoration(color: Colors.grey[200]),
-              ),
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.lock_outline_sharp,
+                      size: 30,
+                      color: Colors.yellow[600],
+                    ),
+                    title: const Text("Privacy and Security"),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[800]),
+                ),
+                GestureDetector(
+                  onTap: () => showDialog(
+                      context: context, builder: (_) => const LogOutDialog()),
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout_outlined,
+                        size: 30,
+                        color: Colors.yellow[600],
+                      ),
+                      title: const Text("Logout"),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[800]),
+                ),
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.help_outline,
+                      size: 30,
+                      color: Colors.yellow[600],
+                    ),
+                    title: const Text("Help Center"),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[800]),
+                ),
+                Container(
+                  height: 100,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                ),
               ],
             )
           ],

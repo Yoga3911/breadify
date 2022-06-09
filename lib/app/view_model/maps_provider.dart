@@ -5,8 +5,8 @@ import 'package:geolocator/geolocator.dart';
 class MyLocation with ChangeNotifier {
   String _address = "Address";
   String _postCode = "00000";
-  double lat = 0;
-  double long = 0;
+  double lat = -7.2545265;
+  double long = 112.7475898;
 
   Future<Position> determinePosition() async {
     bool serviceEnabled;
