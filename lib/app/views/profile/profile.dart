@@ -4,6 +4,7 @@ import 'package:project/app/constant/color.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/views/profile/change_password.dart';
 import 'package:project/app/views/profile/change_profile.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isChecked = false;
+  bool _isHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +27,24 @@ class _ProfilePageState extends State<ProfilePage> {
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Navigator.pushNamed(context, Routes.main),
-            icon: const Icon(Icons.arrow_back_ios_new),
-            color: Colors.white,
-          ),
-          title: const Text("Profile", style: TextStyle(color: Colors.white)),
-          actions: const [
-            Icon(
-              Icons.more_vert,
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => Navigator.pushNamed(context, Routes.main),
+              icon: const Icon(Icons.arrow_back_ios_new),
               color: Colors.white,
             ),
-          ],
-          elevation: 0,
-        ),
-        body: ListView(
-          children: [
-            Column(
-              children: [
+            title: const Text("Profile", style: TextStyle(color: Colors.white)),
+            actions: const [
+              Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+            ],
+            elevation: 0,
+          ),
+          body: ListView(
+            children: [
+              Column(children: [
                 Container(
                   width: double.infinity,
                   height: 100,
@@ -105,9 +106,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         name: user.name,
                         id: user.id,
                       );
-                    })).then((value) {setState(() {
-                      
-                    });});
+                    })).then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Container(
                     height: 50,
@@ -236,7 +237,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       Flexible(
                                           child: Text(
-                                              'Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.Log Out'))
+                                              'Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.'))
                                     ],
                                   ),
                                   Row(
@@ -277,23 +278,80 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 5,
-                  decoration: const BoxDecoration(color: Colors.white),
+              ]),
+              Container(
+                height: 5,
+                decoration: const BoxDecoration(color: Colors.white),
+              ),
+              Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(color: Colors.grey[200]),
+                child: const ListTile(
+                  title: Text("Settings"),
                 ),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                  child: const ListTile(
-                    title: Text("Settings"),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(color: Colors.grey[800]),
-                ),
-                Container(
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey[800]),
+              ),
+              GestureDetector(
+                onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => StatefulBuilder(
+                          builder: (context, setState) => AlertDialog(
+                            content: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Text('Password'),
+                                ),
+                                TextField(
+                                  obscureText: _isHidden,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.lock_outline,
+                                        color: MyColor.yellow,
+                                      ),
+                                      suffixIcon: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _isHidden = !_isHidden;
+                                          });
+                                        },
+                                        child: Icon(
+                                          _isHidden
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                      ),
+                                      prefixStyle:
+                                          const TextStyle(color: Colors.blue),
+                                      hintText: "Password",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                            color: MyColor.yellow,
+                                          ))),
+                                ),
+                                SizedBox(height: 30,),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return changePassword();
+                                      }));
+                                    },
+                                    child: Text('Confirm'))
+                              ],
+                            ),
+                          ),
+                        )),
+                child: Container(
                   height: 50,
                   width: double.infinity,
                   decoration: BoxDecoration(color: Colors.grey[200]),
@@ -306,36 +364,34 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: const Text("Change Password"),
                   ),
                 ),
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(color: Colors.grey[800]),
-                ),
-                GestureDetector(
-                  onTap: () => showDialog(
-                      context: context, builder: (_) => const LogOutDialog()),
-                  child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.logout_outlined,
-                        size: 30,
-                        color: Colors.yellow[600],
-                      ),
-                      title: const Text("Logout"),
+              ),
+              Container(
+                height: 2,
+                decoration: BoxDecoration(color: Colors.grey[800]),
+              ),
+              GestureDetector(
+                onTap: () => showDialog(
+                    context: context, builder: (_) => const LogOutDialog()),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.logout_outlined,
+                      size: 30,
+                      color: Colors.yellow[600],
                     ),
+                    title: const Text("Logout"),
                   ),
                 ),
-                Container(
-                  height: 1,
-                  decoration: BoxDecoration(color: Colors.grey[800]),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey[800]),
+              ),
+            ],
+          )),
     );
   }
 }
