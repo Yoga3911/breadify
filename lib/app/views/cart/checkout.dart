@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:project/app/view_model/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 //pemanggilan class
@@ -53,168 +54,187 @@ class CheckoutPage extends StatelessWidget {
     final user = Provider.of<UserProvider>(context, listen: false);
     final location = Provider.of<MyLocation>(context);
 
-    return ScrollConfiguration(
-      behavior: NoGlow(),
-      child: Scaffold(
-        floatingActionButton: SizedBox(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              //1) Total transaksi
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: const <Widget>[
-                  Text("Total transactions"),
-                  Text(
-                    "Rp 192.000",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<CartProvider>().cartDataCheckout.clear();
+        return true;
+      },
+      child: ScrollConfiguration(
+        behavior: NoGlow(),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                context.read<CartProvider>().cartDataCheckout.clear();
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
               ),
+            ),
+            title: const Text(
+              "Checkout",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    //1) Container utk alamat
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(5),
+                      color: const Color(0xA0E5E5E5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          //a) konten 1 : ROW() yg berisi icon gps & column for text
+                          Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                //a1) icon GPS
+                                SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: Image.asset("assets/icons/map2.png"),
+                                ),
 
-              const SizedBox(width: 10), //jarak
-              //2) button "order"
-              Container(
-                height: 45,
-                width: 120,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Order",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                        textAlign: TextAlign.center,
+                                //jarak
+                                const SizedBox(
+                                  width: 10,
+                                ),
+
+                                //a2) column for text
+                                Flexible(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      //judul : address
+                                      const Text(
+                                        "Address",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 15),
+                                      ),
+                                      //nama
+                                      Text(
+                                        user.getUser.name,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF8B8B8B),
+                                            fontSize: 12),
+                                      ),
+                                      //alamat
+                                      Text(
+                                        location.getLocation,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF8B8B8B),
+                                            fontSize: 12),
+                                      ),
+                                      //kabupaten
+                                      Text(
+                                        location.getPostCode,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF8B8B8B),
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          //b) konten 2 : button ">" utk ke MAPS
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Transform.scale(
+                              scale: 1,
+                              child: IconButton(
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, Routes.maps),
+                                icon: const Icon(Icons.arrow_forward_ios),
+                                color: const Color(0xFF727272),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                    //2) utk konten perulangan
+                    Consumer<CartProvider>(
+                      builder: (_, notifier, __) => ListView.builder(
+                        itemCount: notifier.cartDataCheckout.length,
+                        itemBuilder: (context, index) => Checkout(
+                            cartModel: notifier.cartDataCheckout[index]),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    //1) Total transaksi
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: const <Widget>[
+                        Text("Total transactions"),
+                        Text(
+                          "Rp 192.000",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(width: 10), //jarak
+                    //2) button "order"
+                    Container(
+                      height: 45,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Order",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-            ),
-          ),
-          title: const Text(
-            "Checkout",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        body: ListView(
-          children: <Widget>[
-            //1) Container utk alamat
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(5),
-              color: const Color(0xA0E5E5E5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  //a) konten 1 : ROW() yg berisi icon gps & column for text
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        //a1) icon GPS
-                        SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Image.asset("assets/icons/map2.png"),
-                        ),
-
-                        //jarak
-                        const SizedBox(
-                          width: 10,
-                        ),
-
-                        //a2) column for text
-                        Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              //judul : address
-                              const Text(
-                                "Address",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 15),
-                              ),
-                              //nama
-                              Text(
-                                user.getUser.name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF8B8B8B),
-                                    fontSize: 12),
-                              ),
-                              //alamat
-                               Text(
-                                location.getLocation,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF8B8B8B),
-                                    fontSize: 12),
-                              ),
-                              //kabupaten
-                              Text(
-                                location.getPostCode,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF8B8B8B),
-                                    fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  //b) konten 2 : button ">" utk ke MAPS
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Transform.scale(
-                      scale: 1,
-                      child: IconButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, Routes.maps),
-                        icon: const Icon(Icons.arrow_forward_ios),
-                        color: const Color(0xFF727272),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //2) utk konten perulangan
-            ListView.builder(
-              itemCount: checkoutcontent.length,
-              itemBuilder: (context, index) => Checkout(index: index),
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-            ),
-          ],
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
@@ -42,6 +44,11 @@ class CartItem extends StatelessWidget {
               builder: (_, value, __) => Checkbox(
                 value: value.getChecked,
                 onChanged: (tap) {
+                  if (tap == true) {
+                    notifier.cartData.add(value);
+                  } else if (tap == false) {
+                    notifier.cartData.remove(value);
+                  }
                   value.setChecked = tap ?? false;
                   (tap == true) ? cart.setTotal = 1 : cart.setTotal = -1;
                 },
