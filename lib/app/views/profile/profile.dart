@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
@@ -20,6 +22,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool isChecked = false;
   bool _isHidden = true;
+  late TextEditingController pass;
+
+  @override
+  void initState() {
+    pass = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
                                     color: Colors.white),
-                                child: const Center(child: Text("Customer"))),
+                                child: Center(
+                                    child: Text((user.roleId == "1")
+                                        ? "Customer"
+                                        : "Seller"))),
                             const Text("Saldo : Rp100.000",
                                 style: TextStyle(
                                     fontSize: 15,
@@ -128,156 +140,103 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 5,
                   decoration: const BoxDecoration(color: Colors.white),
                 ),
-                GestureDetector(
-                  onTap: () => showDialog(
-                      context: context,
-                      builder: (context) => StatefulBuilder(
-                            builder: (context, setState) => AlertDialog(
-                              scrollable: true,
-                              content: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('1. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Produknya berkualitas dan selalu up to date.'))
-                                    ],
+                (user.roleId == "1")
+                    ? GestureDetector(
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => StatefulBuilder(
+                                  builder: (context, setState) => AlertDialog(
+                                    scrollable: true,
+                                    content: Column(
+                                      children: [
+                                        rowRequest('1. ',
+                                            'Produknya berkualitas dan selalu up to date.'),
+                                        rowRequest('2. ',
+                                            'Varian produknya banyak dan stok terjamin.'),
+                                        rowRequest('3. ',
+                                            'Harga jual yang ditentukan sesuai dengan kualitas dan sangat bersaing.'),
+                                        rowRequest('4. ',
+                                            'Minimal sudah menjalankan bisnis selama 1 tahun dan sudah memiliki banyak reseller.'),
+                                        rowRequest('5. ',
+                                            'Memberikan banyak kemudahan dalam menjalankan bisnis sebagai reseller, seperti menyediakan katalog online, program diskon khusus, bersedia menangani komplain pelanggan.'),
+                                        rowRequest('6. ',
+                                            'Memberikan informasi yang jujur mengenai kondisi produk, termasuk kelemahan dan kelebihannya.'),
+                                        rowRequest('7. ',
+                                            'Menjalin hubungan dengan pelanggan di luar urusan jual beli dan jalin komunikasi sebagai teman.'),
+                                        rowRequest('8. ',
+                                            'Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.'),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Checkbox(
+                                                value: isChecked,
+                                                onChanged: (val) {
+                                                  isChecked = !val!;
+                                                  setState(() {
+                                                    isChecked = !isChecked;
+                                                  });
+                                                }),
+                                            const Text(
+                                                'I Agree to the Terms Above')
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: (isChecked)
+                                                ? () {
+                                                    context
+                                                        .read<UserProvider>()
+                                                        .changeRole(
+                                                            userId: user.id)
+                                                        .then((value) {
+                                                      Navigator
+                                                          .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        Routes.main,
+                                                        (route) => false,
+                                                      );
+                                                    });
+                                                  }
+                                                : null,
+                                            child: const Text(
+                                              'Request',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ))
+                                      ],
+                                    ),
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('2. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Varian produknya banyak dan stok terjamin.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('3. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Harga jual yang ditentukan sesuai dengan kualitas dan sangat bersaing.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('4. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Minimal sudah menjalankan bisnis selama 1 tahun dan sudah memiliki banyak reseller.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('5. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Memberikan banyak kemudahan dalam menjalankan bisnis sebagai reseller, seperti menyediakan katalog online, program diskon khusus, bersedia menangani komplain pelanggan.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('6. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Memberikan informasi yang jujur mengenai kondisi produk, termasuk kelemahan dan kelebihannya.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('7. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Menjalin hubungan dengan pelanggan di luar urusan jual beli dan jalin komunikasi sebagai teman.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('8. '),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                          child: Text(
-                                              'Menjawab setiap pertanyaan konsumen tentang produk dengan sabar dan sejelas-jelasnya karena konsumen hanya mengandalkan foto dan keterangan yang tercantum. Anda bisa mempelajari detail produk dari FAQ yang biasanya ada di website supplier.'))
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Checkbox(
-                                          value: isChecked,
-                                          onChanged: (val) {
-                                            isChecked = !val!;
-                                            setState(() {
-                                              isChecked = !isChecked;
-                                            });
-                                          }),
-                                      Text('I Agree to the Terms Above')
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Request'))
-                                ],
-                              ),
+                                )),
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(color: Colors.grey[200]),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.request_page_outlined,
+                              size: 30,
+                              color: Colors.yellow[600],
                             ),
-                          )),
-                  child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.request_page_outlined,
-                        size: 30,
-                        color: Colors.yellow[600],
+                            title: const Text("Request To Be A Seller"),
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(color: Colors.grey[200]),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.store_rounded,
+                              size: 30,
+                              color: Colors.yellow[600],
+                            ),
+                            title: const Text("My Store"),
+                          ),
+                        ),
                       ),
-                      title: const Text("Request To Be A Seller"),
-                    ),
-                  ),
-                ),
               ]),
               Container(
                 height: 5,
@@ -301,12 +260,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context) => StatefulBuilder(
                           builder: (context, setState) => AlertDialog(
                             content: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Padding(
                                   padding: EdgeInsets.all(20),
                                   child: Text('Password'),
                                 ),
                                 TextField(
+                                  controller: pass,
                                   obscureText: _isHidden,
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(
@@ -338,13 +299,41 @@ class _ProfilePageState extends State<ProfilePage> {
                                             color: MyColor.yellow,
                                           ))),
                                 ),
-                                SizedBox(height: 30,),
+                                const SizedBox(
+                                  height: 30,
+                                ),
                                 ElevatedButton(
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return changePassword();
-                                      }));
+                                      context
+                                          .read<UserProvider>()
+                                          .checkPassword(
+                                              userId: user.id,
+                                              password: pass.text)
+                                          .then(
+                                        (value) {
+                                          pass.text = "";
+                                          if (value) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return changePassword();
+                                                },
+                                              ),
+                                            );
+                                            return;
+                                          }
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content:
+                                                  Text("Password tidak valid"),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        },
+                                      );
                                     },
                                     child: Text('Confirm'))
                               ],
@@ -392,6 +381,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           )),
+    );
+  }
+
+  Row rowRequest(String number, String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(number),
+        const SizedBox(
+          width: 5,
+        ),
+        Flexible(child: Text(text))
+      ],
     );
   }
 }

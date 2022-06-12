@@ -6,7 +6,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/view_model/feed_provider.dart';
