@@ -115,8 +115,8 @@ class CartPage extends StatelessWidget {
                                         return const ShimmerCart();
                                       }
                                       final prod = snapshot2.data!;
-                                      return ChangeNotifierProvider(
-                                        create: (_) => item,
+                                      return ChangeNotifierProvider.value(
+                                        value: item,
                                         child: CartItem(
                                           productId: prod.id,
                                           productName: prod.name,

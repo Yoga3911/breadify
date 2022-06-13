@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/models/store_model.dart';
+import 'package:project/app/view_model/product_provider.dart';
 import 'package:project/app/view_model/store_provider.dart';
 import 'package:project/app/views/cart/widgets/inc_dec_btn.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +33,7 @@ class CartItem extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final cart = Provider.of<CartProvider>(context, listen: false);
     final store = Provider.of<StoreProvider>(context, listen: false);
+    final product = Provider.of<ProductProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, top: 10),
       child: Row(
@@ -46,8 +46,20 @@ class CartItem extends StatelessWidget {
                 onChanged: (tap) {
                   if (tap == true) {
                     notifier.cartData.add(value);
+                    for (var prod in product.getAllProduct) {
+                      if (prod.id == value.productId) {
+                        notifier.setTotalMoney =
+                            value.getTotalItem * prod.price;
+                      }
+                    }
                   } else if (tap == false) {
                     notifier.cartData.remove(value);
+                    for (var prod in product.getAllProduct) {
+                      if (prod.id == value.productId) {
+                        notifier.setTotalMoney =
+                            -(value.getTotalItem * prod.price);
+                      }
+                    }
                   }
                   value.setChecked = tap ?? false;
                   (tap == true) ? cart.setTotal = 1 : cart.setTotal = -1;

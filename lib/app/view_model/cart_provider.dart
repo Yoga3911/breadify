@@ -29,15 +29,9 @@ class CartProvider with ChangeNotifier {
       for (QueryDocumentSnapshot<Object?> item in data.docs)
         CartModel.fromJson(item.data() as Map<String, dynamic>)
     ];
-    final product = await MyCollection.product.get();
 
     for (CartModel model in _cartData) {
       model.setTotalItem = model.quantity;
-      for (var prod in product.docs) {
-        if (prod["id"] == model.productId) {
-          setTotalMoney = model.quantity * prod["price"] as int;
-        }
-      }
     }
     notifyListeners();
   }
