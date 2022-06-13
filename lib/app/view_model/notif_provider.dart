@@ -31,7 +31,7 @@ class NotifProvider with ChangeNotifier {
     required String message,
     required String note,
     required int price,
-    required productName,
+    required String productName,
   }) async {
     final notifId = MyCollection.notif.doc().id;
     MyCollection.notif.doc(notifId).set(

@@ -8,7 +8,9 @@ class OrderProvider with ChangeNotifier {
 
   //fungsi get
   Future<void> getAllHistory(String statusId) async {
-    final data = await MyCollection.order.where("status", isEqualTo: statusId).get(); //dr provider "MyCollection"
+    final data = await MyCollection.order
+        .where("status", isEqualTo: statusId)
+        .get(); //dr provider "MyCollection"
 
     _historyData = <OrderModel>[
       for (DocumentSnapshot<Object?> item in data.docs)
@@ -22,14 +24,17 @@ class OrderProvider with ChangeNotifier {
   List<OrderModel> get getHistory => _historyData;
 
 ///////////////////////////// ON GOING ////////////////////////////////
-  
+
   List<OrderModel> _ongoingData = [];
 
   //fungsi get
-  Future<void> getAllOngoing(String statusId) async {
-    final data = await MyCollection.order.where("status", isEqualTo: statusId).get(); //dr provider "MyCollection"
+  Future<List<OrderModel>> getAllOngoing(String statusId, String userId) async {
+    final data = await MyCollection.order
+        .where("user_id", isEqualTo: userId)
+        .where("status", isEqualTo: "1")
+        .get(); //dr provider "MyCollection"
 
-    _ongoingData = <OrderModel>[
+    return <OrderModel>[
       for (DocumentSnapshot<Object?> item in data.docs)
         OrderModel.fromJson(item.data() as Map<String, dynamic>)
     ];
@@ -39,4 +44,25 @@ class OrderProvider with ChangeNotifier {
   set setOngoing(List<OrderModel> val) => _ongoingData = val;
 
   List<OrderModel> get getOngoing => _ongoingData;
+
+  //insert data
+  Future<void> insertData({
+    required String userId,
+    required String address,
+    required List<String> productId,
+  }) async {
+    final date = DateTime.now();
+    final doc = MyCollection.order.doc();
+    await doc.set(
+      OrderModel(
+        id: doc.id,
+        userId: userId,
+        address: address,
+        message: "Order successfuly delivered",
+        orderDate: date,
+        status: "1",
+        data: productId,
+      ).toJson(),
+    );
+  }
 }

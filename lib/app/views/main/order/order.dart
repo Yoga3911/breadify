@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/models/orders_models.dart';
 import 'package:project/app/view_model/order_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 
 //utk konten tab bar History & On Going :
 import 'package:project/app/views/main/order/widgets/history.dart';
@@ -39,6 +41,7 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderProvider>(context);
+    final user = Provider.of<UserProvider>(context, listen: false);
     TabBar orderTabBar = const TabBar(
       indicatorColor: Colors.amber, //warna indikator tab bar
       labelColor: Colors.black, //warna tulisan di tab bar (History & On going)
@@ -79,8 +82,8 @@ class OrderPage extends StatelessWidget {
             ),
             body: TabBarView(children: <Widget>[
               FutureBuilder(
-                    //1) TABBAR HISTORY
-                  future: order.getAllHistory("1"),
+                  //1) TABBAR HISTORY
+                  future: order.getAllHistory("2"),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const SizedBox();
@@ -94,18 +97,18 @@ class OrderPage extends StatelessWidget {
                   }),
 
               //2) TABBAR ON GOING
-              FutureBuilder(
-                future: order.getAllOngoing("2"),
+              FutureBuilder<List<OrderModel>>(
+                future: order.getAllOngoing("1", user.getUser.id),
                 builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SizedBox();
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) => OngoingPage(
+                              orderModel: snapshot.data![index],
+                            ) //class utk Tab Bar On Going
+                        );
                   }
-                  return ListView.builder(
-                      itemCount: order.getOngoing.length,
-                      itemBuilder: (context, index) => OngoingPage(
-                            orderModel: order.getOngoing[index],
-                          ) //class utk Tab Bar On Going
-                      );
+                  return const SizedBox();
                 },
               ),
             ]),

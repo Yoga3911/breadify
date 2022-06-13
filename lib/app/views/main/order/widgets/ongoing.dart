@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/models/orders_models.dart';
 
-
 class OngoingPage extends StatelessWidget {
   const OngoingPage({required this.orderModel, Key? key}) : super(key: key);
 
@@ -30,56 +29,62 @@ class OngoingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               //anak 1 : Row utk icon (1) dan text (2)
-              Row(
-                children: <Widget>[
-                  //1) icon motor
-                  Transform.scale(
-                    scale: 0.7,
-                    child: Image.asset("assets/icons/motor.png"),
-                  ),
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    //1) icon motor
+                    Transform.scale(
+                      scale: 0.7,
+                      child: Image.asset("assets/icons/motor.png"),
+                    ),
 
-                  //2) text : address, status, date
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      //2a)address
-                      Text(
-                        orderModel.address,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 15),
-                      ),
+                    //2) text : address, status, date
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          //2a)address
+                          Text(
+                            orderModel.address,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 15),
+                          ),
 
-                      //2b)status
-                      Text(
-                        orderModel.message,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 10),
-                      ),
+                          //2b)status
+                          Text(
+                            orderModel.message,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 11),
+                          ),
 
-                      const SizedBox(
-                        //jarak
-                        height: 6,
-                      ),
+                          const SizedBox(
+                            //jarak
+                            height: 6,
+                          ),
 
-                      //2c)date
-                      Text(
-                        DateFormat("dd MMM yyyy").format(orderModel.orderDate),
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                            fontSize: 10),
+                          //2c)date
+                          Text(
+                            DateFormat("dd MMM yyyy")
+                                .format(orderModel.orderDate),
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 92, 92, 92),
+                                fontSize: 11),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
 
               //anak 2 : utk button

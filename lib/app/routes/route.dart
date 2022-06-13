@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/views/cart/notif.dart';
-import 'package:project/app/views/chat/home_chat.dart';
+// import 'package:project/app/views/chat/home_chat.dart';
 import 'package:project/app/views/main/feed/widgets/edit_feed.dart';
 import 'package:project/app/views/main/home/search_page.dart';
 import 'package:project/app/views/maps/maps.dart';
@@ -10,6 +10,7 @@ import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';
 import '../views/auth/login.dart';
 import '../views/auth/register.dart';
+import '../views/chat/home_chat.dart';
 import '../views/main/favorite/favorite.dart';
 import '../views/main/feed/feed.dart';
 import '../views/main/feed/myfeed.dart';

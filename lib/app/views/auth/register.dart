@@ -341,8 +341,10 @@ class _RegisterPageState extends State<RegisterPage> {
     } else if (_password1.text != _password2.text) {
       snackBar(context, 'Password dan Konfirmasi Password Tidak Sama');
       return false;
-    }
-    return true;
+    }else if (_password1.text.length < 6) {
+      snackBar(context, 'Password Minimal 6 Karakter');
+      return false;
+    }return true;
   }
 
   void snackBar(BuildContext context, String message) {
