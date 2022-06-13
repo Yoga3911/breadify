@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/collection.dart';
 import '../models/user_model.dart';
+import '../utils/hash.dart';
 
 class UserProvider with ChangeNotifier {
   String? _userId;
@@ -66,5 +69,27 @@ class UserProvider with ChangeNotifier {
         ).toJson(),
       );
     }
+  }
+
+  Future<void> changeRole({required String userId}) async {
+    await MyCollection.user.doc(userId).update({"role_id": '2'});
+  }
+
+  Future<bool> checkPassword(
+      {required String userId, required String password}) async {
+    final plainPass = hashPass(password);
+    final data = await MyCollection.user.doc(userId).get();
+    final userPass =(data.data() as Map<String, dynamic>)["password"];
+    
+    if (userPass == plainPass) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> changePassword({required String userId, required String password}) async {
+    await MyCollection.user.doc(userId).update({
+      "password": hashPass(password)
+    });
   }
 }
