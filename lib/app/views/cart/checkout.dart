@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:project/app/utils/currency.dart';
 import 'package:project/app/view_model/cart_provider.dart';
 import 'package:project/app/view_model/notif_provider.dart';
 import 'package:project/app/view_model/order_provider.dart';
@@ -198,11 +199,13 @@ class CheckoutPage extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const <Widget>[
-                        Text("Total transactions"),
+                      children: <Widget>[
+                        const Text("Total transactions"),
                         Text(
-                          "Rp 192.000",
-                          style: TextStyle(
+                          "Rp " +
+                              currency(
+                                  context.read<CartProvider>().getTotalMoney),
+                          style: const TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
