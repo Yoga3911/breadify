@@ -3,7 +3,10 @@ import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/utils/currency.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:project/app/view_model/cart_provider.dart';
 import 'package:project/app/view_model/product_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 class BtmSheet extends StatelessWidget {
@@ -186,7 +189,43 @@ class BtmSheet extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (product.getCountItem == 0) {
+                    product.setCountItem = -product.getCountItem;
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Jumlah produk tidak boleh 0"),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                    return;
+                  }
+                  showDialog(
+                    context: context,
+                    builder: (_) => const CustomLoading(),
+                  );
+
+                  context
+                      .read<CartProvider>()
+                      .addToCart(
+                        userId: context.read<UserProvider>().getUser.id,
+                        productId: productId,
+                        quantity: product.getCountItem,
+                      )
+                      .then((_) {
+                    product.setCountItem = -product.getCountItem;
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text("Produk berhasil ditambahkan ke keranjang"),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  });
+                },
                 child: const Text(
                   "Add to cart",
                   style: TextStyle(fontWeight: FontWeight.bold),

@@ -47,4 +47,48 @@ class CartProvider with ChangeNotifier {
   }
 
   int get getTotalMoney => _totalMoney;
+
+  Future<void> addToCart({
+    required String userId,
+    required String productId,
+    required int quantity,
+  }) async {
+    checkCartExist(productId: productId, userId: userId).then((isExist) async {
+      if (isExist.isNotEmpty) {
+        MyCollection.cart.doc(isExist["id"]).update(
+          {
+            "quantity": quantity + isExist["quantity"] as int,
+          },
+        );
+        return;
+      }
+      final cart = MyCollection.cart.doc();
+      await cart.set(
+        CartModel(
+          id: cart.id,
+          userId: userId,
+          productId: productId,
+          quantity: quantity,
+        ).toJson(),
+      );
+    });
+  }
+
+  Future<Map<String, dynamic>> checkCartExist({
+    required String productId,
+    required String userId,
+  }) async {
+    final data = await MyCollection.cart
+        .where("product_id", isEqualTo: productId)
+        .where("user_id", isEqualTo: userId)
+        .get();
+
+    if (data.docs.isEmpty) {
+      return {};
+    }
+    return {
+      "id": data.docs.first.id,
+      "quantity": data.docs.first["quantity"],
+    };
+  }
 }
