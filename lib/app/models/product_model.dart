@@ -10,6 +10,7 @@ class ProductModel with ChangeNotifier {
     required this.image,
     required this.categoryId,
     required this.storeId,
+    required this.expired,
     required this.createAt,
     required this.updateAt,
     required this.isChecked,
@@ -21,6 +22,7 @@ class ProductModel with ChangeNotifier {
   final int quantity;
   final String image;
   final String categoryId;
+  final DateTime expired;
   final String storeId;
   final DateTime createAt;
   final DateTime updateAt;
@@ -34,6 +36,7 @@ class ProductModel with ChangeNotifier {
         image: json["image"],
         categoryId: json["category_id"],
         storeId: json["store_id"],
+        expired: (json["expired"] as Timestamp).toDate(),
         createAt: (json["create_at"] as Timestamp).toDate(),
         updateAt: (json["update_at"] as Timestamp).toDate(),
         isChecked: json["is_checked"],
@@ -47,6 +50,7 @@ class ProductModel with ChangeNotifier {
         "category_id": categoryId,
         "image": image,
         "store_id": storeId,
+        "expired": expired,
         "create_at": createAt,
         "update_at": updateAt,
         "is_checked": isChecked,
