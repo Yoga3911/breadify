@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 import '../../../constant/color.dart';
 
 class IncDecBtn extends StatelessWidget {
-  const IncDecBtn({
-    Key? key,
-    required this.label,
-    required this.quantity,
-    required this.price,
-    required this.productId
-  }) : super(key: key);
+  const IncDecBtn(
+      {Key? key,
+      required this.label,
+      required this.quantity,
+      required this.price,
+      required this.productId})
+      : super(key: key);
   final String label;
   final int quantity;
   final int price;
@@ -31,18 +31,24 @@ class IncDecBtn extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Consumer<CartProvider>(
-          builder: (_, notifier, __) => InkWell(
-            onTap: () {
-              if (label == "+" && cartModel.getTotalItem < quantity) {
-                cartModel.setTotalItem = 1;
-                notifier.setTotalMoney = price;
-              } else if (label == "-" && cartModel.getTotalItem > 0) {
-                cartModel.setTotalItem = -1;
-                notifier.setTotalMoney = -price;
-              }
-            },
-            borderRadius: BorderRadius.circular(3),
-            child: Center(child: Text(label)),
+          builder: (_, notifier, __) => Consumer<CartModel>(
+            builder: (_, value, __) => InkWell(
+              onTap: () {
+                if (label == "+" && cartModel.getTotalItem < quantity) {
+                  cartModel.setTotalItem = 1;
+                  if (value.getChecked) {
+                    notifier.setTotalMoney = price;
+                  }
+                } else if (label == "-" && cartModel.getTotalItem > 0) {
+                  cartModel.setTotalItem = -1;
+                  if (value.getChecked) {
+                    notifier.setTotalMoney = -price;
+                  }
+                }
+              },
+              borderRadius: BorderRadius.circular(3),
+              child: Center(child: Text(label)),
+            ),
           ),
         ),
       ),

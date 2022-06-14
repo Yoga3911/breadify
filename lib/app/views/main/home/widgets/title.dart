@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/utils/currency.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constant/color.dart';
+import '../../../../view_model/user_prodvider.dart';
 
 class AppBarTitle extends StatelessWidget {
   const AppBarTitle({Key? key}) : super(key: key);
@@ -20,18 +23,18 @@ class AppBarTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
-            "Rp 100.000",
-            style: TextStyle(
+            "Rp ${currency(context.read<UserProvider>().getUser.bmoney)}",
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w800,
             ),
           ),
-          Text(
+          const Text(
             "Click to see transaction history",
             style: TextStyle(
-              color: MyColor.grey,
+              color: Color.fromARGB(255, 71, 71, 71),
               fontSize: 10,
             ),
           ),

@@ -60,129 +60,142 @@ class CartPage extends StatelessWidget {
               ),
             ),
           ),
-          floatingActionButton: SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: const [ChooseAll(), Text("Choose all")],
-                  ),
-                  Row(
-                    children: [
-                      Consumer<CartProvider>(
-                        builder: (_, value, __) {
-                          return Text(
-                            "Rp ${currency(value.getTotalMoney)}",
-                            style: const TextStyle(
-                              color: MyColor.yellow,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (_) => const CustomLoading(),
-                          );
-
-                          location.getAddress().then((value) {
-                            Navigator.pop(context);
-                          Navigator.pushNamed(context, Routes.checkout);
-                          });
-
-                        },
-                        child: const Text(
-                          "Checkout",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        style: ElevatedButton.styleFrom(primary: MyColor.red2),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            // color: Colors.red,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          body: ListView(
+          body: Column(
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Expanded(
+                child: ListView(
+                  children: [
+                    Column(
                       children: [
-                        Consumer<CartProvider>(
-                          builder: (_, value, __) => Text(
-                            "All (${value.getTotal})",
-                            style: const TextStyle(
-                              color: MyColor.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Consumer<CartProvider>(
+                                builder: (_, value, __) => Text(
+                                  "All (${value.getTotal})",
+                                  style: const TextStyle(
+                                    color: MyColor.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 2, bottom: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: const Text(
+                                  "Change",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 2, bottom: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.amber,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: const Text(
-                            "Change",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                        FutureBuilder(
+                          future: cart.getById(user.getUser.id),
+                          builder: (_, init) {
+                            if (init.connectionState ==
+                                ConnectionState.waiting) {
+                              return const SizedBox();
+                            }
+                            return Column(
+                              children: [
+                                for (CartModel item in cart.getCartData)
+                                  FutureBuilder<ProductModel>(
+                                    future: product.getById(item.productId),
+                                    builder: (_, snapshot2) {
+                                      if (snapshot2.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const ShimmerCart();
+                                      }
+                                      final prod = snapshot2.data!;
+                                      return ChangeNotifierProvider.value(
+                                        value: item,
+                                        child: CartItem(
+                                          productId: prod.id,
+                                          productName: prod.name,
+                                          productImage: prod.image,
+                                          productPrice: prod.price,
+                                          productQuantity: prod.quantity,
+                                          storeId: prod.storeId,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                              ],
+                            );
+                          },
                         )
                       ],
                     ),
-                  ),
-                  FutureBuilder(
-                    future: cart.getById(user.getUser.id),
-                    builder: (_, init) {
-                      if (init.connectionState == ConnectionState.waiting) {
-                        return const SizedBox();
-                      }
-                      return Column(
-                        children: [
-                          for (CartModel item in cart.getCartData)
-                            FutureBuilder<ProductModel>(
-                              future: product.getById(item.productId),
-                              builder: (_, snapshot2) {
-                                if (snapshot2.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const ShimmerCart();
-                                }
-                                final prod = snapshot2.data!;
-                                return ChangeNotifierProvider(
-                                  create: (_) => item,
-                                  child: CartItem(
-                                    productId: prod.id,
-                                    productName: prod.name,
-                                    productImage: prod.image,
-                                    productPrice: prod.price,
-                                    productQuantity: prod.quantity,
-                                    storeId: prod.storeId,
-                                  ),
-                                );
-                              },
-                            ),
-                        ],
-                      );
-                    },
-                  )
-                ],
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: const [ChooseAll(), Text("Choose all")],
+                    ),
+                    Row(
+                      children: [
+                        Consumer<CartProvider>(
+                          builder: (_, value, __) {
+                            return Text(
+                              "Rp ${currency(value.getTotalMoney)}",
+                              style: const TextStyle(
+                                color: MyColor.yellow,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 15),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (cart.getTotalMoney == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Tidak ada item yang dipilih"),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+                            showDialog(
+                              context: context,
+                              builder: (_) => const CustomLoading(),
+                            );
+                            for (CartModel item in cart.cartData) {
+                              cart.cartDataCheckout.add(item);
+                            }
+                            location.getAddress().then((value) {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, Routes.checkout);
+                            });
+                          },
+                          child: const Text(
+                            "Checkout",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style:
+                              ElevatedButton.styleFrom(primary: MyColor.red2),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ],
           ),

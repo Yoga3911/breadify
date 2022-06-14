@@ -16,9 +16,14 @@ import '../../constant/color.dart';
 import '../../../app/view_model/product_provider.dart';
 import '../chat/room.dart';
 
-class StorePage extends StatelessWidget {
+class StorePage extends StatefulWidget {
   const StorePage({Key? key}) : super(key: key);
 
+  @override
+  State<StorePage> createState() => _StorePageState();
+}
+
+class _StorePageState extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -43,7 +48,9 @@ class StorePage extends StatelessWidget {
                         "action": "add",
                         "store_id": args["id"],
                       },
-                    ),
+                    ).then((_) {
+                      setState(() {});
+                    }),
                     child: const Icon(
                       Icons.add,
                       color: Colors.white,

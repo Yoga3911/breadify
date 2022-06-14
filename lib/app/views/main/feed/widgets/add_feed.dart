@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/app/routes/route.dart';
 
 //memanggil kerangka feed
 import 'dart:developer';

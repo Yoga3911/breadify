@@ -1,26 +1,18 @@
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:provider/provider.dart';
 
 import '../../routes/route.dart';
 import '../../view_model/user_prodvider.dart';
-import '../../widgets/custom_loading.dart';
 
-class changePassword extends StatefulWidget {
-  const changePassword({Key? key}) : super(key: key);
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({Key? key}) : super(key: key);
 
   @override
-  State<changePassword> createState() => _changePasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _changePasswordState extends State<changePassword> {
+class _ChangePasswordState extends State<ChangePassword> {
   bool _isHidden1 = true;
   void _togglePasswordView1() {
     setState(() {
@@ -46,10 +38,10 @@ class _changePasswordState extends State<changePassword> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
             color: Colors.white,
           ),
-          title: Text(
+          title: const Text(
             'Change Password',
             style: TextStyle(color: Colors.white),
           ),
@@ -106,7 +98,7 @@ class _changePasswordState extends State<changePassword> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(50),
+            padding: const EdgeInsets.all(50),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(10),

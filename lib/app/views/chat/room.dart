@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'package:http/http.dart' as http;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/constant/collection.dart';
+import 'package:project/app/constant/color.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user_model.dart';
@@ -217,7 +221,7 @@ class _RoomChatState extends State<RoomChat> {
                 }),
           ),
           body: Container(
-            color: const Color.fromARGB(255, 30, 30, 30),
+            color: Colors.white,
             child: StreamBuilder<QuerySnapshot>(
               stream: chat
                   .doc(widget.docId)
@@ -256,7 +260,7 @@ class _RoomChatState extends State<RoomChat> {
                                       left: 10,
                                     ),
                                     decoration: BoxDecoration(
-                                        color: Colors.yellow,
+                                        color: MyColor.yellow,
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Text(
                                       DateFormat.yMMMd().format(
@@ -311,7 +315,8 @@ class _RoomChatState extends State<RoomChat> {
                                                                   right: 10),
                                                           decoration:
                                                               const BoxDecoration(
-                                                            color: Colors.blue,
+                                                            color:
+                                                                MyColor.yellow,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .only(
@@ -353,9 +358,9 @@ class _RoomChatState extends State<RoomChat> {
                                                                   color: const Color
                                                                           .fromARGB(
                                                                       255,
-                                                                      7,
-                                                                      97,
-                                                                      171),
+                                                                      255,
+                                                                      204,
+                                                                      0),
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
@@ -423,7 +428,8 @@ class _RoomChatState extends State<RoomChat> {
                                                                   right: 10),
                                                           decoration:
                                                               const BoxDecoration(
-                                                            color: Colors.blue,
+                                                            color:
+                                                                MyColor.yellow,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .only(
@@ -609,9 +615,9 @@ class _RoomChatState extends State<RoomChat> {
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
-                                                                    113,
-                                                                    113,
-                                                                    113),
+                                                                    225,
+                                                                    225,
+                                                                    225),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .only(
@@ -643,7 +649,7 @@ class _RoomChatState extends State<RoomChat> {
                     ),
                     (isReply)
                         ? Container(
-                            color: const Color.fromARGB(255, 62, 62, 62),
+                            color: MyColor.yellow,
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -653,7 +659,7 @@ class _RoomChatState extends State<RoomChat> {
                                     children: [
                                       const Icon(
                                         Icons.reply_rounded,
-                                        color: Colors.blue,
+                                        color: Colors.black,
                                       ),
                                       const SizedBox(width: 5),
                                       Flexible(
@@ -680,7 +686,7 @@ class _RoomChatState extends State<RoomChat> {
                         : const SizedBox(),
                     Container(
                       width: double.infinity,
-                      color: const Color.fromARGB(255, 62, 62, 62),
+                      color: MyColor.yellow,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -727,7 +733,7 @@ class _RoomChatState extends State<RoomChat> {
                                       );
                                     },
                                     controller: _controller,
-                                    cursorColor: Colors.red,
+                                    cursorColor: MyColor.yellow,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: null,
                                     style: const TextStyle(color: Colors.black),
@@ -790,6 +796,40 @@ class _RoomChatState extends State<RoomChat> {
                                         }).whenComplete(() {
                                           msgDoc.update({"isSend": true});
                                         });
+                                        try {
+                                          final data = json.encode({
+                                            "to": widget.userModel.fcmToken,
+                                            "priority": "high",
+                                            "notification": {
+                                              "title": user.getUser.name,
+                                              "body": text,
+                                            },
+                                            "data": {
+                                              "type": "0rder",
+                                              "id": "28",
+                                              "badge": 1,
+                                              "click_action":
+                                                  "FLUTTER_NOTIFICATION_CLICK"
+                                            }
+                                          });
+
+                                          final fcmUrl = Uri.parse(
+                                              "https://fcm.googleapis.com/fcm/send");
+                                          await http.post(
+                                            fcmUrl,
+                                            encoding:
+                                                Encoding.getByName("utf-8"),
+                                            body: data,
+                                            headers: {
+                                              "Content-Type":
+                                                  "application/json",
+                                              "Authorization":
+                                                  "key=AAAAlg5IJd0:APA91bEBcstw8CR5LMVcpZSrug4nCekJXRrTdQ3x7WcI2357NjbtSCGK0QcIsmo3IsMB8MeAriOKuKMvH89-lCGh-viC7ONUNfJi1fvI0upxseMqTps5t-uK6y-xuZbAHgUrqfD3yRRj",
+                                            },
+                                          );
+                                        } catch (e) {
+                                          log(e.toString());
+                                        }
                                         final unread = await FirebaseFirestore
                                             .instance
                                             .collection("user")

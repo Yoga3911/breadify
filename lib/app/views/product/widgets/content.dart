@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project/app/models/store_model.dart';
 import 'package:project/app/view_model/store_provider.dart';
 import 'package:project/app/utils/currency.dart';
@@ -137,13 +138,23 @@ class ContentProduct extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         color: MyColor.cream,
                       ),
-                      child: Center(
-                        child: Text(
-                          "Rp " + currency(product?.price ?? 0),
-                          style: const TextStyle(
-                              color: MyColor.yellow,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Rp " + currency(product?.price ?? 0),
+                            style: const TextStyle(
+                                color: MyColor.yellow,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Expired: " +
+                                DateFormat('dd MMMM yyyy', "in_ID").format(
+                                  product?.expired ?? DateTime.now(),
+                                ),
+                            style: const TextStyle(
+                                fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     )
                   ],

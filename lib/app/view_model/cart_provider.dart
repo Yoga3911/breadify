@@ -9,6 +9,9 @@ class CartProvider with ChangeNotifier {
   bool _isSelectAll = false;
   int _totalMoney = 0;
 
+  List<CartModel> cartData = [];
+  List<CartModel> cartDataCheckout = [];
+
   set setTotal(int val) {
     _total += val;
     notifyListeners();
@@ -26,15 +29,9 @@ class CartProvider with ChangeNotifier {
       for (QueryDocumentSnapshot<Object?> item in data.docs)
         CartModel.fromJson(item.data() as Map<String, dynamic>)
     ];
-    final product = await MyCollection.product.get();
 
     for (CartModel model in _cartData) {
       model.setTotalItem = model.quantity;
-      for (var prod in product.docs) {
-        if (prod["id"] == model.productId) {
-          setTotalMoney = model.quantity * prod["price"] as int;
-        }
-      }
     }
     notifyListeners();
   }
@@ -50,4 +47,48 @@ class CartProvider with ChangeNotifier {
   }
 
   int get getTotalMoney => _totalMoney;
+
+  Future<void> addToCart({
+    required String userId,
+    required String productId,
+    required int quantity,
+  }) async {
+    checkCartExist(productId: productId, userId: userId).then((isExist) async {
+      if (isExist.isNotEmpty) {
+        MyCollection.cart.doc(isExist["id"]).update(
+          {
+            "quantity": quantity + isExist["quantity"] as int,
+          },
+        );
+        return;
+      }
+      final cart = MyCollection.cart.doc();
+      await cart.set(
+        CartModel(
+          id: cart.id,
+          userId: userId,
+          productId: productId,
+          quantity: quantity,
+        ).toJson(),
+      );
+    });
+  }
+
+  Future<Map<String, dynamic>> checkCartExist({
+    required String productId,
+    required String userId,
+  }) async {
+    final data = await MyCollection.cart
+        .where("product_id", isEqualTo: productId)
+        .where("user_id", isEqualTo: userId)
+        .get();
+
+    if (data.docs.isEmpty) {
+      return {};
+    }
+    return {
+      "id": data.docs.first.id,
+      "quantity": data.docs.first["quantity"],
+    };
+  }
 }
