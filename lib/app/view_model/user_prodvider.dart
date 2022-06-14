@@ -62,6 +62,7 @@ class UserProvider with ChangeNotifier {
           roleId: "1",
           isActive: false,
           provider: provider!,
+          bmoney: 100000,
           createAt: DateTime.now(),
           updateAt: DateTime.now(),
         ).toJson(),

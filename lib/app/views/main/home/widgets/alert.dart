@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/collection.dart';
 import 'package:project/app/services/email.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +17,8 @@ class LogOutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
+    final user = Provider.of<UserProvider>(context, listen: false);
+    final auth = Provider.of<AuthProvider>(context, listen: false);
     return AlertDialog(
       title: const Text(
         "Apakah kamu yakin ingin logout?",
@@ -45,8 +48,10 @@ class LogOutDialog extends StatelessWidget {
                 auth.logout(context, EmailService());
                 break;
             }
+            MyCollection.user.doc(user.getUser.id).update({
+              "isActive": false,
+            });
             pref.remove("id");
-            
           },
           child: const Text("Yakin"),
         ),

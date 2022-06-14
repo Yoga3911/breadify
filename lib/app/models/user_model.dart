@@ -9,6 +9,7 @@ class UserModel {
         required this.name,
         required this.roleId,
         required this.provider,
+        required this.bmoney,
         required this.createAt,
         required this.updateAt,
         required this.isActive,
@@ -21,6 +22,7 @@ class UserModel {
     final String name;
     final String roleId;
     final String provider;
+    final int bmoney;
     final DateTime createAt;
     final DateTime updateAt;
     final bool isActive;
@@ -33,6 +35,7 @@ class UserModel {
         name: json["name"],
         roleId: json["role_id"],
         provider: json["provider"],
+        bmoney: json["bmoney"],
         isActive: json["isActive"],
         createAt: (json["create_at"] as Timestamp).toDate(),
         updateAt: (json["update_at"] as Timestamp).toDate(),
@@ -46,6 +49,7 @@ class UserModel {
         "name": name,
         "role_id": roleId,
         "provider": provider,
+        "bmoney": bmoney,
         "isActive": isActive,
         "create_at": createAt,
         "update_at": updateAt,
