@@ -261,13 +261,14 @@ class CheckoutPage extends StatelessWidget {
                               MyCollection.cart.doc(c.id).delete();
                             }
 
-                            cart.cartDataCheckout = [];
+                            cart.cartDataCheckout.clear();
                             context.read<OrderProvider>().insertData(
                                   userId: user.getUser.id,
                                   address: location.getLocation,
                                   productId: dataProduct,
                                 );
                             cart.setTotal = -cart.getTotal;
+                            cart.setTotalMoney = -cart.getTotalMoney;
 
                             Navigator.pushNamedAndRemoveUntil(
                               context,
