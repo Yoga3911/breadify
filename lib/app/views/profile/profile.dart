@@ -1,16 +1,14 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
-import 'package:project/app/views/profile/change_password.dart';
 import 'package:project/app/views/profile/change_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../main/home/widgets/alert.dart';
+import 'change_password.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -114,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return changeProfile(
+                      return ChangeProfile(
                         name: user.name,
                         id: user.id,
                       );
@@ -317,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return changePassword();
+                                                  return const ChangePassword();
                                                 },
                                               ),
                                             );
@@ -335,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         },
                                       );
                                     },
-                                    child: Text('Confirm'))
+                                    child: const Text('Confirm'))
                               ],
                             ),
                           ),

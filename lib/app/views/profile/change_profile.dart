@@ -13,16 +13,16 @@ import '../../routes/route.dart';
 import '../../view_model/user_prodvider.dart';
 import '../../widgets/custom_loading.dart';
 
-class changeProfile extends StatefulWidget {
-  const changeProfile({Key? key, required this.name, required this.id})
+class ChangeProfile extends StatefulWidget {
+  const ChangeProfile({Key? key, required this.name, required this.id})
       : super(key: key);
   final String name;
   final String id;
   @override
-  State<changeProfile> createState() => _changeProfileState();
+  State<ChangeProfile> createState() => _ChangeProfileState();
 }
 
-class _changeProfileState extends State<changeProfile> {
+class _ChangeProfileState extends State<ChangeProfile> {
   late TextEditingController _nama;
   @override
   void initState() {
@@ -96,7 +96,7 @@ class _changeProfileState extends State<changeProfile> {
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.save,
               color: Colors.white,
             ),
@@ -111,7 +111,7 @@ class _changeProfileState extends State<changeProfile> {
           ),
           body: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Center(
@@ -132,7 +132,7 @@ class _changeProfileState extends State<changeProfile> {
                         backgroundImage: FileImage(_img!),
                       ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Row(
@@ -161,7 +161,7 @@ class _changeProfileState extends State<changeProfile> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: _nama,
                   decoration: const InputDecoration(

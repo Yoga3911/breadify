@@ -22,6 +22,7 @@ class AuthProvider with ChangeNotifier {
           email: email,
           password: password,
           img: _blank,
+          fcmToken: "-",
           name: name,
           provider: "email",
         );
@@ -46,7 +47,7 @@ class AuthProvider with ChangeNotifier {
       social.signIn(email: email, password: password).then(
         (user) async {
           await _user.getUserByEmail(email: email);
-
+          
           final pref = await SharedPreferences.getInstance();
           pref.setString("social", provider!);
           Navigator.pushReplacementNamed(context, Routes.main).then(
@@ -60,6 +61,7 @@ class AuthProvider with ChangeNotifier {
           await _user.insertUser(
             name: user.user!.displayName,
             email: user.user!.email,
+            fcmToken: "-",
             img: user.user!.photoURL,
             provider: provider,
           );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/models/cart_model.dart';
 import 'package:project/app/routes/route.dart';
+import 'package:project/app/utils/currency.dart';
 import 'package:project/app/view_model/cart_provider.dart';
 import 'package:project/app/view_model/notif_provider.dart';
 import 'package:project/app/view_model/order_provider.dart';
@@ -198,11 +200,13 @@ class CheckoutPage extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const <Widget>[
-                        Text("Total transactions"),
+                      children: <Widget>[
+                        const Text("Total transactions"),
                         Text(
-                          "Rp 192.000",
-                          style: TextStyle(
+                          "Rp " +
+                              currency(
+                                  context.read<CartProvider>().getTotalMoney),
+                          style: const TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
@@ -223,15 +227,26 @@ class CheckoutPage extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () async {
+                            if (user.getUser.bmoney <
+                                context.read<CartProvider>().getTotalMoney) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "BMoney tidak cukup, silahkan isi ulang"),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
                             showDialog(
                               context: context,
                               builder: (_) => const CustomLoading(),
                             );
                             List<String> dataProduct = [];
-                            for (CartModel cart in cart.cartDataCheckout) {
+                            for (CartModel c in cart.cartDataCheckout) {
                               await context
                                   .read<ProductProvider>()
-                                  .getById(cart.productId)
+                                  .getById(c.productId)
                                   .then(
                                 (product) {
                                   notif.sendNotif(
@@ -243,12 +258,17 @@ class CheckoutPage extends StatelessWidget {
                                   dataProduct.add(product.id);
                                 },
                               );
+                              MyCollection.cart.doc(c.id).delete();
                             }
+
+                            cart.cartDataCheckout = [];
                             context.read<OrderProvider>().insertData(
                                   userId: user.getUser.id,
                                   address: location.getLocation,
                                   productId: dataProduct,
                                 );
+                            cart.setTotal = -cart.getTotal;
+
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               Routes.main,

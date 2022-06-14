@@ -115,8 +115,8 @@ class CartPage extends StatelessWidget {
                                         return const ShimmerCart();
                                       }
                                       final prod = snapshot2.data!;
-                                      return ChangeNotifierProvider(
-                                        create: (_) => item,
+                                      return ChangeNotifierProvider.value(
+                                        value: item,
                                         child: CartItem(
                                           productId: prod.id,
                                           productName: prod.name,
@@ -162,6 +162,15 @@ class CartPage extends StatelessWidget {
                         const SizedBox(width: 15),
                         ElevatedButton(
                           onPressed: () {
+                            if (cart.getTotalMoney == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Tidak ada item yang dipilih"),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
                             showDialog(
                               context: context,
                               builder: (_) => const CustomLoading(),

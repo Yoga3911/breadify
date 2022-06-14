@@ -38,6 +38,9 @@ class Checkout extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: CachedNetworkImage(
                       imageUrl: productData.image,
+                      height: double.infinity,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -67,7 +70,7 @@ class Checkout extends StatelessWidget {
                           builder: (_, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const SizedBox();
+                              return const Text("Loading ...");
                             }
                             return Text(snapshot.data!.storeName);
                           }),
@@ -93,7 +96,7 @@ class Checkout extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: Text(
-                                "${productData.quantity}x",
+                                "${cartModel.getTotalItem}x",
                                 style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
