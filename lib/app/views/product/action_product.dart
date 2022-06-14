@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/product_provider.dart';
@@ -85,16 +86,37 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
+  late TextEditingController dateCtrl;
+  DateTime dateTime = DateTime.now().add(const Duration(days: 3));
+  Future<void> selectDate() async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(const Duration(days: 3)),
+      firstDate: DateTime.now().add(const Duration(days: 3)),
+      lastDate: DateTime(2090),
+    );
+
+    if (date != null && date != dateTime) {
+      dateTime = date;
+      dateCtrl.text =
+          DateFormat('EEEE, dd/MMMM/yyyy', "in_ID").format(dateTime);
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     _productName = TextEditingController();
     _productQuantity = TextEditingController();
     _productPrice = TextEditingController();
+    dateCtrl = TextEditingController();
+    dateCtrl.text = DateFormat('EEEE, dd/MMMM/yyyy', "in_ID").format(dateTime);
     super.initState();
   }
 
   @override
   void dispose() {
+    dateCtrl.dispose();
     _productName.dispose();
     _productPrice.dispose();
     _productQuantity.dispose();
@@ -236,6 +258,30 @@ class _AddProductPageState extends State<AddProductPage> {
                     isNum: true,
                     price: args["quantity"] ?? 0,
                   ),
+                  TextField(
+                    controller: dateCtrl,
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        splashRadius: 20,
+                        onPressed: () {
+                          selectDate();
+                        },
+                        color: Colors.black,
+                        icon: const Icon(Icons.calendar_month),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(color: MyColor.yellow),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide:
+                            const BorderSide(color: MyColor.yellow, width: 2),
+                      ),
+                    ),
+                    readOnly: true,
+                  ),
+                  const SizedBox(height: 20),
                   MyDropDown(
                     category: args["category"] ?? "",
                   ),
