@@ -153,15 +153,23 @@ class _changeProfileState extends State<changeProfile> {
               const SizedBox(
                 height: 30,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
+              Container(
+                margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.height * 0.06,
+                  0,
+                  MediaQuery.of(context).size.height * 0.05,
+                  0),
                 child: Text(
                   "Nama",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(10),
+              Container(
+                margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.height * 0.05,
+                  10,
+                  MediaQuery.of(context).size.height * 0.05,
+                  0),
                 child: TextField(
                   controller: _nama,
                   decoration: const InputDecoration(

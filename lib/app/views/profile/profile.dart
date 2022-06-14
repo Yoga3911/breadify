@@ -8,6 +8,8 @@ import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:project/app/views/profile/change_password.dart';
 import 'package:project/app/views/profile/change_profile.dart';
+import 'package:project/app/views/profile/request_seller.dart';
+import 'package:project/app/views/profile/top_up.dart';
 import 'package:provider/provider.dart';
 
 import '../main/home/widgets/alert.dart';
@@ -138,7 +140,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   height: 5,
-                  decoration: const BoxDecoration(color: Colors.white),
                 ),
                 (user.roleId == "1")
                     ? GestureDetector(
@@ -184,18 +185,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ElevatedButton(
                                             onPressed: (isChecked)
                                                 ? () {
-                                                    context
-                                                        .read<UserProvider>()
-                                                        .changeRole(
-                                                            userId: user.id)
-                                                        .then((value) {
-                                                      Navigator
-                                                          .pushNamedAndRemoveUntil(
-                                                        context,
-                                                        Routes.main,
-                                                        (route) => false,
-                                                      );
-                                                    });
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return requestSeller();
+                                                        },
+                                                      ),
+                                                    );
+                                                    // context
+                                                    //     .read<UserProvider>()
+                                                    //     .changeRole(
+                                                    //         userId: user.id)
+                                                    //     .then((value) {
+                                                    //   Navigator
+                                                    //       .pushNamedAndRemoveUntil(
+                                                    //     context,
+                                                    //     Routes.main,
+                                                    //     (route) => false,
+                                                    //   );
+                                                    // });
                                                   }
                                                 : null,
                                             child: const Text(
@@ -238,6 +247,34 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
               ]),
+              Container(
+                height: 5,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return topUp();
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.grey[200]),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.attach_money,
+                      size: 30,
+                      color: Colors.yellow[600],
+                    ),
+                    title: const Text("Top Up"),
+                  ),
+                ),
+              ),
               Container(
                 height: 5,
                 decoration: const BoxDecoration(color: Colors.white),
