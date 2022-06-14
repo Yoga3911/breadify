@@ -12,13 +12,11 @@ class FavoritePage extends StatelessWidget {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Favorite", style: TextStyle(color: Colors.white),),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_cart, color: Colors.white),
-            )
-          ],
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Favorite",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+          ),
         ),
         body: GridView(
             padding: const EdgeInsets.all(10),

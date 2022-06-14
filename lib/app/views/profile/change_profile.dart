@@ -102,10 +102,16 @@ class _ChangeProfileState extends State<ChangeProfile> {
             ),
           ),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.profile),
-              icon: const Icon(Icons.arrow_back_ios_new),
-              color: Colors.white,
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                margin: EdgeInsets.all(9),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100)),
+                child: const Icon(Icons.arrow_back_ios_new),
+              ),
             ),
             title: const Text("Profile", style: TextStyle(color: Colors.white)),
           ),

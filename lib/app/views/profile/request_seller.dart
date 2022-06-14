@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
+import 'package:project/app/view_model/store_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/glow.dart';
+import '../../routes/route.dart';
 
 class requestSeller extends StatefulWidget {
   const requestSeller({Key? key}) : super(key: key);
@@ -11,7 +15,6 @@ class requestSeller extends StatefulWidget {
 }
 
 class _requestSellerState extends State<requestSeller> {
-
   late TextEditingController _storeName;
   late TextEditingController _storeLocation;
   late TextEditingController _storeOpen;
@@ -41,13 +44,17 @@ class _requestSellerState extends State<requestSeller> {
         behavior: NoGlow(),
         child: Scaffold(
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                ),
+              leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                margin: EdgeInsets.all(9),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100)),
+                child: const Icon(Icons.arrow_back_ios_new),
               ),
+            ),
               title: Text(
                 "Request To Be A Seller",
                 style: TextStyle(color: Colors.white),
@@ -85,7 +92,8 @@ class _requestSellerState extends State<requestSeller> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.location_on),
                     labelText: "Alamat",
-                    hintText: "Jl. Diponegoro No.47, Tembaan, Kepatihan, Kec. Kaliwates, Kabupaten Jember, Jawa Timur 68131",
+                    hintText:
+                        "Jl. Diponegoro No.47, Tembaan, Kepatihan, Kec. Kaliwates, Kabupaten Jember, Jawa Timur 68131",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
@@ -126,46 +134,71 @@ class _requestSellerState extends State<requestSeller> {
                 ),
               ),
               Container(
-              margin: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.height * 0.05,
-                  50,
-                  MediaQuery.of(context).size.height * 0.05,
-                  30),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: MyColor.yellow,
-                  padding: const EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                margin: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.height * 0.05,
+                    50,
+                    MediaQuery.of(context).size.height * 0.05,
+                    30),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyColor.yellow,
+                    padding: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
+                  onPressed: () async {
+                    final isValid = validator(context);
+                    if (isValid) {
+                      context.read<StoreProvider>().insertStore(
+                            address: _storeLocation.text,
+                            storeName: _storeName.text,
+                            open: _storeOpen.text,
+                            close: _storeClose.text,
+                            userId: context.read<UserProvider>().getUser.id,
+                          );
+                      context
+                          .read<UserProvider>()
+                          .changeRole(
+                              userId: context.read<UserProvider>().getUser.id)
+                          .then((value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text("Anda Telah Menjadi Seller"),
+                              backgroundColor: Colors.green),
+                        );
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Routes.main,
+                          (route) => false,
+                        );
+                      });
+                    }
+                  },
+                  child: const Text("Confirm",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
                 ),
-                onPressed: () async {
-                  final isValid = validator(context);
-                  if (isValid) {
-                  }
-                },
-                child: const Text("Confirm",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
               ),
-            ),
             ])));
   }
+
   bool validator(BuildContext context) {
     if (_storeName.text.isEmpty) {
-      snackBar(context, 'Username Tidak Boleh Kosong');
+      snackBar(context, 'Nama Toko Tidak Boleh Kosong');
       return false;
     } else if (_storeClose.text.isEmpty) {
-      snackBar(context, 'Email Tidak Boleh Kosong');
+      snackBar(context, 'Jam Tutup Tidak Boleh Kosong');
       return false;
     } else if (_storeLocation.text.isEmpty) {
-      snackBar(context, 'Password Tidak Boleh Kosong');
+      snackBar(context, 'Alamat Tidak Boleh Kosong');
       return false;
     } else if (_storeOpen.text.isEmpty) {
-      snackBar(context, 'Konfirmasi Password Tidak Boleh Kosong');
+      snackBar(context, 'Jam Buka Tidak Boleh Kosong');
       return false;
-    }return true;
+    }
+    return true;
   }
 
   void snackBar(BuildContext context, String message) {
