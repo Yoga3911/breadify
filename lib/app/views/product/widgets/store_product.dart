@@ -75,7 +75,8 @@ class _StoreProductState extends State<StoreProduct> {
                       "image": product.image,
                       "product_id": product.id,
                       "store_id": widget.storeId,
-                      "expired": product.expired
+                      "expired": product.expired,
+                      "product": product
                     },
                   ).then((_) {
                     setState(() {});
@@ -107,6 +108,8 @@ class _StoreProductState extends State<StoreProduct> {
                         "quantity": product.quantity,
                         "image": product.image,
                         "seller_id": widget.sellerId,
+                        "product": product,
+                        "store_id": product.storeId,
                       },
                     );
                   },
