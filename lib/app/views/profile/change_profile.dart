@@ -164,12 +164,8 @@ class _changeProfileState extends State<changeProfile> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.height * 0.05,
-                  10,
-                  MediaQuery.of(context).size.height * 0.05,
-                  0),
+              Padding(
+                padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: _nama,
                   decoration: const InputDecoration(
