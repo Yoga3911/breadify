@@ -223,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text("DON'T HAVE PASSWORD? ",
+                    const Text("DON'T HAVE ACCOUNT? ",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500)),

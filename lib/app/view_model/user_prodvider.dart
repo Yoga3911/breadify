@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/collection.dart';
 import '../models/user_model.dart';
+import '../utils/hash.dart';
 
 class UserProvider with ChangeNotifier {
   String? _userId;
@@ -36,6 +37,9 @@ class UserProvider with ChangeNotifier {
   Future<void> getUserByEmail({String? email}) async {
     final data = await MyCollection.user.where("email", isEqualTo: email).get();
     final pref = await SharedPreferences.getInstance();
+    MyCollection.user
+        .doc(data.docs.first.id)
+        .update({"fcmToken": pref.getString("fcmToken")});
     await pref.setString("id", data.docs.first["id"]);
     setUser =
         UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
@@ -45,6 +49,7 @@ class UserProvider with ChangeNotifier {
       {String? email,
       String? password,
       String? img,
+      String? fcmToken,
       String? name,
       String? provider}) async {
     QuerySnapshot<Object?> account =
@@ -59,12 +64,37 @@ class UserProvider with ChangeNotifier {
           imageUrl: img!,
           name: name!,
           roleId: "1",
+          fcmToken: fcmToken!,
           isActive: false,
           provider: provider!,
+          bmoney: 100000,
           createAt: DateTime.now(),
           updateAt: DateTime.now(),
         ).toJson(),
       );
     }
+  }
+
+  Future<void> changeRole({required String userId}) async {
+    await MyCollection.user.doc(userId).update({"role_id": '2'});
+  }
+
+  Future<bool> checkPassword(
+      {required String userId, required String password}) async {
+    final plainPass = hashPass(password);
+    final data = await MyCollection.user.doc(userId).get();
+    final userPass = (data.data() as Map<String, dynamic>)["password"];
+
+    if (userPass == plainPass) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> changePassword(
+      {required String userId, required String password}) async {
+    await MyCollection.user
+        .doc(userId)
+        .update({"password": hashPass(password)});
   }
 }
