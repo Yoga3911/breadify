@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'package:http/http.dart' as http;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -612,9 +615,9 @@ class _RoomChatState extends State<RoomChat> {
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
-                                                                    195,
-                                                                    195,
-                                                                    195),
+                                                                    225,
+                                                                    225,
+                                                                    225),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .only(
@@ -793,6 +796,40 @@ class _RoomChatState extends State<RoomChat> {
                                         }).whenComplete(() {
                                           msgDoc.update({"isSend": true});
                                         });
+                                        try {
+                                          final data = json.encode({
+                                            "to": widget.userModel.fcmToken,
+                                            "priority": "high",
+                                            "notification": {
+                                              "title": user.getUser.name,
+                                              "body": text,
+                                            },
+                                            "data": {
+                                              "type": "0rder",
+                                              "id": "28",
+                                              "badge": 1,
+                                              "click_action":
+                                                  "FLUTTER_NOTIFICATION_CLICK"
+                                            }
+                                          });
+
+                                          final fcmUrl = Uri.parse(
+                                              "https://fcm.googleapis.com/fcm/send");
+                                          await http.post(
+                                            fcmUrl,
+                                            encoding:
+                                                Encoding.getByName("utf-8"),
+                                            body: data,
+                                            headers: {
+                                              "Content-Type":
+                                                  "application/json",
+                                              "Authorization":
+                                                  "key=AAAAlg5IJd0:APA91bEBcstw8CR5LMVcpZSrug4nCekJXRrTdQ3x7WcI2357NjbtSCGK0QcIsmo3IsMB8MeAriOKuKMvH89-lCGh-viC7ONUNfJi1fvI0upxseMqTps5t-uK6y-xuZbAHgUrqfD3yRRj",
+                                            },
+                                          );
+                                        } catch (e) {
+                                          log(e.toString());
+                                        }
                                         final unread = await FirebaseFirestore
                                             .instance
                                             .collection("user")

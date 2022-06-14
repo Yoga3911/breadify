@@ -9,6 +9,7 @@ class UserModel {
         required this.name,
         required this.roleId,
         required this.provider,
+        required this.fcmToken,
         required this.bmoney,
         required this.createAt,
         required this.updateAt,
@@ -23,6 +24,7 @@ class UserModel {
     final String roleId;
     final String provider;
     final int bmoney;
+    final String fcmToken;
     final DateTime createAt;
     final DateTime updateAt;
     final bool isActive;
@@ -35,6 +37,7 @@ class UserModel {
         name: json["name"],
         roleId: json["role_id"],
         provider: json["provider"],
+        fcmToken: json["fcmToken"],
         bmoney: json["bmoney"],
         isActive: json["isActive"],
         createAt: (json["create_at"] as Timestamp).toDate(),
@@ -48,6 +51,7 @@ class UserModel {
         "image_url": imageUrl,
         "name": name,
         "role_id": roleId,
+        "fcmToken": fcmToken,
         "provider": provider,
         "bmoney": bmoney,
         "isActive": isActive,

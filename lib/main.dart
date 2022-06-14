@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,9 @@ import 'app/view_model/provider.dart';
 import 'app/constant/color.dart';
 import 'app/routes/route.dart';
 
-void selectRoute() async {
+void selectRoute(String fcmToken) async {
   final pref = await SharedPreferences.getInstance();
+  pref.setString("fcmToken", fcmToken);
   if (pref.getString("id") != null) {
     runApp(const MyApp(route: Routes.main));
   } else if (pref.getBool("intro") == false) {
@@ -22,8 +24,9 @@ void selectRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final token = await FirebaseMessaging.instance.getToken();
   initializeDateFormatting("in_ID", "");
-  selectRoute();
+  selectRoute(token!);
 }
 
 class MyApp extends StatelessWidget {
