@@ -11,6 +11,7 @@ class UserModel {
         required this.provider,
         required this.fcmToken,
         required this.bmoney,
+        required this.storeId,
         required this.createAt,
         required this.updateAt,
         required this.isActive,
@@ -23,6 +24,7 @@ class UserModel {
     final String name;
     final String roleId;
     final String provider;
+    final String storeId;
     final int bmoney;
     final String fcmToken;
     final DateTime createAt;
@@ -37,6 +39,7 @@ class UserModel {
         name: json["name"],
         roleId: json["role_id"],
         provider: json["provider"],
+        storeId: json["store_id"],
         fcmToken: json["fcmToken"],
         bmoney: json["bmoney"],
         isActive: json["isActive"],
@@ -49,6 +52,7 @@ class UserModel {
         "email": email,
         "password": password,
         "image_url": imageUrl,
+        "store_id": storeId,
         "name": name,
         "role_id": roleId,
         "fcmToken": fcmToken,

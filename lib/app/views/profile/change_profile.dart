@@ -102,10 +102,16 @@ class _ChangeProfileState extends State<ChangeProfile> {
             ),
           ),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.profile),
-              icon: const Icon(Icons.arrow_back_ios_new),
-              color: Colors.white,
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                margin: EdgeInsets.all(9),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100)),
+                child: const Icon(Icons.arrow_back_ios_new),
+              ),
             ),
             title: const Text("Profile", style: TextStyle(color: Colors.white)),
           ),
@@ -153,8 +159,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
               const SizedBox(
                 height: 30,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
+              Container(
+                margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.height * 0.06,
+                  0,
+                  MediaQuery.of(context).size.height * 0.05,
+                  0),
                 child: Text(
                   "Nama",
                   style: TextStyle(fontSize: 20),
