@@ -51,15 +51,17 @@ class _ProfilePageState extends State<ProfilePage> {
             leading: GestureDetector(
               onTap: () => Navigator.pushNamed(context, Routes.main),
               child: Container(
-                margin: EdgeInsets.all(9),
-                padding: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(9),
+                padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100)),
                 child: const Icon(Icons.arrow_back_ios_new),
               ),
             ),
-            title: const Text("Profile", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
+            title: const Text("Profile",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w900)),
             actions: const [
               Icon(
                 Icons.more_vert,
@@ -204,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) {
-                                                          return requestSeller();
+                                                          return const RequestSeller();
                                                         },
                                                       ),
                                                     );
@@ -284,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return topUp();
+                        return const TopUp();
                       },
                     ),
                   );

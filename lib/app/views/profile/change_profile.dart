@@ -9,7 +9,6 @@ import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:provider/provider.dart';
 
-import '../../routes/route.dart';
 import '../../view_model/user_prodvider.dart';
 import '../../widgets/custom_loading.dart';
 
@@ -105,8 +104,8 @@ class _ChangeProfileState extends State<ChangeProfile> {
             leading: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                margin: EdgeInsets.all(9),
-                padding: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(9),
+                padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100)),
@@ -161,11 +160,11 @@ class _ChangeProfileState extends State<ChangeProfile> {
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.height * 0.06,
-                  0,
-                  MediaQuery.of(context).size.height * 0.05,
-                  0),
-                child: Text(
+                    MediaQuery.of(context).size.height * 0.06,
+                    0,
+                    MediaQuery.of(context).size.height * 0.05,
+                    0),
+                child: const Text(
                   "Nama",
                   style: TextStyle(fontSize: 20),
                 ),

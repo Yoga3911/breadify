@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 import '../../constant/glow.dart';
 import '../../routes/route.dart';
 
-class requestSeller extends StatefulWidget {
-  const requestSeller({Key? key}) : super(key: key);
+class RequestSeller extends StatefulWidget {
+  const RequestSeller({Key? key}) : super(key: key);
 
   @override
-  State<requestSeller> createState() => _requestSellerState();
+  State<RequestSeller> createState() => _RequestSellerState();
 }
 
-class _requestSellerState extends State<requestSeller> {
+class _RequestSellerState extends State<RequestSeller> {
   late TextEditingController _storeName;
   late TextEditingController _storeLocation;
   late TextEditingController _storeOpen;
@@ -45,23 +45,23 @@ class _requestSellerState extends State<requestSeller> {
         child: Scaffold(
             appBar: AppBar(
               leading: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                margin: EdgeInsets.all(9),
-                padding: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100)),
-                child: const Icon(Icons.arrow_back_ios_new),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  margin: const EdgeInsets.all(9),
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100)),
+                  child: const Icon(Icons.arrow_back_ios_new),
+                ),
               ),
-            ),
-              title: Text(
+              title: const Text(
                 "Request To Be A Seller",
                 style: TextStyle(color: Colors.white),
               ),
             ),
             body: ListView(children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -73,7 +73,7 @@ class _requestSellerState extends State<requestSeller> {
                 child: TextField(
                   controller: _storeName,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.store),
+                    prefixIcon: const Icon(Icons.store),
                     labelText: "Nama Toko",
                     hintText: "Red Bakery",
                     border: OutlineInputBorder(
@@ -90,7 +90,7 @@ class _requestSellerState extends State<requestSeller> {
                 child: TextField(
                   controller: _storeLocation,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.location_on),
+                    prefixIcon: const Icon(Icons.location_on),
                     labelText: "Alamat",
                     hintText:
                         "Jl. Diponegoro No.47, Tembaan, Kepatihan, Kec. Kaliwates, Kabupaten Jember, Jawa Timur 68131",
@@ -108,7 +108,7 @@ class _requestSellerState extends State<requestSeller> {
                 child: TextField(
                   controller: _storeOpen,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.door_front_door),
+                    prefixIcon: const Icon(Icons.door_front_door),
                     labelText: "Buka",
                     hintText: "9am",
                     border: OutlineInputBorder(
@@ -125,7 +125,7 @@ class _requestSellerState extends State<requestSeller> {
                 child: TextField(
                   controller: _storeClose,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.close),
+                    prefixIcon: const Icon(Icons.close),
                     labelText: "Tutup",
                     hintText: "9pm",
                     border: OutlineInputBorder(

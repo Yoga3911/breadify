@@ -5,32 +5,32 @@ import 'package:provider/provider.dart';
 import '../../constant/glow.dart';
 import '../../routes/route.dart';
 
-class topUp extends StatefulWidget {
-  const topUp({Key? key}) : super(key: key);
+class TopUp extends StatefulWidget {
+  const TopUp({Key? key}) : super(key: key);
 
   @override
-  State<topUp> createState() => _topUPState();
+  State<TopUp> createState() => _TopUPState();
 }
 
-class _topUPState extends State<topUp> {
+class _TopUPState extends State<TopUp> {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
         behavior: NoGlow(),
         child: Scaffold(
           appBar: AppBar(
-              leading:GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                margin: EdgeInsets.all(9),
-                padding: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100)),
-                child: const Icon(Icons.arrow_back_ios_new),
+              leading: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  margin: const EdgeInsets.all(9),
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100)),
+                  child: const Icon(Icons.arrow_back_ios_new),
+                ),
               ),
-            ),
-              title: Text(
+              title: const Text(
                 "Top Up",
                 style: TextStyle(color: Colors.white),
               )),
@@ -51,7 +51,7 @@ class _topUPState extends State<topUp> {
             30, MediaQuery.of(context).size.height * 0.05, 0),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
             onPressed: () {
@@ -64,7 +64,7 @@ class _topUPState extends State<topUp> {
             },
             child: Text(
               number,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               ),
