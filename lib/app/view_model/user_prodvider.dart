@@ -42,7 +42,7 @@ class UserProvider with ChangeNotifier {
         .doc(data.docs.first.id)
         .update({"fcmToken": pref.getString("fcmToken")});
     await pref.setString("id", data.docs.first["id"]);
-    await pref.setString("store_id", (store.docs.first.data() as Map<String, dynamic>)["id"]);
+    // await pref.setString("store_id", (store.docs.first.data() as Map<String, dynamic>)["id"]);
     setUser =
         UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }
