@@ -61,6 +61,9 @@ class _TopUPState extends State<TopUp> {
                       addition + context.read<UserProvider>().getUser.bmoney);
               Navigator.pushNamedAndRemoveUntil(
                   context, Routes.main, (route) => false);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Anda Berhasil Top Up Sebesar " + number),
+                      backgroundColor: Colors.green));
             },
             child: Text(
               number,
