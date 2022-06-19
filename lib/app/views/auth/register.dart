@@ -8,6 +8,8 @@ import 'package:project/app/widgets/custom_loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/color.dart';
+import '../../services/facebook.dart';
+import '../../services/google.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -297,7 +299,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         flex: 8,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => const CustomLoading());
+                          auth.login(
+                            context: context,
+                            social: GoogleService(),
+                            provider: "google",
+                          );
+                        },
                         icon: const Image(
                           image: AssetImage("assets/images/google.png"),
                         ),
@@ -306,7 +318,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         flex: 3,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => const CustomLoading(),
+                          );
+                          auth.login(
+                            context: context,
+                            social: FacebookService(),
+                            provider: "facebook",
+                          );
+                        },
                         icon: const Image(
                           image: AssetImage("assets/images/facebook.png"),
                         ),
