@@ -94,6 +94,9 @@ class _ChangeProfileState extends State<ChangeProfile> {
               await user.getByDocId();
               Navigator.pop(context);
               Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Profile Berhasil Diubah"),
+                  backgroundColor: Colors.green));
             },
             child: const Icon(
               Icons.save,
