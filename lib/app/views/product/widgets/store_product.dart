@@ -5,7 +5,9 @@ import 'package:project/app/models/product_model.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constant/color.dart';
 import '../../../routes/route.dart';
+import '../../../view_model/favorite_provider.dart';
 
 class StoreProduct extends StatefulWidget {
   const StoreProduct({
@@ -183,12 +185,21 @@ class _StoreProductState extends State<StoreProduct> {
                                             widget.storeName,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              color: Color.fromARGB(
-                                                  255, 255, 204, 0),
+                                              color: MyColor.red,
                                             ),
                                           ),
-                                          Image.asset(
-                                            "assets/icons/fav1.png",
+                                          Consumer<FavoriteProvider>(
+                                            builder: (_, val, __) => (val
+                                                    .listLiked
+                                                    .contains(product.id))
+                                                ? const Icon(
+                                                    Icons.favorite,
+                                                    color: MyColor.red,
+                                                  )
+                                                : const Icon(
+                                                    Icons
+                                                        .favorite_border_rounded,
+                                                  ),
                                           )
                                         ],
                                       ),

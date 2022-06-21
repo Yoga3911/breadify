@@ -1,13 +1,26 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:project/app/constant/color.dart';
 import 'package:project/app/constant/glow.dart';
+import 'package:project/app/models/favorite_model.dart';
+import 'package:project/app/models/store_model.dart';
+import 'package:project/app/view_model/favorite_provider.dart';
+import 'package:project/app/view_model/product_provider.dart';
+import 'package:project/app/view_model/store_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
+import 'package:provider/provider.dart';
+
+import '../../../models/product_model.dart';
+import '../../../routes/route.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ScrollConfiguration(
       behavior: NoGlow(),
       child: Scaffold(
@@ -18,51 +31,180 @@ class FavoritePage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
           ),
         ),
-        body: GridView(
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2 / 3,
-            ),
-            children: [
-              listFavorite(
-                  context,
-                  "https://img.qraved.co/v2/image/data/2016/05/16/12725205_1145755085435610_1979819820_n-x.jpg",
-                  "Cheese Toast",
-                  "Wina Bakery"),
-              listFavorite(
-                  context,
-                  "https://www.elmundoeats.com/wp-content/uploads/2018/06/Yeasted-Sweet-Potato-Donuts.jpg",
-                  "Potato Doughnout",
-                  "Vincii Bakery"),
-              listFavorite(
-                  context,
-                  "https://selerasa.com/wp-content/uploads/2016/07/images_cupcake-cappuccino.jpg",
-                  "Cupcake",
-                  "Yahuu Bakery"),
-              listFavorite(
-                  context,
-                  "https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/fba8e141-4664-4137-a9ed-dc5d6908e3e3.jpg",
-                  "Red Velvet",
-                  "Wina Bakery"),
-              listFavorite(
-                  context,
-                  "http://kampoengroti.com/data/product/207.jpg",
-                  "Roti Coklat",
-                  "Ahooy Bakery"),
-              listFavorite(
-                  context,
-                  "https://1.bp.blogspot.com/-pidi3vMShyk/VuEgoD1BAyI/AAAAAAAAA1w/tG_YkRt_ahw/s640/Cara-Membuat-Roti-Manis-Lembut.jpg",
-                  "Roti Manis",
-                  "Kampret Bakery"),
-              listFavorite(
-                  context,
-                  "https://img-global.cpcdn.com/recipes/e1d0575715abd80e/751x532cq70/roti-abon-foto-resep-utama.jpg",
-                  "Roti Abon",
-                  "Mooo Bakery"),
-            ]),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: FutureBuilder<List<FavoriteModel>>(
+              future: context
+                  .read<FavoriteProvider>()
+                  .getAllFav(userId: context.read<UserProvider>().getUser.id),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: SizedBox(),
+                  );
+                }
+                final data = snapshot.data;
+                return MasonryGridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  itemCount: data!.length,
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (_, index) {
+                    return FutureBuilder<ProductModel>(
+                        future: context
+                            .read<ProductProvider>()
+                            .getById(data[index].productId),
+                        builder: (_, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          }
+                          final product = snapshot.data;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.product,
+                                arguments: {
+                                  "id": product!.id,
+                                  "name": product.name,
+                                  "price": product.price,
+                                  "quantity": product.quantity,
+                                  "image": product.image,
+                                  "store_id": product.storeId,
+                                  "product": product
+                                },
+                              );
+                            },
+                            child: Material(
+                              elevation: 5,
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                height: (MediaQuery.of(context).orientation ==
+                                        Orientation.portrait)
+                                    ? size.height * 0.3
+                                    : size.height * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      child: CachedNetworkImage(
+                                        imageUrl: product!.image,
+                                        fit: BoxFit.cover,
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        height: (MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.portrait)
+                                            ? size.height * 0.21
+                                            : size.height * 0.4,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          gradient: const LinearGradient(
+                                            colors: [
+                                              Color.fromARGB(0, 255, 255, 255),
+                                              Colors.white,
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: Stack(
+                                            children: [
+                                              Align(
+                                                alignment:
+                                                    const Alignment(-1, 0.55),
+                                                child: Text(
+                                                  product.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    const Alignment(-1, 0.95),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    FutureBuilder<StoreModel>(
+                                                        future: context
+                                                            .read<
+                                                                StoreProvider>()
+                                                            .getStoreById(
+                                                                product
+                                                                    .storeId),
+                                                        builder: (_, snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return const Text(
+                                                                "Loading ...");
+                                                          }
+                                                          final store =
+                                                              snapshot.data;
+                                                          return Text(
+                                                            store!.storeName,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  MyColor.red,
+                                                            ),
+                                                          );
+                                                        }),
+                                                    Image.asset(
+                                                      "assets/icons/fav1.png",
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                );
+              }),
+        ),
       ),
     );
   }

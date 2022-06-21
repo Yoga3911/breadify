@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,13 +38,11 @@ class UserProvider with ChangeNotifier {
 
   Future<void> getUserByEmail({String? email}) async {
     final data = await MyCollection.user.where("email", isEqualTo: email).get();
-    final store = await MyCollection.store.where("user_id", isEqualTo: data.docs.first.id).get();
     final pref = await SharedPreferences.getInstance();
     MyCollection.user
         .doc(data.docs.first.id)
         .update({"fcmToken": pref.getString("fcmToken")});
     await pref.setString("id", data.docs.first["id"]);
-    await pref.setString("store_id", (store.docs.first.data() as Map<String, dynamic>)["id"]);
     setUser =
         UserModel.fromJson(data.docs.first.data() as Map<String, dynamic>);
   }
@@ -102,8 +102,13 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> topup({required String userId, required int bmoney}) async {
-    await MyCollection.user.doc(userId).update({
-      "bmoney": bmoney
-    });
+    await MyCollection.user.doc(userId).update({"bmoney": bmoney});
+  }
+
+  Future<void> updateSaldo(
+      {required String userId, required int bmoney}) async {
+    log(bmoney.toString());
+    await MyCollection.user.doc(userId).update({"bmoney": bmoney});
+    log("Saldo dipotong");
   }
 }

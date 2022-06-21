@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project/app/constant/collection.dart';
+import 'package:project/app/constant/color.dart';
 import 'package:project/app/models/orders_models.dart';
+import 'package:project/app/view_model/order_provider.dart';
+import 'package:provider/provider.dart';
 
 class OngoingPage extends StatelessWidget {
   const OngoingPage({required this.orderModel, Key? key}) : super(key: key);
@@ -24,7 +29,63 @@ class OngoingPage extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: orderModel.data
+                                .map((e) => FutureBuilder<QuerySnapshot>(
+                                    future: MyCollection.product
+                                        .where("id", isEqualTo: e)
+                                        .get(),
+                                    builder: (_, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const SizedBox();
+                                      }
+                                      var data = "";
+                                      for (var i in snapshot.data!.docs) {
+                                        data += "• " +
+                                            (i.data()! as Map<String, dynamic>)[
+                                                "name"];
+                                      }
+                                      return Text(data);
+                                    }))
+                                .toList(),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text("Apakah pesanan sudah diterima?")
+                        ],
+                      ),
+                      actions: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: MyColor.yellow),
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                            },
+                            child: const Text("Belum")),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: MyColor.yellow),
+                            onPressed: () {
+                              context
+                                  .read<OrderProvider>()
+                                  .updateOrder(orderId: orderModel.id);
+                              Navigator.pop(ctx);
+                            },
+                            child: const Text("Ya")),
+                      ],
+                      title: const Text("Detail Order"),
+                    ));
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -90,7 +151,44 @@ class OngoingPage extends StatelessWidget {
               //anak 2 : utk button
               //3) button "cancel"
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                            content: const Text(
+                                "Apakah anda yakin ingin menghapus data ini?"),
+                            title: const Text("Perhatian!"),
+                            actions: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: MyColor.yellow),
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                },
+                                child: const Text("Tidak"),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: MyColor.yellow),
+                                onPressed: () {
+                                  context
+                                      .read<OrderProvider>()
+                                      .deleteOrder(orderId: orderModel.id);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text("Data pesanan berhasil dihapus"),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                  Navigator.pop(ctx);
+                                },
+                                child: const Text("Ya"),
+                              ),
+                            ],
+                          ));
+                },
                 icon: const Icon(
                   Icons.cancel,
                   color: Colors.amber,

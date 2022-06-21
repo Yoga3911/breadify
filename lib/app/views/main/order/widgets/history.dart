@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/models/orders_models.dart';
+
+import '../../../../constant/collection.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({required this.orderModel, Key? key}) : super(key: key);
@@ -23,7 +26,59 @@ class HistoryPage extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: orderModel.data
+                                .map((e) => FutureBuilder<QuerySnapshot>(
+                                    future: MyCollection.product
+                                        .where("id", isEqualTo: e)
+                                        .get(),
+                                    builder: (_, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const SizedBox();
+                                      }
+                                      var data = "";
+                                      for (var i in snapshot.data!.docs) {
+                                        data += "• " +
+                                            (i.data()! as Map<String, dynamic>)[
+                                                "name"];
+                                      }
+                                      return Text(data);
+                                    }))
+                                .toList(),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Text(
+                                "Roti telah diterima",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      title: const Text("Detail Order"),
+                    ));
+          },
           child: Row(
             children: <Widget>[
               //1) icon motor
@@ -33,45 +88,50 @@ class HistoryPage extends StatelessWidget {
               ),
 
               //2) text : address, status, date
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  //2a)address
-                  Text(
-                    orderModel.address,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 15),
-                  ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    //2a)address
+                    Flexible(
+                      child: Text(
+                        orderModel.address,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 15),
+                      ),
+                    ),
 
-                  //2b)status
-                  Text(
-                    orderModel.message,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 10),
-                  ),
+                    //2b)status
+                    Text(
+                      orderModel.message,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 10),
+                    ),
 
-                  const SizedBox(
-                    //jarak
-                    height: 6,
-                  ),
+                    const SizedBox(
+                      //jarak
+                      height: 6,
+                    ),
 
-                  //2c)date
-                  Text(
-                    DateFormat("dd MMM yyyy").format(orderModel.orderDate),
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                        // fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                        fontSize: 10),
-                  ),
-                ],
+                    //2c)date
+                    Text(
+                      DateFormat("dd MMM yyyy").format(orderModel.orderDate),
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                          fontSize: 10),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

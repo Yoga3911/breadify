@@ -55,17 +55,18 @@ class OrderPage extends StatelessWidget {
       ],
     );
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: const Color(0xffFFD635), //warna appbar
               title: const Text("Orders"),
-              actions: <Widget>[
+              actions: const <Widget>[
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.shopping_cart,
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.history,
                     color: Colors.white,
                   ),
                   tooltip: "Cart",
@@ -101,10 +102,12 @@ class OrderPage extends StatelessWidget {
                 future: order.getAllOngoing("1", user.getUser.id),
                 builder: (_, snapshot) {
                   if (snapshot.hasData) {
+                    final data = snapshot.data;
+                    data!.sort((a, b) => b.orderDate.compareTo(a.orderDate));
                     return ListView.builder(
-                        itemCount: snapshot.data!.length,
+                        itemCount: data.length,
                         itemBuilder: (context, index) => OngoingPage(
-                              orderModel: snapshot.data![index],
+                              orderModel: data[index],
                             ) //class utk Tab Bar On Going
                         );
                   }

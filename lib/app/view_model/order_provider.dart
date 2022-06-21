@@ -65,4 +65,18 @@ class OrderProvider with ChangeNotifier {
       ).toJson(),
     );
   }
+
+  Future<void> deleteOrder({required String orderId}) async {
+    await MyCollection.order.doc(orderId).delete();
+    notifyListeners();
+  }
+
+  Future<void> updateOrder({required orderId}) async {
+    await MyCollection.order.doc(orderId).update(
+      {
+        "status": "2",
+      },
+    );
+    notifyListeners();
+  }
 }
