@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/color.dart';
+import 'package:project/app/view_model/favorite_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/product_model.dart';
 
@@ -94,15 +95,16 @@ class ProductCard extends StatelessWidget {
                                   color: MyColor.red,
                                 ),
                               ),
-                              Consumer<ProductModel>(
-                                builder: (_, val, __) => (val.isChecked)
-                                    ? const Icon(
-                                        Icons.favorite,
-                                        color: MyColor.red,
-                                      )
-                                    : const Icon(
-                                        Icons.favorite_border_rounded,
-                                      ),
+                              Consumer<FavoriteProvider>(
+                                builder: (_, val, __) =>
+                                    (val.listLiked.contains(product.id))
+                                        ? const Icon(
+                                            Icons.favorite,
+                                            color: MyColor.red,
+                                          )
+                                        : const Icon(
+                                            Icons.favorite_border_rounded,
+                                          ),
                               )
                             ],
                           ),

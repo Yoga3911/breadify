@@ -9,9 +9,11 @@ class NotifProvider with ChangeNotifier {
   List<NotifModel> _notifData = [];
 
   //fungsi get
-  Future<void> getAllNotif(String statusId) async {
-    final data =
-        await MyCollection.notif.where("status", isEqualTo: statusId).get();
+  Future<void> getAllNotif(String statusId, String userId) async {
+    final data = await MyCollection.notif
+        .where("user_id", isEqualTo: userId)
+        .where("status", isEqualTo: statusId)
+        .get();
 
     setNotif = <NotifModel>[
       for (DocumentSnapshot<Object?> item in data.docs)
@@ -32,6 +34,7 @@ class NotifProvider with ChangeNotifier {
     required String note,
     required int price,
     required String productName,
+    required String userId,
   }) async {
     final notifId = MyCollection.notif.doc().id;
     MyCollection.notif.doc(notifId).set(
@@ -43,6 +46,7 @@ class NotifProvider with ChangeNotifier {
             product: productName,
             date: DateTime.now(),
             status: "3",
+            userId: userId
           ).toJson(),
         );
   }

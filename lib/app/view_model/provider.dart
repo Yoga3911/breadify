@@ -1,4 +1,5 @@
 import 'package:project/app/view_model/cart_provider.dart';
+import 'package:project/app/view_model/favorite_provider.dart';
 import 'package:project/app/view_model/maps_provider.dart';
 import 'package:project/app/view_model/notif_provider.dart';
 import 'package:provider/provider.dart';
@@ -23,4 +24,5 @@ final List<SingleChildWidget> providerData = [
   ChangeNotifierProvider(create: (_) => OrderProvider()),
   ChangeNotifierProvider(create: (_) => NotifProvider()),
   ChangeNotifierProvider(create: (_) => MyLocation()),
+  ChangeNotifierProvider(create: (_) => FavoriteProvider()),
 ];
