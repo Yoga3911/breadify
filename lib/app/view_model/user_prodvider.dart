@@ -111,4 +111,16 @@ class UserProvider with ChangeNotifier {
     await MyCollection.user.doc(userId).update({"bmoney": bmoney});
     log("Saldo dipotong");
   }
+
+  Future<bool> login({required String email, required String password}) async {
+    final data = await MyCollection.user
+        .where("email", isEqualTo: email)
+        .where("password", isEqualTo: password)
+        .get();
+
+    if (data.docs.first.id.isEmpty) {
+      return false;
+    }
+    return true;
+  }
 }

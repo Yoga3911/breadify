@@ -498,9 +498,9 @@ class _RoomChatState extends State<RoomChat> {
                                                             color:
                                                                 Color.fromARGB(
                                                                     255,
-                                                                    113,
-                                                                    113,
-                                                                    113),
+                                                                    225,
+                                                                    225,
+                                                                    225),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .only(
@@ -542,9 +542,9 @@ class _RoomChatState extends State<RoomChat> {
                                                                   color: const Color
                                                                           .fromARGB(
                                                                       255,
-                                                                      74,
-                                                                      74,
-                                                                      74),
+                                                                      181,
+                                                                      181,
+                                                                      181),
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
