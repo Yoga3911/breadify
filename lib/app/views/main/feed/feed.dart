@@ -1,9 +1,10 @@
-//**feed.dart = secara GLOBAL 
+//**feed.dart = secara GLOBAL
 
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/routes/route.dart';
 import 'package:project/app/view_model/feed_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
 //utk konten feed
@@ -57,45 +58,37 @@ class _FeedPageState extends State<FeedPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xffFFD635),
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            tooltip: 'search',
-          ),
           title: const Text(
             "Feed",
             style: TextStyle(color: Colors.white),
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.myfeed).then((value) {
-                  setState(() {});
-                });
-              },
-              icon: const Icon(Icons.feed_rounded),
-              color: Colors.white,
-              tooltip: 'Cart',
-            )
-          ],
+          actions: (context.read<UserProvider>().getUser.roleId == "2")
+              ? <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.myfeed).then((value) {
+                        setState(() {});
+                      });
+                    },
+                    icon: const Icon(Icons.feed_rounded),
+                    color: Colors.white,
+                    tooltip: 'Cart',
+                  )
+                ]
+              : null,
         ),
-
         body: FutureBuilder(
-          //berisi function 'getAll' yg berhubungan dg DB
+            //berisi function 'getAll' yg berhubungan dg DB
             future: feed.getAll(),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView.builder(
                   itemCount: feed.getData.length,
                   itemBuilder: (context, index) => Feed(
-                    //bernilai false krn halaman ini utk feed global (bukan ke myFeed)
+                      //bernilai false krn halaman ini utk feed global (bukan ke myFeed)
                       isMyFeed: false,
                       //diambil per index
-                      feedModel: feed.getData[
-                          index]), 
+                      feedModel: feed.getData[index]),
                 );
               }
               return const SizedBox();

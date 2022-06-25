@@ -62,12 +62,6 @@ class _ProfilePageState extends State<ProfilePage> {
             title: const Text("Profile",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w900)),
-            actions: const [
-              Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
-            ],
             elevation: 0,
           ),
           body: ListView(

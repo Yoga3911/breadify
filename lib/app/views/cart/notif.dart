@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:project/app/view_model/notif_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
 //utk konten Notif :
@@ -56,7 +57,8 @@ class NotifPage extends StatelessWidget {
           ),
         ),
         body: FutureBuilder(
-          future: notif.getAllNotif("3"),
+          future:
+              notif.getAllNotif("3", context.read<UserProvider>().getUser.id),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox();

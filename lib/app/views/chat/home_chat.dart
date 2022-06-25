@@ -199,16 +199,16 @@ class _HomeChatState extends State<HomeChat> {
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                (userData["unread"] == 0)
+                                (userData["unread"] != 0)
                                     ? Container(
                                         decoration: const BoxDecoration(
-                                            color: Colors.greenAccent,
+                                            color: Colors.red,
                                             shape: BoxShape.circle),
                                         padding: const EdgeInsets.all(4),
                                         child: Text(
                                           userData["unread"].toString(),
                                           style: const TextStyle(
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontSize: 12,
                                           ),
                                         ),

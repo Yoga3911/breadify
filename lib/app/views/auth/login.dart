@@ -169,14 +169,14 @@ class _LoginPageState extends State<LoginPage> {
                         ))),
               ),
             ),
-            const Text(
-              "Forgot Password?",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 20,
-                  color: MyColor.yellow,
-                  fontWeight: FontWeight.w500),
-            ),
+            // const Text(
+            //   "Forgot Password?",
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            //       fontSize: 20,
+            //       color: MyColor.yellow,
+            //       fontWeight: FontWeight.w500),
+            // ),
             Container(
               margin: EdgeInsets.fromLTRB(
                   MediaQuery.of(context).size.height * 0.1,
@@ -192,20 +192,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () async {
-                  final isValid =  validator(context);
-                  if (isValid){
+                  final isValid = validator(context);
+                  if (isValid) {
                     showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => const CustomLoading(),
-                  );
-                  auth.login(
-                    context: context,
-                    email: _email.text,
-                    password: hashPass(_password.text),
-                    provider: "email",
-                    social: EmailService(),
-                  );
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => const CustomLoading(),
+                    );
+                    auth.login(
+                      context: context,
+                      email: _email.text,
+                      password: hashPass(_password.text),
+                      provider: "email",
+                      social: EmailService(),
+                    );
                   }
                 },
                 child: const Text(
