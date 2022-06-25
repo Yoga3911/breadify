@@ -18,9 +18,15 @@ import '../../view_model/maps_provider.dart';
 import '../../widgets/custom_loading.dart';
 import 'widgets/cart_shimmer.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
 
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  bool isChange = false;
   @override
   Widget build(BuildContext context) {
     final location = Provider.of<MyLocation>(context, listen: false);
@@ -82,16 +88,23 @@ class CartPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 2, bottom: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Text(
-                                  "Change",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                              GestureDetector(
+                                onTap: () {
+                                  context.read<CartProvider>().setIsChange =
+                                      !context.read<CartProvider>().isChange;
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15, top: 2, bottom: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: const Text(
+                                    "Change",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               )
                             ],
@@ -160,38 +173,89 @@ class CartPage extends StatelessWidget {
                           },
                         ),
                         const SizedBox(width: 15),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (cart.getTotalMoney == 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Tidak ada item yang dipilih"),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              return;
-                            }
-                            showDialog(
-                              context: context,
-                              builder: (_) => const CustomLoading(),
-                            );
-                            for (CartModel item in cart.cartData) {
-                              cart.cartDataCheckout.add(item);
-                            }
-                            location.getAddress().then((value) {
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, Routes.checkout);
-                            });
-                          },
-                          child: const Text(
-                            "Checkout",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          style:
-                              ElevatedButton.styleFrom(primary: MyColor.red2),
-                        )
+                        Consumer<CartProvider>(
+                            builder: (_, notifier, __) => (notifier.isChange)
+                                ? ElevatedButton(
+                                    onPressed: () {
+                                      if (cart.getTotalMoney == 0) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Tidak ada item yang dipilih"),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => const CustomLoading(),
+                                      ).then((value) {
+                                        for (CartModel item in cart.cartData) {
+                                          cart.cartDataCheckout.add(item);
+                                        }
+
+                                        for (var element
+                                            in cart.cartDataCheckout) {
+                                          context
+                                              .read<CartProvider>()
+                                              .deleteItem(cartId: element.id);
+                                        }
+                                      });
+                                      Navigator.pop(context);
+                                      context.read<CartProvider>().setTotal =
+                                          -context
+                                              .read<CartProvider>()
+                                              .getTotal;
+                                      context.read<CartProvider>().setIsChange =
+                                          false;
+                                      setState(() {});
+                                    },
+                                    child: const Text(
+                                      "Delete",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: MyColor.red2),
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      if (cart.getTotalMoney == 0) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Tidak ada item yang dipilih"),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => const CustomLoading(),
+                                      );
+                                      for (CartModel item in cart.cartData) {
+                                        cart.cartDataCheckout.add(item);
+                                      }
+                                      location.getAddress().then((value) {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(
+                                            context, Routes.checkout);
+                                      });
+                                    },
+                                    child: const Text(
+                                      "Checkout",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                        primary: MyColor.red2),
+                                  ))
                       ],
                     )
                   ],

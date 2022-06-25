@@ -39,23 +39,47 @@ class _StorePageState extends State<StorePage> {
           behavior: NoGlow(),
           child: Scaffold(
             floatingActionButton: (args["seller_id"] == user.getUser.id)
-                ? FloatingActionButton(
-                    heroTag: "home",
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      Routes.addProduct,
-                      arguments: {
-                        "action": "add",
-                        "store_id": args["id"],
-                      },
-                    ).then((_) {
-                      setState(() {});
-                    }),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: MyColor.yellow,
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FloatingActionButton(
+                        heroTag: "edit",
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          Routes.editStore,
+                          arguments: {
+                            "store_id": args["id"],
+                          },
+                        ).then((_) {
+                          setState(() {});
+                        }),
+                        child: const Icon(
+                          Icons.edit_rounded,
+                          color: Colors.white,
+                        ),
+                        backgroundColor: MyColor.yellow,
+                      ),
+                      const SizedBox(height: 10),
+                      FloatingActionButton(
+                        heroTag: "home",
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          Routes.addProduct,
+                          arguments: {
+                            "action": "add",
+                            "store_id": args["id"],
+                          },
+                        ).then((_) {
+                          setState(() {});
+                        }),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        backgroundColor: MyColor.yellow,
+                      ),
+                    ],
                   )
                 : FutureBuilder<QuerySnapshot>(
                     future: MyCollection.user

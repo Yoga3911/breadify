@@ -47,4 +47,21 @@ class StoreProvider with ChangeNotifier {
       ).toJson(),
     );
   }
+
+  Future<void> updateStore({
+    required String storeId,
+    required String storeName,
+    required String address,
+    required String open,
+    required String close,
+  }) async {
+    await MyCollection.store.doc(storeId).update(
+      {
+        "store_name": storeName,
+        "address": address,
+        "open": open,
+        "close": close,
+      },
+    );
+  }
 }

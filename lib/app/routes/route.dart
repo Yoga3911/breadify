@@ -5,6 +5,7 @@ import 'package:project/app/views/main/feed/widgets/edit_feed.dart';
 import 'package:project/app/views/main/home/search_page.dart';
 import 'package:project/app/views/maps/maps.dart';
 import 'package:project/app/views/product/action_product.dart';
+import 'package:project/app/views/product/edit_store.dart';
 
 import '../views/cart/cart.dart';
 import '../views/cart/checkout.dart';
@@ -45,6 +46,7 @@ class Routes {
   static const String notif = "/notif";
   static const String search = "/search";
   static const String maps = "/maps";
+  static const String editStore = "/store/edit";
 
   static final data = <String, WidgetBuilder>{
     introduction: (_) => const IntroductionPage(),
@@ -67,5 +69,6 @@ class Routes {
     notif: (_) => const NotifPage(),
     search: (_) => const SearchPage(),
     maps: (_) => const MapsPage(),
+    editStore: (_) => const EditStore(),
   };
 }

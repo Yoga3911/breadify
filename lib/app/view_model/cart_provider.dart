@@ -8,12 +8,18 @@ class CartProvider with ChangeNotifier {
   int _total = 0;
   bool _isSelectAll = false;
   int _totalMoney = 0;
+  bool isChange = false;
 
   List<CartModel> cartData = [];
   List<CartModel> cartDataCheckout = [];
 
   set setTotal(int val) {
     _total += val;
+    notifyListeners();
+  }
+
+  set setIsChange(bool val) {
+    isChange = val;
     notifyListeners();
   }
 
@@ -90,5 +96,9 @@ class CartProvider with ChangeNotifier {
       "id": data.docs.first.id,
       "quantity": data.docs.first["quantity"],
     };
+  }
+
+  Future<void> deleteItem({required String cartId}) async {
+    await MyCollection.cart.doc(cartId).delete();
   }
 }

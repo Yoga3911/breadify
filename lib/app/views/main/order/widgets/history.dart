@@ -2,13 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/app/models/orders_models.dart';
+import 'package:project/app/view_model/order_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constant/collection.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
   const HistoryPage({required this.orderModel, Key? key}) : super(key: key);
 
   final OrderModel orderModel;
+
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,6 +38,20 @@ class HistoryPage extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (ctx) => AlertDialog(
+                      actions: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                          ),
+                          onPressed: () {
+                            context.read<OrderProvider>().deleteOrder(
+                                  orderId: widget.orderModel.id,
+                                );
+                            Navigator.pop(ctx);
+                          },
+                          child: const Text("Delete History"),
+                        )
+                      ],
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -37,7 +59,7 @@ class HistoryPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
-                            children: orderModel.data
+                            children: widget.orderModel.data
                                 .map((e) => FutureBuilder<QuerySnapshot>(
                                     future: MyCollection.product
                                         .where("id", isEqualTo: e)
@@ -77,7 +99,9 @@ class HistoryPage extends StatelessWidget {
                         ],
                       ),
                       title: const Text("Detail Order"),
-                    ));
+                    )).then((value) {
+              setState(() {});
+            });
           },
           child: Row(
             children: <Widget>[
@@ -96,7 +120,7 @@ class HistoryPage extends StatelessWidget {
                     //2a)address
                     Flexible(
                       child: Text(
-                        orderModel.address,
+                        widget.orderModel.address,
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -108,7 +132,7 @@ class HistoryPage extends StatelessWidget {
 
                     //2b)status
                     Text(
-                      orderModel.message,
+                      widget.orderModel.message,
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
@@ -123,7 +147,8 @@ class HistoryPage extends StatelessWidget {
 
                     //2c)date
                     Text(
-                      DateFormat("dd MMM yyyy").format(orderModel.orderDate),
+                      DateFormat("dd MMM yyyy")
+                          .format(widget.orderModel.orderDate),
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                           // fontWeight: FontWeight.bold,

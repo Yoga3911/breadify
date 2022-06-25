@@ -57,6 +57,7 @@ class _FeedPageState extends State<FeedPage> {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffFFD635),
           title: const Text(
             "Feed",
