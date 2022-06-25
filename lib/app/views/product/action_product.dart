@@ -110,7 +110,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _productQuantity = TextEditingController();
     _productPrice = TextEditingController();
     dateCtrl = TextEditingController();
-    dateCtrl.text = DateFormat('EEEE, dd/MMMM/yyyy', "in_ID").format(dateTime);
+    dateCtrl.text = "Expired";
     super.initState();
   }
 
@@ -132,6 +132,12 @@ class _AddProductPageState extends State<AddProductPage> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     final Size _size = MediaQuery.of(context).size;
+    if (args["expired"] != null) {
+      if (dateCtrl.text == "Expired") {
+        dateCtrl.text = DateFormat('EEEE, dd/MMMM/yyyy', "in_ID")
+            .format(args["expired"] as DateTime);
+      }
+    }
     return WillPopScope(
       onWillPop: () async {
         product.category = "Category";
@@ -388,124 +394,136 @@ class _AddProductPageState extends State<AddProductPage> {
                               ? null
                               : (_img == null && args["image"] == null)
                                   ? null
-                                  : () async {
-                                      if (_productQuantity.text.isEmpty ||
-                                          _productPrice.text.isEmpty ||
-                                          _productName.text.isEmpty ||
-                                          product.category == "Category" ||
-                                          (_img == null &&
-                                              args["image"] == null)) {
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          builder: (_) => AlertDialog(
-                                            title: const Text("Alert"),
-                                            content: const Text(
-                                                "Data tidak valid, silahkan periksa kembali"),
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text("Ok"),
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                        return;
-                                      }
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => const CustomLoading(),
-                                      );
-                                      (_img != null)
-                                          ? await uploadImg(
-                                              imgFile: _img,
-                                              imgName:
-                                                  "$_imgName${_date.millisecond}")
-                                          : null;
-                                      (_img != null)
-                                          ? await getImgUrl(
-                                              imgName:
-                                                  "$_imgName${_date.millisecond}")
-                                          : null;
-                                      (args["action"] == "add")
-                                          ? product
-                                              .insertData(
-                                                  productName:
-                                                      _productName.text,
-                                                  quantity: int.parse(
-                                                      _productQuantity.text),
-                                                  price: int.parse(
-                                                      _productPrice.text),
-                                                  categoryId: categoryId(
-                                                      product.category),
-                                                  userId: user.getUser.id,
-                                                  imgUrl: _imgUrl,
-                                                  date: _date,
-                                                  storeId: args["store_id"])
-                                              .then(
-                                              (_) {
-                                                product.category = "Category";
-                                                product.icon =
-                                                    "assets/icons/category.png";
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    duration:
-                                                        Duration(seconds: 3),
-                                                    content: Text(
-                                                      "Produk berhasil ditambahkan",
-                                                    ),
-                                                    backgroundColor:
-                                                        Color.fromARGB(
-                                                            255, 91, 195, 46),
-                                                  ),
-                                                );
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                setState(() {});
-                                              },
-                                            )
-                                          : product
-                                              .updateData(
-                                                  productId: args["product_id"],
-                                                  productName:
-                                                      _productName.text,
-                                                  quantity: int.parse(
-                                                      _productQuantity.text),
-                                                  price: int.parse(
-                                                      _productPrice.text),
-                                                  categoryId: categoryId(
-                                                      product.category),
-                                                  userId: user.getUser.id,
-                                                  imgUrl:
-                                                      _imgUrl ?? args["image"],
-                                                  date: _date,
-                                                  storeId: args["store_id"])
-                                              .then(
-                                              (_) {
-                                                product.category = "Category";
-                                                product.icon =
-                                                    "assets/icons/category.png";
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    duration:
-                                                        Duration(seconds: 3),
-                                                    content: Text(
-                                                      "Produk berhasil diubah",
-                                                    ),
-                                                    backgroundColor:
-                                                        Color.fromARGB(
-                                                            255, 59, 147, 255),
-                                                  ),
-                                                );
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                setState(() {});
-                                              },
+                                  : (dateCtrl.text == "Expired")
+                                      ? null
+                                      : () async {
+                                          if (_productQuantity.text.isEmpty ||
+                                              _productPrice.text.isEmpty ||
+                                              _productName.text.isEmpty ||
+                                              product.category == "Category" ||
+                                              (_img == null &&
+                                                  args["image"] == null)) {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (_) => AlertDialog(
+                                                title: const Text("Alert"),
+                                                content: const Text(
+                                                    "Data tidak valid, silahkan periksa kembali"),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: const Text("Ok"),
+                                                  )
+                                                ],
+                                              ),
                                             );
-                                    },
+                                            return;
+                                          }
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) =>
+                                                const CustomLoading(),
+                                          );
+                                          (_img != null)
+                                              ? await uploadImg(
+                                                  imgFile: _img,
+                                                  imgName:
+                                                      "$_imgName${_date.millisecond}")
+                                              : null;
+                                          (_img != null)
+                                              ? await getImgUrl(
+                                                  imgName:
+                                                      "$_imgName${_date.millisecond}")
+                                              : null;
+                                          (args["action"] == "add")
+                                              ? product
+                                                  .insertData(
+                                                      productName:
+                                                          _productName.text,
+                                                      quantity: int.parse(
+                                                          _productQuantity
+                                                              .text),
+                                                      price: int.parse(
+                                                          _productPrice.text),
+                                                      categoryId: categoryId(
+                                                          product.category),
+                                                      userId: user.getUser.id,
+                                                      imgUrl: _imgUrl,
+                                                      date: _date,
+                                                      expired: dateTime,
+                                                      storeId: args["store_id"])
+                                                  .then(
+                                                  (_) {
+                                                    product.category =
+                                                        "Category";
+                                                    product.icon =
+                                                        "assets/icons/category.png";
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        duration: Duration(
+                                                            seconds: 3),
+                                                        content: Text(
+                                                          "Produk berhasil ditambahkan",
+                                                        ),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                91, 195, 46),
+                                                      ),
+                                                    );
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    setState(() {});
+                                                  },
+                                                )
+                                              : product
+                                                  .updateData(
+                                                      productId:
+                                                          args["product_id"],
+                                                      productName:
+                                                          _productName.text,
+                                                      quantity: int.parse(
+                                                          _productQuantity
+                                                              .text),
+                                                      price: int.parse(
+                                                          _productPrice.text),
+                                                      categoryId: categoryId(
+                                                          product.category),
+                                                      userId: user.getUser.id,
+                                                      expired: dateTime,
+                                                      imgUrl: _imgUrl ??
+                                                          args["image"],
+                                                      date: _date,
+                                                      storeId: args["store_id"])
+                                                  .then(
+                                                  (_) {
+                                                    product.category =
+                                                        "Category";
+                                                    product.icon =
+                                                        "assets/icons/category.png";
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        duration: Duration(
+                                                            seconds: 3),
+                                                        content: Text(
+                                                          "Produk berhasil diubah",
+                                                        ),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                59, 147, 255),
+                                                      ),
+                                                    );
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    setState(() {});
+                                                  },
+                                                );
+                                        },
                       child: (args["action"] == "add")
                           ? const Text(
                               "Add Item",

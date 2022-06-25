@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:project/app/view_model/product_provider.dart';
+import 'package:project/app/view_model/favorite_provider.dart';
+// import 'package:project/app/view_model/product_provider.dart';
+import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/product_model.dart';
@@ -14,33 +18,44 @@ class HeaderProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     AudioPlayer player = AudioPlayer();
     final product = Provider.of<ProductModel?>(context, listen: true);
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
+    // final productProvider =
+    //     Provider.of<ProductProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        GestureDetector(
-          onDoubleTap: () async {
-            if (!product!.isChecked) {
-              await player.play(
-                  "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/ring.mp3?alt=media&token=470e2a49-1586-440d-abdf-51bb6fafa210");
-              await Future.delayed(const Duration(milliseconds: 500));
-              productProvider.updateFavorite(product.id, true);
-              product.setChecked = true;
-            } else if (product.isChecked) {
-              productProvider.updateFavorite(product.id, false);
-              product.setChecked = false;
-            }
-          },
-          child: Hero(
-            tag: (product?.id ?? "") + "hero",
-            child: SizedBox(
-              height: size.height * 0.4,
-              width: size.width,
-              child: CachedNetworkImage(
-                imageUrl: product?.image ??
-                    "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/products%2Fno-product.png?alt=media&token=28247cc4-d472-4aef-b1c7-517fd62f84d1",
-                fit: BoxFit.cover,
+        Consumer<FavoriteProvider>(
+          builder: (_, val, __) => GestureDetector(
+            onDoubleTap: () async {
+              if (val.listLiked.contains(product!.id)) {
+                // productProvider.updateFavorite(product.id, true);
+                // product.setChecked = true;
+                final idx = val.listLiked.indexOf(product.id);
+                log(idx.toString());
+                context.read<FavoriteProvider>().dislikeProduct(
+                    productId: product.id,
+                    favId: val.listIdLiked[idx],
+                    userId: context.read<UserProvider>().getUser.id);
+              } else {
+                await player.play(
+                    "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/ring.mp3?alt=media&token=470e2a49-1586-440d-abdf-51bb6fafa210");
+                await Future.delayed(const Duration(milliseconds: 500));
+                // productProvider.updateFavorite(product.id, false);
+                // product.setChecked = false;
+                context.read<FavoriteProvider>().likeProduct(
+                    productId: product.id,
+                    userId: context.read<UserProvider>().getUser.id);
+              }
+            },
+            child: Hero(
+              tag: (product?.id ?? "") + "hero",
+              child: SizedBox(
+                height: size.height * 0.4,
+                width: size.width,
+                child: CachedNetworkImage(
+                  imageUrl: product?.image ??
+                      "https://firebasestorage.googleapis.com/v0/b/breadify-a4a04.appspot.com/o/products%2Fno-product.png?alt=media&token=28247cc4-d472-4aef-b1c7-517fd62f84d1",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -100,8 +115,8 @@ class HeaderProduct extends StatelessWidget {
         Positioned(
             bottom: 10,
             right: 15,
-            child: Consumer<ProductModel>(
-              builder: (_, val, __) => val.isChecked
+            child: Consumer<FavoriteProvider>(
+              builder: (_, val, __) => (val.listLiked.contains(product!.id))
                   ? const Icon(
                       Icons.favorite_rounded,
                       color: Color(0xFFF9595F),

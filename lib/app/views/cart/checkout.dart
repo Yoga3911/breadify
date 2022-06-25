@@ -72,14 +72,18 @@ class CheckoutPage extends StatelessWidget {
         behavior: NoGlow(),
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
+            leading: GestureDetector(
+              onTap: () {
                 context.read<CartProvider>().cartDataCheckout.clear();
                 Navigator.pop(context);
               },
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: Colors.white,
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
             ),
             title: const Text(
@@ -242,6 +246,13 @@ class CheckoutPage extends StatelessWidget {
                               context: context,
                               builder: (_) => const CustomLoading(),
                             );
+                            context.read<UserProvider>().updateSaldo(
+                                  userId: user.getUser.id,
+                                  bmoney: (user.getUser.bmoney -
+                                      context
+                                          .read<CartProvider>()
+                                          .getTotalMoney),
+                                );
                             List<String> dataProduct = [];
                             for (CartModel c in cart.cartDataCheckout) {
                               await context
@@ -252,8 +263,10 @@ class CheckoutPage extends StatelessWidget {
                                   notif.sendNotif(
                                     message: "Transaction successful",
                                     note: "Your order will be delivered soon",
-                                    price: product.price,
+                                    price: product.price * c.getTotalItem,
                                     productName: product.name,
+                                    userId:
+                                        context.read<UserProvider>().getUser.id,
                                   );
                                   dataProduct.add(product.id);
                                 },
@@ -262,12 +275,14 @@ class CheckoutPage extends StatelessWidget {
                             }
 
                             cart.cartDataCheckout = [];
+                            cart.cartData = [];
                             context.read<OrderProvider>().insertData(
                                   userId: user.getUser.id,
                                   address: location.getLocation,
                                   productId: dataProduct,
                                 );
                             cart.setTotal = -cart.getTotal;
+                            cart.setTotalMoney = -cart.getTotalMoney;
 
                             Navigator.pushNamedAndRemoveUntil(
                               context,

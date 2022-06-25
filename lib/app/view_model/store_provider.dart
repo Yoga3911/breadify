@@ -22,4 +22,29 @@ class StoreProvider with ChangeNotifier {
   }
 
   StoreModel get getStore => _storeModel!;
+
+  Future<void> insertStore({
+    required String address,
+    required String storeName,
+    required String open,
+    required String close,
+    required String userId,
+  }) async {
+    final store = MyCollection.store.doc();
+    await MyCollection.user.doc(userId).update({
+      "store_id": store.id,
+    });
+    await store.set(
+      StoreModel(
+        id: store.id,
+        address: address,
+        open: open,
+        close: close,
+        storeName: storeName,
+        userId: userId,
+        createAt: DateTime.now(),
+        updateAt: DateTime.now(),
+      ).toJson(),
+    );
+  }
 }

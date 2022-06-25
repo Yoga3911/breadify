@@ -36,10 +36,16 @@ class _ChangePasswordState extends State<ChangePassword> {
       behavior: NoGlow(),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios),
-            color: Colors.white,
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              margin: const EdgeInsets.all(9),
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100)),
+              child: const Icon(Icons.arrow_back_ios_new),
+            ),
           ),
           title: const Text(
             'Change Password',

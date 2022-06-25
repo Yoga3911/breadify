@@ -196,63 +196,64 @@ class _HomeChatState extends State<HomeChat> {
                                 ),
                               ),
                             ),
-                            trailing: (userData["unread"] == 0)
-                                ? const SizedBox()
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
+                            trailing: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                (userData["unread"] != 0)
+                                    ? Container(
                                         decoration: const BoxDecoration(
-                                            color: Colors.greenAccent,
+                                            color: Colors.red,
                                             shape: BoxShape.circle),
                                         padding: const EdgeInsets.all(4),
                                         child: Text(
                                           userData["unread"].toString(),
                                           style: const TextStyle(
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontSize: 12,
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      ((DateTime.now().millisecondsSinceEpoch -
-                                                  (userData["date"]
-                                                          as Timestamp)
-                                                      .toDate()
-                                                      .millisecondsSinceEpoch) <
-                                              86400000)
-                                          ? Text(
-                                              DateFormat.Hm().format(
+                                      )
+                                    : const SizedBox(),
+                                const SizedBox(height: 5),
+                                ((DateTime.now().month ==
+                                            (userData["date"] as Timestamp)
+                                                .toDate()
+                                                .month) &&
+                                        DateTime.now().day ==
+                                            (userData["date"] as Timestamp)
+                                                .toDate()
+                                                .day)
+                                    ? Text(
+                                        DateFormat.Hm().format(
+                                          (userData["date"] as Timestamp)
+                                              .toDate(),
+                                        ),
+                                        style: const TextStyle(fontSize: 12),
+                                      )
+                                    : ((DateTime.now().month ==
                                                 (userData["date"] as Timestamp)
-                                                    .toDate(),
-                                              ),
-                                              style:
-                                                  const TextStyle(fontSize: 12),
-                                            )
-                                          : ((DateTime.now()
-                                                          .millisecondsSinceEpoch -
-                                                      (userData["date"]
-                                                              as Timestamp)
-                                                          .toDate()
-                                                          .millisecondsSinceEpoch) <
-                                                  172800000)
-                                              ? const Text(
-                                                  "Kemarin",
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                )
-                                              : Text(
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .format(
+                                                    .toDate()
+                                                    .month) &&
+                                            DateTime.now().day -
                                                     (userData["date"]
                                                             as Timestamp)
-                                                        .toDate(),
-                                                  ),
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
-                                    ],
-                                  ),
+                                                        .toDate()
+                                                        .day ==
+                                                1)
+                                        ? const Text(
+                                            "Kemarin",
+                                            style: TextStyle(fontSize: 12),
+                                          )
+                                        : Text(
+                                            DateFormat("dd/MM/yyyy").format(
+                                              (userData["date"] as Timestamp)
+                                                  .toDate(),
+                                            ),
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                              ],
+                            ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,

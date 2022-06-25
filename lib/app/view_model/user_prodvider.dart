@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +68,7 @@ class UserProvider with ChangeNotifier {
           roleId: "1",
           fcmToken: fcmToken!,
           isActive: false,
+          storeId: "-",
           provider: provider!,
           bmoney: 100000,
           createAt: DateTime.now(),
@@ -96,5 +99,28 @@ class UserProvider with ChangeNotifier {
     await MyCollection.user
         .doc(userId)
         .update({"password": hashPass(password)});
+  }
+
+  Future<void> topup({required String userId, required int bmoney}) async {
+    await MyCollection.user.doc(userId).update({"bmoney": bmoney});
+  }
+
+  Future<void> updateSaldo(
+      {required String userId, required int bmoney}) async {
+    log(bmoney.toString());
+    await MyCollection.user.doc(userId).update({"bmoney": bmoney});
+    log("Saldo dipotong");
+  }
+
+  Future<bool> login({required String email, required String password}) async {
+    final data = await MyCollection.user
+        .where("email", isEqualTo: email)
+        .where("password", isEqualTo: password)
+        .get();
+
+    if (data.docs.first.id.isEmpty) {
+      return false;
+    }
+    return true;
   }
 }

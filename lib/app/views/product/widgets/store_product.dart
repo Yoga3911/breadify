@@ -5,9 +5,11 @@ import 'package:project/app/models/product_model.dart';
 import 'package:project/app/view_model/user_prodvider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constant/color.dart';
 import '../../../routes/route.dart';
+import '../../../view_model/favorite_provider.dart';
 
-class StoreProduct extends StatelessWidget {
+class StoreProduct extends StatefulWidget {
   const StoreProduct({
     Key? key,
     required this.productModel,
@@ -22,11 +24,16 @@ class StoreProduct extends StatelessWidget {
   final String storeId;
 
   @override
+  State<StoreProduct> createState() => _StoreProductState();
+}
+
+class _StoreProductState extends State<StoreProduct> {
+  @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: (sellerId == user.getUser.id)
+      padding: (widget.sellerId == user.getUser.id)
           ? const EdgeInsets.only(
               bottom: 10,
             )
@@ -35,13 +42,13 @@ class StoreProduct extends StatelessWidget {
               right: 10,
               bottom: 10,
             ),
-      child: (sellerId == user.getUser.id)
+      child: (widget.sellerId == user.getUser.id)
           ? ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: productModel.length,
+              itemCount: widget.productModel.length,
               itemBuilder: (_, index) {
-                ProductModel product = productModel[index];
+                ProductModel product = widget.productModel[index];
                 return ListTile(
                   title: Text(product.name),
                   leading: ClipRRect(
@@ -69,9 +76,13 @@ class StoreProduct extends StatelessWidget {
                       "category": product.categoryId,
                       "image": product.image,
                       "product_id": product.id,
-                      "store_id": storeId,
+                      "store_id": widget.storeId,
+                      "expired": product.expired,
+                      "product": product
                     },
-                  ),
+                  ).then((_) {
+                    setState(() {});
+                  }),
                 );
               },
             )
@@ -80,13 +91,13 @@ class StoreProduct extends StatelessWidget {
               shrinkWrap: true,
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
-              itemCount: productModel.length,
+              itemCount: widget.productModel.length,
               gridDelegate:
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemBuilder: (_, index) {
-                ProductModel product = productModel[index];
+                ProductModel product = widget.productModel[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(
@@ -98,7 +109,9 @@ class StoreProduct extends StatelessWidget {
                         "price": product.price,
                         "quantity": product.quantity,
                         "image": product.image,
-                        "seller_id": sellerId,
+                        "seller_id": widget.sellerId,
+                        "product": product,
+                        "store_id": product.storeId,
                       },
                     );
                   },
@@ -169,15 +182,24 @@ class StoreProduct extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            storeName,
+                                            widget.storeName,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              color: Color.fromARGB(
-                                                  255, 255, 204, 0),
+                                              color: MyColor.red,
                                             ),
                                           ),
-                                          Image.asset(
-                                            "assets/icons/fav1.png",
+                                          Consumer<FavoriteProvider>(
+                                            builder: (_, val, __) => (val
+                                                    .listLiked
+                                                    .contains(product.id))
+                                                ? const Icon(
+                                                    Icons.favorite,
+                                                    color: MyColor.red,
+                                                  )
+                                                : const Icon(
+                                                    Icons
+                                                        .favorite_border_rounded,
+                                                  ),
                                           )
                                         ],
                                       ),

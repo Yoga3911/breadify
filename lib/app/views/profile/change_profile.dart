@@ -9,7 +9,6 @@ import 'package:project/app/constant/collection.dart';
 import 'package:project/app/constant/glow.dart';
 import 'package:provider/provider.dart';
 
-import '../../routes/route.dart';
 import '../../view_model/user_prodvider.dart';
 import '../../widgets/custom_loading.dart';
 
@@ -95,6 +94,9 @@ class _ChangeProfileState extends State<ChangeProfile> {
               await user.getByDocId();
               Navigator.pop(context);
               Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Profile Berhasil Diubah"),
+                  backgroundColor: Colors.green));
             },
             child: const Icon(
               Icons.save,
@@ -102,10 +104,16 @@ class _ChangeProfileState extends State<ChangeProfile> {
             ),
           ),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.profile),
-              icon: const Icon(Icons.arrow_back_ios_new),
-              color: Colors.white,
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                margin: const EdgeInsets.all(9),
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100)),
+                child: const Icon(Icons.arrow_back_ios_new),
+              ),
             ),
             title: const Text("Profile", style: TextStyle(color: Colors.white)),
           ),
@@ -153,9 +161,13 @@ class _ChangeProfileState extends State<ChangeProfile> {
               const SizedBox(
                 height: 30,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
+              Container(
+                margin: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.height * 0.06,
+                    0,
+                    MediaQuery.of(context).size.height * 0.05,
+                    0),
+                child: const Text(
                   "Nama",
                   style: TextStyle(fontSize: 20),
                 ),

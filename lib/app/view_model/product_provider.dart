@@ -186,6 +186,7 @@ class ProductProvider with ChangeNotifier {
     String? categoryId,
     String? imgUrl,
     DateTime? date,
+    DateTime? expired,
     String? storeId,
   }) async {
     final product = MyCollection.product.doc();
@@ -196,6 +197,7 @@ class ProductProvider with ChangeNotifier {
         price: price!,
         quantity: quantity!,
         image: imgUrl!,
+        expired: expired!,
         categoryId: categoryId!,
         storeId: storeId!,
         createAt: date!,
@@ -216,6 +218,7 @@ class ProductProvider with ChangeNotifier {
     String? categoryId,
     String? imgUrl,
     DateTime? date,
+    DateTime? expired,
     String? storeId,
   }) async {
     final product = MyCollection.product.doc(productId);
@@ -229,6 +232,7 @@ class ProductProvider with ChangeNotifier {
         categoryId: categoryId!,
         storeId: storeId!,
         createAt: date!,
+        expired: expired!,
         updateAt: date,
         isChecked: false,
       ).toJson(),
